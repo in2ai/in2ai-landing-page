@@ -1,0 +1,659 @@
+---
+import Base from '../layouts/Base.astro';
+import Console from '../components/mock/Console.astro';
+import ChatPanel from '../components/mock/ChatPanel.astro';
+import VisionPanel from '../components/mock/VisionPanel.astro';
+import PhoneMock from '../components/mock/PhoneMock.astro';
+import { services, products, privacy } from '../lib/content';
+
+const nav = [
+  { href: '#productos', label: 'Productos' },
+  { href: '#servicios', label: 'Servicios' },
+  { href: '#privacidad', label: 'Privacidad' },
+  { href: '#contacto', label: 'Contacto' },
+];
+
+const steps = [
+  { n: '01', t: 'Discovery', dur: '2 semanas', d: 'Auditamos datos y procesos, priorizamos casos de uso por retorno y descartamos los que no se sostienen.' },
+  { n: '02', t: 'Piloto', dur: '4 semanas', d: 'Prototipo funcional con tus datos reales y un informe de calidad con métricas verificables.' },
+  { n: '03', t: 'Producto', dur: '8—16 semanas', d: 'Desarrollo completo: interfaz, backend, integraciones y la capa de inteligencia en producción.' },
+  { n: '04', t: 'Operación', dur: 'continuo', d: 'Evaluación continua, observabilidad, guardias y optimización del coste por inferencia.' },
+];
+
+const stats = [
+  { v: '48312', s: '', l: 'documentos indexados' },
+  { v: '6', s: ' sem.', l: 'del kickoff al piloto' },
+  { v: '22', s: ' ms', l: 'por fotograma en el borde' },
+  { v: '100', s: '%', l: 'del dato en tu red' },
+];
+
+const sectors = [
+  ['Industria', 'Inspección de línea y control de calidad con visión artificial'],
+  ['Ingeniería', 'Chat interno sobre procedimientos y documentación técnica'],
+  ['Seguros', 'Extracción documental de pólizas y expedientes'],
+  ['Legal', 'Revisión contractual y búsqueda sobre fondo documental'],
+  ['Salud', 'Resumen clínico y clasificación de informes'],
+  ['Energía', 'Análisis de facturación y previsión de consumo'],
+];
+
+const logos = ['NORDIA', 'KALTEK', 'VERIDIAN', 'ARCADIA', 'BELMONT', 'MÓVIL+', 'SIERRA', 'ONDA'];
+---
+
+<Base
+  title="IN2AI — Estudio de producto e inteligencia artificial"
+  description="Deep learning, visión artificial y RAG sobre la documentación de tu empresa. Creadores de ASM2 y Mecopia."
+  bodyClass="bg-white font-sans text-neutral-700 antialiased selection:bg-neutral-900 selection:text-white"
+  progressClass="bg-neutral-900"
+  themeColor="#ffffff"
+>
+  <div class="overflow-x-hidden">
+    <!-- ───────────────────────────── header ───────────────────────────── -->
+    <header
+      data-header
+      class="sticky top-0 z-50 border-b border-transparent bg-white/80 backdrop-blur-xl transition-all duration-300 [&.is-scrolled]:border-black/10"
+    >
+      <div class="mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between px-6">
+        <a href="/v2" class="group flex items-center gap-3">
+          <span class="grid h-9 w-9 place-items-center rounded-lg bg-neutral-900 font-display text-sm font-bold text-white transition-transform duration-500 group-hover:rotate-[-8deg]">
+            i2
+          </span>
+          <span class="font-display text-xl font-bold tracking-tight text-neutral-900">IN2AI</span>
+        </a>
+
+        <nav class="hidden items-center gap-9 lg:flex">
+          {nav.map((i) => (
+            <a href={i.href} class="link-sweep text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900">
+              {i.label}
+            </a>
+          ))}
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <a
+            href="#contacto"
+            class="hidden rounded-lg bg-neutral-900 px-5 py-2.5 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.03] sm:block"
+          >
+            Solicitar propuesta
+          </a>
+          <button
+            data-menu-toggle="nav-mobile"
+            aria-expanded="false"
+            aria-label="Abrir menú"
+            class="grid h-9 w-9 place-items-center rounded-lg border border-black/10 text-neutral-900 lg:hidden"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="nav-mobile" class="hidden border-t border-black/10 bg-white lg:hidden">
+        <nav class="mx-auto flex max-w-6xl flex-col px-6 py-4">
+          {nav.map((i) => (
+            <a href={i.href} class="border-b border-black/5 py-3.5 text-base text-neutral-700 last:border-0">{i.label}</a>
+          ))}
+          <a href="#contacto" class="mt-4 rounded-lg bg-neutral-900 py-3 text-center text-sm font-semibold text-white">
+            Solicitar propuesta
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ───────────────────────────── hero ───────────────────────────── -->
+    <section class="relative">
+      <div
+        class="pointer-events-none absolute inset-0 -z-10"
+        style="background-image:radial-gradient(rgb(0 0 0 / .07) 1px,transparent 1px);background-size:26px 26px;mask-image:radial-gradient(ellipse 70% 60% at 30% 0%,#000,transparent 75%)"
+      >
+      </div>
+
+      <div class="mx-auto grid max-w-6xl items-center gap-16 px-6 pt-16 pb-24 lg:grid-cols-[1fr_1.15fr] lg:pt-24">
+        <div>
+          <span
+            class="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-xs font-medium text-neutral-600 shadow-sm"
+            data-reveal="fade"
+          >
+            <span class="relative flex h-1.5 w-1.5">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-neutral-900 opacity-60"></span>
+              <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-neutral-900"></span>
+            </span>
+            Creadores de ASM2 y Mecopia
+          </span>
+
+          <h1
+            class="mt-7 font-display text-[2.8rem] leading-[1.04] font-bold tracking-[-0.03em] text-neutral-900 md:text-[3.6rem]"
+            data-reveal
+            style="--d:80ms"
+          >
+            Inteligencia artificial <span class="italic">sobre tus propios datos</span>
+          </h1>
+
+          <p class="mt-6 max-w-lg text-lg leading-relaxed text-neutral-600" data-reveal style="--d:170ms">
+            Deep learning, visión artificial y chats que responden con la documentación específica
+            de tu empresa. Desplegados donde tú digas —normalmente, en tus propios servidores.
+          </p>
+
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row" data-reveal style="--d:250ms">
+            <a
+              href="#contacto"
+              class="group inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 px-6 py-3.5 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.02]"
+            >
+              Agendar una reunión
+              <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+            <a
+              href="#productos"
+              class="inline-flex items-center justify-center rounded-lg border border-black/12 bg-white px-6 py-3.5 text-sm font-semibold text-neutral-800 transition-colors duration-300 hover:bg-neutral-50"
+            >
+              Ver los productos
+            </a>
+          </div>
+
+          <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-black/10 pt-8" data-reveal="fade" style="--d:320ms">
+            {stats.slice(0, 3).map((s) => (
+              <div>
+                <dt class="font-display text-2xl font-bold text-neutral-900">
+                  <span data-count={s.v} data-suffix={s.s}>0</span>
+                </dt>
+                <dd class="mt-1 text-xs text-neutral-500">{s.l}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div class="relative" data-reveal="scale" style="--d:280ms">
+          <Console variant="light" class="relative" />
+          <div class="float absolute -bottom-10 -left-8 hidden lg:block">
+            <PhoneMock variant="light" class="w-[11.5rem] scale-95" />
+          </div>
+          <div class="float-slow absolute -top-5 -right-4 hidden rounded-xl border border-black/10 bg-white px-4 py-3 shadow-xl lg:block">
+            <p class="text-[10px] tracking-wide text-neutral-500 uppercase">Fuera de tu red</p>
+            <p class="mt-1 font-display text-lg font-semibold text-neutral-900">0 bytes</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── logos ───────────────────────────── -->
+    <section class="border-y border-black/10 bg-neutral-50/70 py-9">
+      <p class="text-center font-mono text-[10px] tracking-[0.25em] text-neutral-400 uppercase">
+        En producción en equipos como
+      </p>
+      <div class="marquee mt-6" style="--speed:52s">
+        <div class="marquee-track">
+          {[0, 1].map(() => (
+            <div class="flex shrink-0">
+              {logos.map((l) => (
+                <span class="px-8 font-display text-xl font-semibold tracking-tight text-neutral-300 transition-colors duration-300 hover:text-neutral-500">
+                  {l}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── productos ───────────────────────── -->
+    <section id="productos" class="mx-auto max-w-6xl px-6 py-28">
+      <div class="max-w-2xl" data-reveal>
+        <p class="font-mono text-[11px] tracking-[0.22em] text-neutral-400 uppercase">Productos</p>
+        <h2 class="mt-5 font-display text-4xl font-bold tracking-[-0.02em] text-neutral-900 md:text-5xl">
+          Dos productos propios y lo que hacemos a medida
+        </h2>
+        <p class="mt-5 text-neutral-600">
+          ASM2 y Mecopia están en desarrollo activo y comparten la misma base que usamos en los
+          proyectos de cliente. Menos riesgo, menos tiempo y nada de empezar de cero.
+        </p>
+      </div>
+
+      <div class="mt-20 space-y-28">
+        <!-- ASM2 -->
+        <div class="grid items-center gap-12 lg:grid-cols-2">
+          <div data-reveal="left">
+            <span class="inline-block rounded-md border border-black/10 bg-neutral-50 px-2.5 py-1 font-mono text-[10px] tracking-widest text-neutral-500 uppercase">
+              {products.asm2.kicker} · ASM2
+            </span>
+            <h3 class="mt-5 font-display text-3xl leading-tight font-semibold text-neutral-900">
+              {products.asm2.claim}
+            </h3>
+            <p class="mt-4 leading-relaxed text-neutral-600">{products.asm2.text}</p>
+            <ul class="mt-7 space-y-3">
+              {products.asm2.points.map((p) => (
+                <li class="flex gap-3 text-sm text-neutral-700">
+                  <svg class="mt-0.5 h-4 w-4 shrink-0 text-neutral-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <a
+              href={products.asm2.url}
+              target="_blank"
+              rel="noopener"
+              class="link-sweep mt-8 inline-flex items-center gap-2 text-sm font-semibold text-neutral-900"
+            >
+              asm2.in2ai.com
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+          <div data-reveal="right" style="--d:120ms">
+            <ChatPanel variant="light" />
+          </div>
+        </div>
+
+        <!-- Mecopia -->
+        <div class="grid items-center gap-12 lg:grid-cols-2">
+          <div class="lg:order-2" data-reveal="right">
+            <span class="inline-block rounded-md border border-black/10 bg-neutral-50 px-2.5 py-1 font-mono text-[10px] tracking-widest text-neutral-500 uppercase">
+              {products.mecopia.kicker} · Mecopia
+            </span>
+            <h3 class="mt-5 font-display text-3xl leading-tight font-semibold text-neutral-900">
+              {products.mecopia.claim}
+            </h3>
+            <p class="mt-4 leading-relaxed text-neutral-600">{products.mecopia.text}</p>
+            <ul class="mt-7 space-y-3">
+              {products.mecopia.points.map((p) => (
+                <li class="flex gap-3 text-sm text-neutral-700">
+                  <svg class="mt-0.5 h-4 w-4 shrink-0 text-neutral-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <a
+              href={products.mecopia.url}
+              target="_blank"
+              rel="noopener"
+              class="link-sweep mt-8 inline-flex items-center gap-2 text-sm font-semibold text-neutral-900"
+            >
+              mecopia.ai
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+          <div class="flex justify-center lg:order-1" data-reveal="left" style="--d:120ms">
+            <PhoneMock variant="light" class="float" />
+          </div>
+        </div>
+
+        <!-- visión artificial -->
+        <div class="grid items-center gap-12 lg:grid-cols-2">
+          <div data-reveal="left">
+            <span class="inline-block rounded-md border border-black/10 bg-neutral-50 px-2.5 py-1 font-mono text-[10px] tracking-widest text-neutral-500 uppercase">
+              A medida · Visión artificial
+            </span>
+            <h3 class="mt-5 font-display text-3xl leading-tight font-semibold text-neutral-900">
+              Modelos que ven tu línea de producción
+            </h3>
+            <p class="mt-4 leading-relaxed text-neutral-600">
+              Detección de defectos, conteo e inspección entrenados con tus propias imágenes. La
+              inferencia corre en el borde o en tu servidor: el vídeo no sale de la planta.
+            </p>
+            <ul class="mt-7 space-y-3">
+              {['Inferencia local a 22 ms por fotograma', 'Entrenado con tus imágenes, no con un dataset genérico', 'Aviso inmediato cuando una pieza se desvía del umbral'].map((p) => (
+                <li class="flex gap-3 text-sm text-neutral-700">
+                  <svg class="mt-0.5 h-4 w-4 shrink-0 text-neutral-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div data-reveal="right" style="--d:120ms">
+            <VisionPanel variant="light" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── servicios ───────────────────────── -->
+    <section id="servicios" class="border-t border-black/10 bg-neutral-50/70">
+      <div class="mx-auto max-w-6xl px-6 py-24">
+        <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between" data-reveal>
+          <h2 class="max-w-lg font-display text-3xl font-bold tracking-[-0.02em] text-neutral-900 md:text-4xl">
+            Cinco áreas que casi siempre se combinan
+          </h2>
+          <p class="max-w-sm text-sm leading-relaxed text-neutral-500">
+            Un buen producto rara vez necesita solo una. Empezamos por el problema y elegimos la
+            técnica después, no al revés.
+          </p>
+        </div>
+
+        <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s, i) => (
+            <div
+              class="group rounded-2xl border border-black/10 bg-white p-6 transition-all duration-400 hover:-translate-y-1 hover:shadow-xl hover:shadow-neutral-900/5"
+              data-reveal
+              style={`--d:${i * 80}ms`}
+            >
+              <span class="grid h-10 w-10 place-items-center rounded-xl border border-black/10 bg-neutral-50 transition-colors duration-300 group-hover:bg-neutral-900">
+                <svg
+                  class="h-4.5 w-4.5 text-neutral-900 transition-colors duration-300 group-hover:text-white"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d={s.icon} />
+                </svg>
+              </span>
+              <h3 class="mt-5 font-display text-lg leading-snug font-semibold text-neutral-900">{s.name}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-neutral-600">{s.text}</p>
+            </div>
+          ))}
+
+          <a
+            href="#contacto"
+            class="group flex flex-col justify-between rounded-2xl border border-neutral-900 bg-neutral-900 p-6 transition-transform duration-300 hover:-translate-y-1"
+            data-reveal
+            style="--d:400ms"
+          >
+            <h3 class="font-display text-lg font-semibold text-white">¿No sabes por dónde empezar?</h3>
+            <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+              Media hora de llamada y te decimos si la IA aporta valor en tu caso. Si no, también.
+            </p>
+            <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white">
+              Escríbenos
+              <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── privacidad (banda negra) ────────── -->
+    <section id="privacidad" class="bg-neutral-900">
+      <div class="mx-auto max-w-6xl px-6 py-24">
+        <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr]">
+          <div data-reveal="left">
+            <p class="font-mono text-[11px] tracking-[0.22em] text-neutral-500 uppercase">Privacidad</p>
+            <h2 class="mt-5 font-display text-3xl font-bold tracking-[-0.02em] text-white md:text-4xl">
+              Tus datos no salen de casa
+            </h2>
+            <p class="mt-5 leading-relaxed text-neutral-400">
+              Es la razón por la que la mayoría de nuestros clientes nos llama. Trabajan con
+              información que no puede subirse a un servicio de terceros: expedientes, contratos,
+              historiales, planos.
+            </p>
+
+            <div class="mt-9 rounded-xl border border-white/15 p-6" data-reveal="fade" style="--d:200ms">
+              <p class="font-mono text-[9px] tracking-[0.2em] text-neutral-500 uppercase">Tu red · tu servidor</p>
+              <div class="mt-4 grid grid-cols-2 gap-2">
+                {['Documentos', 'Índice vectorial', 'Modelo', 'Chat'].map((b) => (
+                  <span class="rounded-lg border border-white/20 bg-white/[0.06] px-3 py-2.5 text-center font-mono text-[10px] tracking-wider text-neutral-200 uppercase">
+                    {b}
+                  </span>
+                ))}
+              </div>
+              <div class="mt-5 flex items-center gap-3 border-t border-white/15 pt-4">
+                <span class="relative font-mono text-[10px] tracking-[0.18em] text-neutral-500 uppercase">
+                  <span class="absolute top-1/2 -left-1 h-px w-[calc(100%+0.5rem)] bg-neutral-500"></span>
+                  Salida a internet
+                </span>
+                <span class="font-mono text-[9px] tracking-[0.18em] text-neutral-400 uppercase">no necesaria</span>
+              </div>
+            </div>
+          </div>
+
+          <dl class="grid gap-px self-center overflow-hidden rounded-xl bg-white/10 sm:grid-cols-2">
+            {privacy.map((p, i) => (
+              <div class="bg-neutral-900 p-6" data-reveal="right" style={`--d:${i * 100}ms`}>
+                <dt class="font-display text-base font-semibold text-white">{p.t}</dt>
+                <dd class="mt-2 text-sm leading-relaxed text-neutral-400">{p.d}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── proceso ─────────────────────────── -->
+    <section class="mx-auto max-w-6xl px-6 py-28">
+      <div class="grid gap-16 lg:grid-cols-[0.85fr_1.15fr]">
+        <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
+          <p class="font-mono text-[11px] tracking-[0.22em] text-neutral-400 uppercase">Proceso</p>
+          <h2 class="mt-5 font-display text-3xl font-bold tracking-[-0.02em] text-neutral-900 md:text-4xl">
+            Cuatro fases, sin sorpresas
+          </h2>
+          <p class="mt-5 leading-relaxed text-neutral-600">
+            Cada fase termina con algo que puedes usar. Si en el piloto los números no salen,
+            paramos ahí y te lo decimos.
+          </p>
+          <a href="#contacto" class="link-sweep mt-7 inline-flex items-center gap-2 text-sm font-semibold text-neutral-900">
+            Empezar por el discovery
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+        <ol class="relative border-l border-black/10 pl-8">
+          {steps.map((s, i) => (
+            <li class="relative pb-12 last:pb-0" data-reveal style={`--d:${i * 110}ms`}>
+              <span class="absolute top-1 -left-[2.06rem] grid h-4 w-4 place-items-center rounded-full border border-black/15 bg-white">
+                <span class="h-1.5 w-1.5 rounded-full bg-neutral-900"></span>
+              </span>
+              <div class="flex flex-wrap items-baseline gap-3">
+                <span class="font-mono text-xs text-neutral-400">{s.n}</span>
+                <h3 class="font-display text-xl font-semibold text-neutral-900">{s.t}</h3>
+                <span class="rounded border border-black/10 bg-neutral-50 px-2 py-0.5 font-mono text-[10px] text-neutral-500">
+                  {s.dur}
+                </span>
+              </div>
+              <p class="mt-3 max-w-lg leading-relaxed text-neutral-600">{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── cifras ──────────────────────────── -->
+    <section class="border-y border-black/10 bg-neutral-50">
+      <div class="mx-auto max-w-6xl px-6 py-20">
+        <dl class="grid grid-cols-2 gap-10 md:grid-cols-4">
+          {stats.map((s, i) => (
+            <div data-reveal="fade" style={`--d:${i * 100}ms`}>
+              <dt class="font-display text-4xl font-bold tracking-tight text-neutral-900 md:text-5xl">
+                <span data-count={s.v} data-suffix={s.s}>0</span>
+              </dt>
+              <dd class="mt-2 text-xs tracking-wide text-neutral-500 uppercase">{s.l}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── sectores + testimonio ──────────── -->
+    <section class="mx-auto max-w-6xl px-6 py-24">
+      <div class="grid gap-16 lg:grid-cols-2">
+        <div data-reveal="left">
+          <p class="font-mono text-[11px] tracking-[0.22em] text-neutral-400 uppercase">Sectores</p>
+          <h2 class="mt-5 font-display text-3xl font-bold tracking-[-0.02em] text-neutral-900">
+            Donde ya hemos entregado
+          </h2>
+          <ul class="mt-8 divide-y divide-black/10 border-y border-black/10">
+            {sectors.map(([name, detail]) => (
+              <li class="group flex items-center justify-between gap-4 py-4 transition-colors hover:bg-neutral-50">
+                <div>
+                  <p class="font-medium text-neutral-900">{name}</p>
+                  <p class="mt-0.5 text-sm text-neutral-500">{detail}</p>
+                </div>
+                <svg
+                  class="h-4 w-4 shrink-0 text-neutral-300 transition-all duration-300 group-hover:translate-x-1 group-hover:text-neutral-900"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <figure class="flex flex-col justify-center rounded-2xl border border-black/10 bg-neutral-50 p-10" data-reveal="right">
+          <svg class="h-7 w-7 text-neutral-300" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9.5 6C6.5 6 4 8.5 4 11.5S6.2 17 9 17c.6 0 1-.4 1-1s-.4-1-1-1c-1.7 0-3-1.6-3-3.5S7.6 8 9.5 8c.6 0 1-.4 1-1s-.4-1-1-1Zm9 0C15.5 6 13 8.5 13 11.5S15.2 17 18 17c.6 0 1-.4 1-1s-.4-1-1-1c-1.7 0-3-1.6-3-3.5S16.6 8 18.5 8c.6 0 1-.4 1-1s-.4-1-1-1Z" />
+          </svg>
+          <blockquote class="mt-6 font-display text-xl leading-snug font-medium text-neutral-900 md:text-2xl">
+            Teníamos veinte años de procedimientos repartidos en tres nubes. Ahora un operario
+            pregunta por el chat y le responde con el documento y la página. Y sin que nada salga
+            de nuestro rack.
+          </blockquote>
+          <figcaption class="mt-8 flex items-center gap-4 border-t border-black/10 pt-6">
+            <span class="grid h-11 w-11 place-items-center rounded-full bg-neutral-900 text-sm font-bold text-white">AT</span>
+            <div>
+              <p class="text-sm font-semibold text-neutral-900">Ana Torres</p>
+              <p class="text-sm text-neutral-500">Directora de Calidad, cliente industrial</p>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── contacto ───────────────────────── -->
+    <section id="contacto" class="border-t border-black/10 bg-neutral-50">
+      <div class="mx-auto grid max-w-6xl gap-14 px-6 py-24 lg:grid-cols-2">
+        <div data-reveal="left">
+          <h2 class="font-display text-3xl font-bold tracking-[-0.02em] text-neutral-900 md:text-4xl">
+            Solicita una propuesta
+          </h2>
+          <p class="mt-5 leading-relaxed text-neutral-600">
+            Cuéntanos el problema y te respondemos en 48 horas con un enfoque, un plazo y un
+            rango de presupuesto. Si creemos que no somos el equipo adecuado, también te lo diremos.
+          </p>
+          <div class="mt-8 space-y-3 text-sm">
+            <p class="flex items-center gap-3 text-neutral-700">
+              <svg class="h-4 w-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 7l9 6 9-6M3 5h18v14H3z" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              hola@in2ai.com
+            </p>
+            <p class="flex items-center gap-3 text-neutral-700">
+              <svg class="h-4 w-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="12" cy="10" r="2.5" />
+              </svg>
+              Madrid, España
+            </p>
+          </div>
+        </div>
+
+        <form class="rounded-2xl border border-black/10 bg-white p-8 shadow-xl shadow-neutral-900/5" data-reveal="right">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="block">
+              <span class="text-sm font-medium text-neutral-700">Nombre</span>
+              <input
+                type="text"
+                required
+                class="mt-2 w-full rounded-lg border border-black/12 px-3.5 py-2.5 text-sm transition-colors focus:border-neutral-900 focus:outline-none"
+              />
+            </label>
+            <label class="block">
+              <span class="text-sm font-medium text-neutral-700">Empresa</span>
+              <input
+                type="text"
+                class="mt-2 w-full rounded-lg border border-black/12 px-3.5 py-2.5 text-sm transition-colors focus:border-neutral-900 focus:outline-none"
+              />
+            </label>
+          </div>
+          <label class="mt-5 block">
+            <span class="text-sm font-medium text-neutral-700">Email corporativo</span>
+            <input
+              type="email"
+              required
+              class="mt-2 w-full rounded-lg border border-black/12 px-3.5 py-2.5 text-sm transition-colors focus:border-neutral-900 focus:outline-none"
+            />
+          </label>
+          <label class="mt-5 block">
+            <span class="text-sm font-medium text-neutral-700">¿Qué quieres construir?</span>
+            <textarea
+              rows="4"
+              class="mt-2 w-full rounded-lg border border-black/12 px-3.5 py-2.5 text-sm transition-colors focus:border-neutral-900 focus:outline-none"
+            ></textarea>
+          </label>
+          <button
+            type="submit"
+            class="mt-6 w-full rounded-lg bg-neutral-900 px-6 py-3.5 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.01]"
+          >
+            Enviar solicitud
+          </button>
+          <p class="mt-3 text-center text-xs text-neutral-500">
+            Tus datos solo se usan para responderte. Nada de listas de correo.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── footer ─────────────────────────── -->
+    <footer class="border-t border-black/10 bg-white">
+      <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-neutral-900 font-display text-xs font-bold text-white">i2</span>
+            <span class="font-display font-bold text-neutral-900">IN2AI</span>
+          </div>
+          <p class="mt-4 text-sm leading-relaxed text-neutral-500">
+            Productos de software con inteligencia artificial integrada.
+          </p>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-neutral-900">Productos</p>
+          <ul class="mt-4 space-y-2.5 text-sm text-neutral-500">
+            <li>
+              <a href={products.asm2.url} target="_blank" rel="noopener" class="transition-colors hover:text-neutral-900">
+                ASM2 · RAG on-premise
+              </a>
+            </li>
+            <li>
+              <a href={products.mecopia.url} target="_blank" rel="noopener" class="transition-colors hover:text-neutral-900">
+                Mecopia · gemelo digital
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-neutral-900">Servicios</p>
+          <ul class="mt-4 space-y-2.5 text-sm text-neutral-500">
+            <li><a href="#servicios" class="transition-colors hover:text-neutral-900">Visión artificial</a></li>
+            <li><a href="#servicios" class="transition-colors hover:text-neutral-900">Deep learning</a></li>
+            <li><a href="#servicios" class="transition-colors hover:text-neutral-900">IA generativa</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-neutral-900">Legal</p>
+          <ul class="mt-4 space-y-2.5 text-sm text-neutral-500">
+            <li><a href="#" class="transition-colors hover:text-neutral-900">Aviso legal</a></li>
+            <li><a href="#privacidad" class="transition-colors hover:text-neutral-900">Privacidad</a></li>
+            <li><a href="#" class="transition-colors hover:text-neutral-900">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-black/10">
+        <div class="mx-auto flex max-w-6xl flex-col justify-between gap-3 px-6 py-6 sm:flex-row">
+          <p class="text-xs text-neutral-400">© 2026 IN2AI S.L. Todos los derechos reservados.</p>
+          <div class="flex gap-6 text-xs text-neutral-400">
+            <a href="#" class="transition-colors hover:text-neutral-900">LinkedIn</a>
+            <a href="#" class="transition-colors hover:text-neutral-900">GitHub</a>
+            <a href="#" class="transition-colors hover:text-neutral-900">X</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Base>

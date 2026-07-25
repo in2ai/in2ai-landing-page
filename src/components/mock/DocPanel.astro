@@ -1,0 +1,102 @@
+---
+import { tone, type Tone } from '../../lib/tone';
+
+interface Props {
+  variant?: Tone;
+  class?: string;
+}
+
+const { variant = 'dark', class: cls = '' } = Astro.props;
+const c = tone(variant);
+
+const fields = [
+  { k: 'Contraparte', v: 'Nordia Logística S.L.', conf: 99 },
+  { k: 'Vigencia', v: '01/01/2026 — 31/12/2028', conf: 97 },
+  { k: 'Penalización', v: '2,5% mensual', conf: 91 },
+  { k: 'Cláusula de salida', v: 'Preaviso 90 días', conf: 84 },
+];
+
+// líneas del documento simulado; hl = campo detectado y resaltado
+const lines: { w: number; hl?: boolean }[] = [
+  { w: 96 },
+  { w: 88 },
+  { w: 46, hl: true },
+  { w: 70 },
+  { w: 94 },
+  { w: 86 },
+  { w: 34, hl: true },
+  { w: 90 },
+  { w: 82 },
+  { w: 58, hl: true },
+  { w: 74 },
+];
+---
+
+<div class={`overflow-hidden rounded-2xl border ${c.shell} ${c.shadow} ${cls}`}>
+  <div class={`flex items-center justify-between border-b px-4 py-3 ${c.chrome}`}>
+    <div class="flex items-center gap-2">
+      <svg class={`h-4 w-4 ${c.muted}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M14 3v5h5M7 3h8l5 5v13H7z" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <p class={`font-mono text-[11px] ${c.body}`}>contrato_nordia_2026.pdf</p>
+      <span class={`hidden rounded border px-1.5 py-0.5 font-mono text-[9px] sm:inline ${c.chip}`}>34 pág.</span>
+    </div>
+    <span class={`font-mono text-[10px] ${c.muted}`}>12 campos · 1,8 s</span>
+  </div>
+
+  <div class={`grid ${c.panel} md:grid-cols-[1.15fr_1fr]`}>
+    <!-- documento -->
+    <div class={`border-b p-5 md:border-r md:border-b-0 ${c.rule}`}>
+      <div class="space-y-2.5">
+        <div class={`h-2.5 w-1/3 rounded-full ${c.skeleton}`}></div>
+        <div class="h-1"></div>
+        {lines.map((l, i) =>
+          l.hl ? (
+            // campo detectado: el resaltado se dibuja de izquierda a derecha
+            <div class="relative py-1" style={`width:${l.w}%`}>
+              <div class={`absolute inset-0 rounded ${c.mark}`} data-grow style={`--d:${350 + i * 190}ms`}></div>
+              <div class={`relative mx-1.5 h-1.5 rounded-full ${c.fillSoft}`}></div>
+            </div>
+          ) : (
+            <div class="py-1">
+              <div class={`h-1.5 rounded-full ${c.skeleton}`} style={`width:${l.w}%`}></div>
+            </div>
+          ),
+        )}
+      </div>
+
+      <div class={`mt-4 flex items-center gap-2 rounded-lg border px-3 py-2 ${c.rule} ${c.sub}`}>
+        <span class="flex gap-1">
+          <span class={`dot-1 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
+          <span class={`dot-2 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
+          <span class={`dot-3 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
+        </span>
+        <p class={`font-mono text-[10px] ${c.muted}`}>analizando páginas 12–34…</p>
+      </div>
+    </div>
+
+    <!-- campos extraídos -->
+    <div class="p-5">
+      <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>Campos extraídos</p>
+      <div class={`mt-4 space-y-4`}>
+        {fields.map((f, i) => (
+          <div data-reveal="fade" style={`--d:${200 + i * 130}ms`}>
+            <div class="flex items-baseline justify-between gap-3">
+              <p class={`text-[10px] ${c.muted}`}>{f.k}</p>
+              <p class={`font-mono text-[10px] ${c.muted}`}>{f.conf}%</p>
+            </div>
+            <p class={`mt-0.5 truncate text-[12px] font-medium ${c.head}`}>{f.v}</p>
+            <div class={`mt-1.5 h-[3px] overflow-hidden rounded-full ${c.track}`}>
+              <div class={`h-full rounded-full ${c.fill}`} data-bar style={`--w:${f.conf}%;--d:${300 + i * 130}ms`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class={`mt-5 flex items-center justify-between rounded-lg border px-3 py-2.5 ${c.rule} ${c.sub}`}>
+        <p class={`text-[10px] ${c.body}`}>1 campo por debajo del umbral</p>
+        <span class={`rounded border px-2 py-0.5 font-mono text-[9px] ${c.chip}`}>revisar</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,540 @@
+---
+import Base from '../layouts/Base.astro';
+import Console from '../components/mock/Console.astro';
+import ChatPanel from '../components/mock/ChatPanel.astro';
+import VisionPanel from '../components/mock/VisionPanel.astro';
+import PhoneMock from '../components/mock/PhoneMock.astro';
+import { services, products, privacy } from '../lib/content';
+
+const nav = [
+  { href: '#productos', label: 'Productos' },
+  { href: '#servicios', label: 'Servicios' },
+  { href: '#privacidad', label: 'Privacidad' },
+  { href: '#contacto', label: 'Contacto' },
+];
+
+const numbers = [
+  { v: '48312', s: '', l: 'documentos indexados con ASM2' },
+  { v: '6', s: '', l: 'semanas hasta el piloto' },
+  { v: '12', s: '', l: 'personas en el estudio' },
+  { v: '100', s: '%', l: 'del dato en tu infraestructura' },
+];
+
+const principles = [
+  'Si la IA no aporta valor en tu caso, te lo decimos antes de facturarte',
+  'El código es tuyo desde el primer commit',
+  'Tus documentos no salen de tu red ni entrenan ningún modelo',
+  'Medimos la calidad con evaluaciones, no con intuición',
+];
+
+const words = ['DEEP LEARNING', 'VISIÓN ARTIFICIAL', 'RAG', 'NLP', 'IA GENERATIVA', 'DATA DRIVEN', 'PRIVACIDAD'];
+---
+
+<Base
+  title="IN2AI — Estudio de inteligencia artificial"
+  description="IN2AI construye productos con IA integrada: deep learning, visión artificial y RAG sobre la documentación de tu empresa. Creadores de ASM2 y Mecopia."
+  bodyClass="bg-white font-sans text-neutral-700 antialiased selection:bg-neutral-900 selection:text-white"
+  progressClass="bg-neutral-900"
+  themeColor="#ffffff"
+>
+  <div class="overflow-x-hidden">
+    <!-- ───────────────────────────── header ───────────────────────────── -->
+    <header
+      data-header
+      class="sticky top-0 z-50 border-b border-transparent bg-white/85 backdrop-blur-xl transition-all duration-300 [&.is-scrolled]:border-black/10"
+    >
+      <div class="mx-auto flex h-[4.5rem] max-w-[86rem] items-center justify-between px-6 md:px-10">
+        <a href="/v3" class="font-display text-xl font-bold tracking-[-0.04em] text-neutral-900">IN2AI</a>
+
+        <nav class="hidden items-center gap-10 md:flex">
+          {nav.map((i) => (
+            <a
+              href={i.href}
+              class="font-mono text-[11px] tracking-[0.18em] text-neutral-500 uppercase transition-colors duration-300 hover:text-neutral-900"
+            >
+              {i.label}
+            </a>
+          ))}
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <a href="#contacto" class="hidden font-mono text-[11px] tracking-[0.18em] text-neutral-900 uppercase md:block">
+            <span class="link-sweep">Escríbenos</span>
+          </a>
+          <button
+            data-menu-toggle="nav-mobile"
+            aria-expanded="false"
+            aria-label="Abrir menú"
+            class="grid h-9 w-9 place-items-center border border-black/10 text-neutral-900 md:hidden"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 8h16M4 16h16" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="nav-mobile" class="hidden border-t border-black/10 bg-white md:hidden">
+        <nav class="mx-auto flex max-w-[86rem] flex-col px-6 py-4">
+          {nav.map((i) => (
+            <a href={i.href} class="border-b border-black/5 py-3.5 font-mono text-xs tracking-[0.18em] text-neutral-700 uppercase last:border-0">
+              {i.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <!-- ───────────────────────────── hero ───────────────────────────── -->
+    <section class="bg-white">
+      <div class="mx-auto max-w-[86rem] px-6 pt-16 md:px-10 md:pt-24">
+        <div class="flex items-center justify-between gap-6 border-b border-black/10 pb-5" data-reveal="fade">
+          <p class="font-mono text-[10px] tracking-[0.24em] text-neutral-400 uppercase">
+            Estudio de inteligencia artificial · Madrid
+          </p>
+          <p class="hidden font-mono text-[10px] tracking-[0.24em] text-neutral-400 uppercase sm:block">Est. 2024</p>
+        </div>
+
+        <h1
+          class="mt-12 font-serif text-[clamp(3.2rem,10.5vw,9.5rem)] leading-[0.9] tracking-[-0.035em] text-neutral-900"
+          data-reveal
+        >
+          Inteligencia <span class="italic">artificial</span><br />
+          sobre <span class="italic">tus</span> datos
+        </h1>
+
+        <div class="mt-14 grid gap-10 border-t border-black/10 pt-10 md:grid-cols-[1.35fr_1fr] md:gap-16">
+          <p class="max-w-2xl text-xl leading-[1.5] text-neutral-700 md:text-[1.6rem]" data-reveal style="--d:120ms">
+            Construimos productos de software con IA integrada: deep learning, visión artificial y
+            chats que responden con la documentación específica de tu empresa. Desplegados donde
+            tú digas —normalmente, en tus propios servidores.
+          </p>
+
+          <div class="flex flex-col items-start gap-6" data-reveal style="--d:220ms">
+            <div class="flex flex-wrap gap-2">
+              {['Deep Learning', 'Visión Artificial', 'RAG', 'Privacidad'].map((t) => (
+                <span class="border border-black/12 px-3 py-1.5 font-mono text-[10px] tracking-[0.16em] text-neutral-600 uppercase">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <a
+              href="#contacto"
+              class="group inline-flex items-center gap-3 border-b border-neutral-900 pb-1 font-mono text-xs tracking-[0.18em] text-neutral-900 uppercase"
+            >
+              Cuéntanos tu caso
+              <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+            <p class="font-mono text-[10px] tracking-[0.14em] text-neutral-400 uppercase">Respuesta en 48 h</p>
+          </div>
+        </div>
+
+        <!-- ASM2 entra solapando la sección negra -->
+        <div class="relative z-10 mt-20 mb-[-7rem] md:mb-[-9rem]" data-reveal="scale" style="--d:260ms">
+          <Console variant="light" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── estudio (negro) ─────────────────── -->
+    <section class="bg-neutral-950 text-neutral-300">
+      <div class="mx-auto max-w-[86rem] px-6 pt-[11rem] pb-24 md:px-10 md:pt-[13rem]">
+        <div class="grid gap-14 md:grid-cols-[1fr_1fr] md:gap-20">
+          <div data-reveal="left">
+            <p class="font-mono text-[10px] tracking-[0.24em] text-neutral-500 uppercase">El estudio</p>
+            <h2 class="mt-7 font-serif text-[clamp(2.4rem,5.5vw,4.2rem)] leading-[0.95] tracking-[-0.03em] text-white">
+              Pocos, senior<br />y muy <span class="italic">tercos</span>
+            </h2>
+            <p class="mt-8 max-w-md text-lg leading-relaxed text-neutral-400">
+              Doce personas entre ingeniería de datos, backend y diseño de producto. Sin capas de
+              gestión: hablas con quien escribe el código. Sprints de dos semanas, y cada sprint
+              acaba con algo que se puede usar.
+            </p>
+          </div>
+
+          <ul class="self-center border-t border-white/15">
+            {principles.map((p, i) => (
+              <li class="flex items-baseline gap-5 border-b border-white/15 py-5" data-reveal="right" style={`--d:${i * 110}ms`}>
+                <span class="font-mono text-[10px] text-neutral-600">{String(i + 1).padStart(2, '0')}</span>
+                <span class="text-base leading-relaxed text-neutral-200">{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <dl class="mt-24 grid grid-cols-2 gap-x-8 gap-y-12 border-t border-white/15 pt-14 md:grid-cols-4">
+          {numbers.map((n, i) => (
+            <div data-reveal="fade" style={`--d:${i * 110}ms`}>
+              <dt class="font-serif text-[clamp(2.6rem,5.5vw,4.6rem)] leading-none text-white">
+                <span data-count={n.v} data-suffix={n.s}>0</span>
+              </dt>
+              <dd class="mt-4 font-mono text-[10px] leading-relaxed tracking-[0.2em] text-neutral-500 uppercase">{n.l}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div class="marquee border-y border-white/15 py-4" style="--speed:60s">
+        <div class="marquee-track">
+          {[0, 1].map(() => (
+            <div class="flex shrink-0">
+              {words.map((w) => (
+                <span class="flex items-center gap-6 px-6 font-mono text-[10px] tracking-[0.3em] text-neutral-500 uppercase">
+                  {w}
+                  <span class="h-1 w-1 rounded-full bg-neutral-700"></span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ASM2 en detalle, sobre negro -->
+      <div id="productos" class="mx-auto max-w-[86rem] px-6 py-24 md:px-10">
+        <div class="flex flex-col gap-4 border-b border-white/15 pb-8 md:flex-row md:items-end md:justify-between" data-reveal>
+          <h2 class="font-serif text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] tracking-[-0.03em] text-white">
+            Productos <span class="italic">propios</span>
+          </h2>
+          <p class="max-w-sm font-mono text-[10px] leading-relaxed tracking-[0.16em] text-neutral-500 uppercase">
+            Dos productos en desarrollo activo. La misma base que usamos en los proyectos a medida.
+          </p>
+        </div>
+
+        <div class="grid items-center gap-14 pt-16 md:grid-cols-[1fr_1.1fr] md:gap-20">
+          <div data-reveal="left">
+            <div class="flex items-baseline gap-4">
+              <p class="font-serif text-5xl text-neutral-700">01</p>
+              <p class="font-mono text-[10px] tracking-[0.24em] text-neutral-500 uppercase">{products.asm2.kicker}</p>
+            </div>
+            <h3 class="mt-6 font-serif text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.98] tracking-[-0.02em] text-white">
+              {products.asm2.name}
+            </h3>
+            <p class="mt-4 font-serif text-xl italic text-neutral-400">{products.asm2.claim}</p>
+            <p class="mt-6 max-w-md leading-relaxed text-neutral-400">{products.asm2.text}</p>
+
+            <ul class="mt-8 space-y-3 border-t border-white/15 pt-6">
+              {products.asm2.points.map((p) => (
+                <li class="flex items-baseline gap-3 text-sm text-neutral-300">
+                  <span class="font-mono text-[10px] text-neutral-600">—</span>
+                  {p}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={products.asm2.url}
+              target="_blank"
+              rel="noopener"
+              class="group mt-9 inline-flex items-center gap-3 border-b border-white pb-1 font-mono text-xs tracking-[0.18em] text-white uppercase"
+            >
+              asm2.in2ai.com
+              <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+
+          <div data-reveal="right" style="--d:140ms">
+            <ChatPanel variant="dark" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── Mecopia (blanco) ────────────────── -->
+    <section class="bg-white">
+      <div class="mx-auto max-w-[86rem] px-6 py-28 md:px-10">
+        <div class="grid items-center gap-14 md:grid-cols-[1fr_1fr] md:gap-20">
+          <div data-reveal="left">
+            <div class="flex items-baseline gap-4">
+              <p class="font-serif text-5xl text-neutral-300">02</p>
+              <p class="font-mono text-[10px] tracking-[0.24em] text-neutral-400 uppercase">{products.mecopia.kicker}</p>
+            </div>
+            <h3 class="mt-6 font-serif text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.98] tracking-[-0.02em] text-neutral-900">
+              {products.mecopia.name}
+            </h3>
+            <p class="mt-4 font-serif text-xl italic text-neutral-500">{products.mecopia.claim}</p>
+            <p class="mt-6 max-w-md leading-relaxed text-neutral-600">{products.mecopia.text}</p>
+
+            <ul class="mt-8 space-y-3 border-t border-black/10 pt-6">
+              {products.mecopia.points.map((p) => (
+                <li class="flex items-baseline gap-3 text-sm text-neutral-700">
+                  <span class="font-mono text-[10px] text-neutral-400">—</span>
+                  {p}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={products.mecopia.url}
+              target="_blank"
+              rel="noopener"
+              class="group mt-9 inline-flex items-center gap-3 border-b border-neutral-900 pb-1 font-mono text-xs tracking-[0.18em] text-neutral-900 uppercase"
+            >
+              mecopia.ai
+              <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+
+          <div class="flex justify-center" data-reveal="right" style="--d:140ms">
+            <PhoneMock variant="light" class="float" />
+          </div>
+        </div>
+
+        <!-- 03 · a medida: visión artificial -->
+        <div class="mt-28 grid items-center gap-14 border-t border-black/10 pt-20 md:grid-cols-[1.3fr_1fr] md:gap-20">
+          <div class="order-2 transition-transform duration-700 hover:scale-[1.012] md:order-1" data-reveal="left" style="--d:140ms">
+            <VisionPanel variant="light" />
+          </div>
+          <div class="order-1 md:order-2" data-reveal="right">
+            <div class="flex items-baseline gap-4">
+              <p class="font-serif text-5xl text-neutral-300">03</p>
+              <p class="font-mono text-[10px] tracking-[0.24em] text-neutral-400 uppercase">A medida</p>
+            </div>
+            <h3 class="mt-6 font-serif text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.98] tracking-[-0.02em] text-neutral-900">
+              Visión artificial y deep learning
+            </h3>
+            <p class="mt-6 max-w-md leading-relaxed text-neutral-600">
+              Modelos entrenados con tus imágenes y tus datos: inspección de línea, conteo,
+              detección de defectos, clasificación y predicción. La inferencia corre en el borde
+              o en tu servidor, sin enviar el vídeo a ninguna nube ajena.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-2">
+              {['Inferencia local', '22 ms / fotograma', 'Entrenado con tus datos'].map((t) => (
+                <span class="border border-black/12 px-3 py-1.5 font-mono text-[10px] tracking-[0.14em] text-neutral-600 uppercase">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── servicios ──────────────────────── -->
+    <section id="servicios" class="border-t border-black/10 bg-neutral-50">
+      <div class="mx-auto max-w-[86rem] px-6 py-28 md:px-10">
+        <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between" data-reveal>
+          <h2 class="font-serif text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] tracking-[-0.03em] text-neutral-900">
+            Lo que <span class="italic">hacemos</span>
+          </h2>
+          <p class="max-w-sm font-mono text-[10px] leading-relaxed tracking-[0.16em] text-neutral-500 uppercase">
+            Cinco áreas. Casi siempre se combinan: un buen producto rara vez necesita solo una.
+          </p>
+        </div>
+
+        <div class="mt-16 border-t border-black/12">
+          {services.map((s, i) => (
+            <div
+              class="group grid gap-6 border-b border-black/12 py-10 transition-colors duration-500 hover:bg-white md:grid-cols-[4rem_1fr_1.3fr_auto] md:items-baseline md:gap-10"
+              data-reveal
+              style={`--d:${i * 80}ms`}
+            >
+              <span class="font-serif text-3xl text-neutral-300 transition-colors duration-500 group-hover:text-neutral-900">
+                {s.roman}
+              </span>
+              <h3 class="font-serif text-2xl leading-tight tracking-[-0.02em] text-neutral-900 transition-transform duration-500 md:text-[1.7rem] md:group-hover:translate-x-1.5">
+                {s.name}
+              </h3>
+              <p class="leading-relaxed text-neutral-600">{s.text}</p>
+              <div class="flex flex-wrap gap-1.5 md:justify-end">
+                {s.tags.map((t) => (
+                  <span class="border border-black/12 bg-white px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] text-neutral-500 uppercase">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── privacidad (negro) ─────────────── -->
+    <section id="privacidad" class="bg-neutral-950">
+      <div class="mx-auto max-w-[86rem] px-6 py-28 md:px-10">
+        <div class="grid gap-16 md:grid-cols-[1fr_1fr] md:gap-20">
+          <div data-reveal="left">
+            <p class="font-mono text-[10px] tracking-[0.24em] text-neutral-500 uppercase">Privacidad</p>
+            <h2 class="mt-7 font-serif text-[clamp(2.4rem,6vw,4.4rem)] leading-[0.95] tracking-[-0.03em] text-white">
+              Tus datos no<br /><span class="italic">salen de casa</span>
+            </h2>
+            <p class="mt-8 max-w-md text-lg leading-relaxed text-neutral-400">
+              Es la razón por la que la mayoría de nuestros clientes nos llama. Trabajan con
+              información que no puede subirse a un servicio de terceros: expedientes, contratos,
+              historiales, planos. Nuestra arquitectura por defecto deja todo dentro.
+            </p>
+
+            <!-- diagrama: el dato se queda dentro -->
+            <div class="mt-12 border border-white/15 p-6" data-reveal="fade" style="--d:200ms">
+              <p class="font-mono text-[9px] tracking-[0.2em] text-neutral-500 uppercase">Tu red · tu servidor</p>
+              <div class="mt-4 grid grid-cols-2 gap-2">
+                {['Documentos', 'Índice vectorial', 'Modelo', 'Chat'].map((b) => (
+                  <span class="border border-white/20 bg-white/[0.04] px-3 py-2.5 text-center font-mono text-[10px] tracking-wider text-neutral-200 uppercase">
+                    {b}
+                  </span>
+                ))}
+              </div>
+              <div class="mt-5 flex items-center gap-3 border-t border-white/15 pt-4">
+                <span class="relative font-mono text-[10px] tracking-[0.18em] text-neutral-600 uppercase">
+                  <span class="absolute top-1/2 -left-1 h-px w-[calc(100%+0.5rem)] bg-neutral-600"></span>
+                  Salida a internet
+                </span>
+                <span class="font-mono text-[9px] tracking-[0.18em] text-neutral-500 uppercase">no necesaria</span>
+              </div>
+            </div>
+          </div>
+
+          <ul class="self-center border-t border-white/15">
+            {privacy.map((p, i) => (
+              <li class="border-b border-white/15 py-7" data-reveal="right" style={`--d:${i * 110}ms`}>
+                <div class="flex items-baseline gap-4">
+                  <span class="font-mono text-[10px] text-neutral-600">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="font-serif text-2xl tracking-[-0.01em] text-white">{p.t}</h3>
+                </div>
+                <p class="mt-3 pl-8 leading-relaxed text-neutral-400">{p.d}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── cita ───────────────────────────── -->
+    <section class="border-t border-black/10 bg-white">
+      <div class="mx-auto max-w-[86rem] px-6 py-28 md:px-10">
+        <figure data-reveal>
+          <blockquote class="mx-auto max-w-4xl text-center font-serif text-[clamp(1.9rem,4.6vw,3.4rem)] leading-[1.12] tracking-[-0.02em] text-neutral-900">
+            «Teníamos veinte años de procedimientos repartidos en tres nubes. Ahora un operario
+            pregunta por el chat y le responde con el <span class="italic">documento y la página</span>.
+            Y sin que nada salga de nuestro rack.»
+          </blockquote>
+          <figcaption class="mt-12 flex items-center justify-center gap-4">
+            <span class="grid h-11 w-11 place-items-center rounded-full bg-neutral-900 text-sm font-semibold text-white">AT</span>
+            <div class="text-left">
+              <p class="text-sm font-medium text-neutral-900">Ana Torres</p>
+              <p class="font-mono text-[10px] tracking-[0.16em] text-neutral-500 uppercase">
+                Dir. Calidad · cliente industrial
+              </p>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── contacto ───────────────────────── -->
+    <section id="contacto" class="border-t border-black/10 bg-white">
+      <div class="mx-auto max-w-[86rem] px-6 py-28 md:px-10">
+        <div class="grid gap-16 md:grid-cols-[1.15fr_1fr] md:gap-24">
+          <div data-reveal="left">
+            <h2 class="font-serif text-[clamp(2.8rem,8vw,6.5rem)] leading-[0.9] tracking-[-0.035em] text-neutral-900">
+              Hablemos de<br /><span class="italic">tu proyecto</span>
+            </h2>
+            <p class="mt-8 max-w-md text-lg leading-relaxed text-neutral-600">
+              Escríbenos en dos líneas qué problema tienes. Te contamos si se resuelve con IA,
+              cuánto costaría y cuánto tardaríamos. Si no somos el equipo adecuado, también lo diremos.
+            </p>
+            <a
+              href="mailto:hola@in2ai.com"
+              class="mt-10 inline-block border-b border-neutral-900 pb-1 font-mono text-base tracking-[0.06em] text-neutral-900"
+            >
+              hola@in2ai.com
+            </a>
+          </div>
+
+          <form class="self-center" data-reveal="right">
+            <label class="block border-b border-black/15 pb-2">
+              <span class="font-mono text-[10px] tracking-[0.2em] text-neutral-400 uppercase">Nombre</span>
+              <input
+                type="text"
+                required
+                class="mt-2 w-full bg-transparent text-lg text-neutral-900 placeholder:text-neutral-300 focus:outline-none"
+                placeholder="Tu nombre"
+              />
+            </label>
+            <label class="mt-9 block border-b border-black/15 pb-2">
+              <span class="font-mono text-[10px] tracking-[0.2em] text-neutral-400 uppercase">Email</span>
+              <input
+                type="email"
+                required
+                class="mt-2 w-full bg-transparent text-lg text-neutral-900 placeholder:text-neutral-300 focus:outline-none"
+                placeholder="tu@empresa.com"
+              />
+            </label>
+            <label class="mt-9 block border-b border-black/15 pb-2">
+              <span class="font-mono text-[10px] tracking-[0.2em] text-neutral-400 uppercase">Tu problema, en dos líneas</span>
+              <textarea
+                rows="3"
+                class="mt-2 w-full resize-none bg-transparent text-lg text-neutral-900 placeholder:text-neutral-300 focus:outline-none"
+                placeholder="Tenemos la documentación técnica repartida en OneDrive y Drive, y nadie encuentra nada…"
+              ></textarea>
+            </label>
+            <button
+              type="submit"
+              class="group mt-10 inline-flex items-center gap-3 bg-neutral-900 px-8 py-4 font-mono text-[11px] tracking-[0.2em] text-white uppercase transition-transform duration-300 hover:scale-[1.02]"
+            >
+              Enviar
+              <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── footer ─────────────────────────── -->
+    <footer class="bg-neutral-950">
+      <div class="mx-auto max-w-[86rem] px-6 pt-20 pb-10 md:px-10">
+        <div class="grid gap-10 border-b border-white/15 pb-14 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <p class="font-mono text-[10px] tracking-[0.2em] text-neutral-500 uppercase">Productos</p>
+            <div class="mt-4 flex flex-col gap-1.5 text-sm text-neutral-400">
+              <a href={products.asm2.url} target="_blank" rel="noopener" class="transition-colors hover:text-white">
+                ASM2 · RAG on-premise
+              </a>
+              <a href={products.mecopia.url} target="_blank" rel="noopener" class="transition-colors hover:text-white">
+                Mecopia · gemelo digital
+              </a>
+            </div>
+          </div>
+          <div>
+            <p class="font-mono text-[10px] tracking-[0.2em] text-neutral-500 uppercase">Servicios</p>
+            <div class="mt-4 flex flex-col gap-1.5 text-sm text-neutral-400">
+              <a href="#servicios" class="transition-colors hover:text-white">Visión artificial</a>
+              <a href="#servicios" class="transition-colors hover:text-white">Deep learning</a>
+              <a href="#servicios" class="transition-colors hover:text-white">IA generativa</a>
+            </div>
+          </div>
+          <div>
+            <p class="font-mono text-[10px] tracking-[0.2em] text-neutral-500 uppercase">Estudio</p>
+            <p class="mt-4 text-sm leading-relaxed text-neutral-400">
+              Madrid, España<br />hola@in2ai.com
+            </p>
+          </div>
+          <div>
+            <p class="font-mono text-[10px] tracking-[0.2em] text-neutral-500 uppercase">Seguir</p>
+            <div class="mt-4 flex flex-col gap-1.5 text-sm text-neutral-400">
+              <a href="#" class="transition-colors hover:text-white">LinkedIn</a>
+              <a href="#" class="transition-colors hover:text-white">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="mt-12 font-serif text-[clamp(4rem,17vw,15rem)] leading-none tracking-[-0.05em] text-white">IN2AI</p>
+
+        <div class="mt-8 flex flex-col justify-between gap-3 border-t border-white/15 pt-6 font-mono text-[10px] tracking-[0.18em] text-neutral-600 uppercase sm:flex-row">
+          <p>© 2026 IN2AI S.L.</p>
+          <div class="flex gap-6">
+            <a href="#" class="transition-colors hover:text-neutral-300">Aviso legal</a>
+            <a href="#privacidad" class="transition-colors hover:text-neutral-300">Privacidad</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Base>

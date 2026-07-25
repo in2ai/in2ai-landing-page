@@ -1,0 +1,657 @@
+---
+import Base from '../layouts/Base.astro';
+import Console from '../components/mock/Console.astro';
+import ChatPanel from '../components/mock/ChatPanel.astro';
+import DocPanel from '../components/mock/DocPanel.astro';
+import VisionPanel from '../components/mock/VisionPanel.astro';
+import PhoneMock from '../components/mock/PhoneMock.astro';
+import { services, products, privacy } from '../lib/content';
+
+const nav = [
+  { href: '#productos', label: 'Productos' },
+  { href: '#servicios', label: 'Servicios' },
+  { href: '#privacidad', label: 'Privacidad' },
+  { href: '#casos', label: 'Casos' },
+];
+
+const tabs = [
+  {
+    id: 'asm2',
+    tab: 'ASM2',
+    kicker: products.asm2.kicker,
+    title: products.asm2.claim,
+    text: products.asm2.text,
+    points: products.asm2.points,
+    link: { href: products.asm2.url, label: 'asm2.in2ai.com' },
+  },
+  {
+    id: 'mecopia',
+    tab: 'Mecopia',
+    kicker: products.mecopia.kicker,
+    title: products.mecopia.claim,
+    text: products.mecopia.text,
+    points: products.mecopia.points,
+    link: { href: products.mecopia.url, label: 'mecopia.ai' },
+  },
+  {
+    id: 'vision',
+    tab: 'Visión artificial',
+    kicker: 'A medida',
+    title: 'Modelos que ven tu línea de producción',
+    text: 'Detección de defectos, conteo e inspección entrenados con tus propias imágenes. La inferencia corre en el borde o en tu servidor: el vídeo no sale de la planta.',
+    points: [
+      'Inferencia local a 22 ms por fotograma',
+      'Entrenado con tus imágenes, no con un dataset genérico',
+      'Aviso inmediato cuando una pieza se desvía del umbral',
+    ],
+  },
+  {
+    id: 'documentos',
+    tab: 'Documentos',
+    kicker: 'A medida',
+    title: 'Miles de documentos convertidos en datos',
+    text: 'Contratos, pólizas y expedientes pasan a campos estructurados con nivel de confianza uno a uno. Lo que no supera el umbral entra en cola de revisión humana.',
+    points: [
+      'Confianza campo a campo, no una nota global',
+      'Cola de revisión para los casos dudosos',
+      'Exportación directa a tu base de datos',
+    ],
+  },
+];
+
+const steps = [
+  { n: '01', t: 'Discovery', d: 'Dos semanas. Acotamos el caso, medimos el impacto y descartamos lo que no aporta.', dur: '2 sem.' },
+  { n: '02', t: 'Piloto', d: 'Prototipo funcional con tus datos reales y métricas de calidad sobre la mesa.', dur: '4 sem.' },
+  { n: '03', t: 'Producto', d: 'Construcción completa: interfaz, backend, integraciones y capa de inteligencia.', dur: '8—16 sem.' },
+  { n: '04', t: 'Operación', d: 'Evaluación continua, guardias y reducción del coste por inferencia.', dur: 'continuo' },
+];
+
+const stats = [
+  { v: '48312', s: '', l: 'documentos indexados' },
+  { v: '6', s: ' sem.', l: 'del kickoff al piloto' },
+  { v: '22', s: ' ms', l: 'por fotograma en el borde' },
+  { v: '100', s: '%', l: 'del dato en tu red' },
+];
+
+const cases = [
+  {
+    sector: 'Industria',
+    t: 'Inspección visual en línea',
+    d: 'Detección de rebabas y piezas fuera de tolerancia sobre 1.284 piezas por turno, con inferencia en el propio puesto.',
+    m: '98,7%',
+    ml: 'precisión validada',
+  },
+  {
+    sector: 'Ingeniería',
+    t: 'ASM2 sobre 20 años de procedimientos',
+    d: 'Tres nubes distintas indexadas en un solo chat interno, respetando los permisos de cada carpeta.',
+    m: '1,4 s',
+    ml: 'respuesta media con citas',
+  },
+  {
+    sector: 'Seguros',
+    t: 'Extracción documental de expedientes',
+    d: 'Campos clave de pólizas y siniestros extraídos con confianza por campo y cola de revisión humana.',
+    m: '−78%',
+    ml: 'tiempo de revisión',
+  },
+];
+
+const logos = ['NORDIA', 'KALTEK', 'VERIDIAN', 'ARCADIA', 'BELMONT', 'MÓVIL+', 'SIERRA', 'ONDA'];
+---
+
+<Base
+  title="IN2AI — Productos de software con IA integrada"
+  description="Deep learning, visión artificial y RAG sobre la documentación de tu empresa. Creadores de ASM2 y Mecopia."
+  bodyClass="bg-[#08080A] font-sans text-zinc-300 antialiased selection:bg-white selection:text-black"
+  progressClass="bg-white"
+  themeColor="#08080A"
+>
+  <div class="relative overflow-x-hidden">
+    <!-- fondo ambiental -->
+    <div class="pointer-events-none fixed inset-0 -z-10">
+      <div
+        class="absolute inset-0 opacity-60"
+        style="background-image:linear-gradient(to right,rgb(255 255 255 / .05) 1px,transparent 1px),linear-gradient(to bottom,rgb(255 255 255 / .05) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 90% 55% at 50% 0%,#000 30%,transparent 100%)"
+      >
+      </div>
+      <div class="breathe absolute -top-56 left-1/2 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-white/[0.07] blur-[130px]"></div>
+      <div class="absolute top-[60rem] -right-40 h-[32rem] w-[32rem] rounded-full bg-white/[0.04] blur-[130px]"></div>
+    </div>
+
+    <!-- ───────────────────────────── header ───────────────────────────── -->
+    <header
+      data-header
+      class="sticky top-0 z-50 border-b border-white/0 transition-all duration-300 [&.is-scrolled]:border-white/10 [&.is-scrolled]:bg-[#08080A]/80 [&.is-scrolled]:backdrop-blur-xl"
+    >
+      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+        <a href="/v1" class="group flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-white font-display text-sm font-bold text-black transition-transform duration-500 group-hover:rotate-[-8deg]">
+            i2
+          </span>
+          <span class="font-display text-lg font-bold tracking-tight text-white">IN2AI</span>
+        </a>
+
+        <nav class="hidden items-center gap-8 md:flex">
+          {nav.map((i) => (
+            <a href={i.href} class="link-sweep text-sm text-zinc-400 transition-colors hover:text-white">{i.label}</a>
+          ))}
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <a
+            href="#contacto"
+            class="hidden rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.03] sm:block"
+          >
+            Hablemos
+          </a>
+          <button
+            data-menu-toggle="nav-mobile"
+            aria-expanded="false"
+            aria-label="Abrir menú"
+            class="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-white md:hidden"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="nav-mobile" class="hidden border-t border-white/10 bg-[#08080A]/95 backdrop-blur-xl md:hidden">
+        <nav class="mx-auto flex max-w-6xl flex-col px-6 py-4">
+          {nav.map((i) => (
+            <a href={i.href} class="border-b border-white/5 py-3.5 text-base text-zinc-300 last:border-0">{i.label}</a>
+          ))}
+          <a href="#contacto" class="mt-4 rounded-full bg-white py-3 text-center text-sm font-semibold text-black">Hablemos</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ───────────────────────────── hero ───────────────────────────── -->
+    <section class="spotlight relative mx-auto max-w-6xl px-6 pt-16 pb-24 md:pt-24" style="--spot:rgb(255 255 255 / .06)">
+      <div class="mx-auto max-w-3xl text-center">
+        <span
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs text-zinc-300 backdrop-blur"
+          data-reveal="fade"
+        >
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-70"></span>
+            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-white"></span>
+          </span>
+          Creadores de ASM2 y Mecopia
+        </span>
+
+        <h1 class="mt-7 font-display text-5xl leading-[1.02] font-bold tracking-[-0.03em] text-white md:text-[5.2rem]" data-reveal style="--d:80ms">
+          Inteligencia artificial <span class="bg-gradient-to-b from-white via-white to-zinc-600 bg-clip-text text-transparent italic">sobre tus datos</span>
+        </h1>
+
+        <p class="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-zinc-400" data-reveal style="--d:180ms">
+          Somos una startup de inteligencia artificial. Construimos productos con deep learning,
+          visión artificial y chats que responden con la documentación específica de tu empresa
+          —desplegados en tus propios servidores.
+        </p>
+
+        <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row" data-reveal style="--d:260ms">
+          <a
+            href="#contacto"
+            class="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.03] sm:w-auto"
+          >
+            Agenda una llamada
+            <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a
+            href="#productos"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.03] px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition-colors duration-300 hover:bg-white/[0.08] sm:w-auto"
+          >
+            Ver los productos
+          </a>
+        </div>
+      </div>
+
+      <!-- ASM2 en el hero -->
+      <div class="relative mx-auto mt-20 max-w-5xl" data-reveal="scale" style="--d:320ms">
+        <div class="absolute -inset-x-10 -top-10 bottom-10 rounded-[3rem] bg-white/[0.06] blur-3xl"></div>
+        <Console variant="dark" class="relative" />
+
+        <div class="float absolute -top-6 -left-4 hidden rounded-xl border border-white/12 bg-[#0B0B0D]/90 px-4 py-3 shadow-2xl backdrop-blur-xl lg:block">
+          <p class="text-[10px] tracking-wide text-zinc-500 uppercase">Documentos indexados</p>
+          <p class="mt-1 font-display text-lg font-semibold text-white">
+            <span data-count="48312">0</span>
+          </p>
+        </div>
+
+        <div class="float-slow absolute -right-6 bottom-16 hidden rounded-xl border border-white/12 bg-[#0B0B0D]/90 px-4 py-3 shadow-2xl backdrop-blur-xl lg:block">
+          <p class="text-[10px] tracking-wide text-zinc-500 uppercase">Fuera de tu red</p>
+          <p class="mt-1 font-display text-lg font-semibold text-white">0 bytes</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── logos ───────────────────────────── -->
+    <section class="border-y border-white/5 py-8">
+      <p class="text-center font-mono text-[10px] tracking-[0.25em] text-zinc-600 uppercase">
+        En producción en equipos como
+      </p>
+      <div class="marquee mt-6" style="--speed:52s">
+        <div class="marquee-track">
+          {[0, 1].map(() => (
+            <div class="flex shrink-0">
+              {logos.map((l) => (
+                <span class="px-8 font-display text-xl font-semibold tracking-tight text-zinc-700 transition-colors duration-300 hover:text-zinc-400">
+                  {l}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── productos ───────────────────────── -->
+    <section id="productos" class="mx-auto max-w-6xl px-6 py-28">
+      <div class="max-w-2xl" data-reveal>
+        <p class="font-mono text-[11px] tracking-[0.22em] text-zinc-500 uppercase">Productos</p>
+        <h2 class="mt-5 font-display text-4xl font-bold tracking-[-0.02em] text-white md:text-5xl">
+          Dos productos propios y lo que construimos a medida
+        </h2>
+        <p class="mt-5 text-zinc-400">
+          ASM2 y Mecopia son nuestros productos en desarrollo activo. Comparten la misma base
+          que usamos en los proyectos de cliente: menos riesgo, menos tiempo.
+        </p>
+      </div>
+
+      <div data-tabs class="mt-12">
+        <div class="flex gap-1.5 overflow-x-auto rounded-full border border-white/10 bg-white/[0.03] p-1.5" role="tablist" data-reveal="fade">
+          {tabs.map((p, i) => (
+            <button
+              data-tab={p.id}
+              role="tab"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              class="flex-1 rounded-full px-4 py-2.5 text-sm font-medium whitespace-nowrap text-zinc-400 transition-all duration-300 hover:text-white aria-selected:bg-white aria-selected:text-black aria-selected:shadow-lg"
+            >
+              {p.tab}
+            </button>
+          ))}
+        </div>
+
+        {tabs.map((p, i) => (
+          <div data-panel={p.id} class:list={['mt-10 grid items-center gap-12 lg:grid-cols-[1fr_1.25fr]', i !== 0 && 'hidden']}>
+            <div>
+              <p class="font-mono text-[10px] tracking-[0.22em] text-zinc-500 uppercase">{p.kicker}</p>
+              <h3 class="mt-4 font-display text-3xl leading-tight font-semibold text-white">{p.title}</h3>
+              <p class="mt-4 leading-relaxed text-zinc-400">{p.text}</p>
+              <ul class="mt-7 space-y-3.5">
+                {p.points.map((pt) => (
+                  <li class="flex gap-3 text-sm text-zinc-300">
+                    <span class="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full border border-white/15 bg-white/5">
+                      <svg class="h-2.5 w-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5">
+                        <path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+
+              {p.link ? (
+                <a
+                  href={p.link.href}
+                  target="_blank"
+                  rel="noopener"
+                  class="link-sweep mt-8 inline-flex items-center gap-2 text-sm font-semibold text-white"
+                >
+                  {p.link.label}
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              ) : (
+                <a href="#contacto" class="link-sweep mt-8 inline-flex items-center gap-2 text-sm font-semibold text-white">
+                  Quiero verlo con mis datos
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              )}
+            </div>
+
+            <div class="relative">
+              <div class="absolute -inset-6 rounded-[2.5rem] bg-white/[0.04] blur-2xl"></div>
+              {p.id === 'asm2' && <ChatPanel variant="dark" class="relative" />}
+              {p.id === 'mecopia' && (
+                <div class="relative flex justify-center">
+                  <PhoneMock variant="dark" class="float" />
+                </div>
+              )}
+              {p.id === 'vision' && <VisionPanel variant="dark" class="relative" />}
+              {p.id === 'documentos' && <DocPanel variant="dark" class="relative" />}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── servicios (bento) ───────────────── -->
+    <section id="servicios" class="mx-auto max-w-6xl px-6 pb-28">
+      <div class="max-w-2xl" data-reveal>
+        <p class="font-mono text-[11px] tracking-[0.22em] text-zinc-500 uppercase">Servicios</p>
+        <h2 class="mt-5 font-display text-4xl font-bold tracking-[-0.02em] text-white md:text-5xl">
+          Cinco áreas que casi siempre se combinan
+        </h2>
+      </div>
+
+      <div class="mt-12 grid gap-4 md:grid-cols-3">
+        <div class="spotlight group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:col-span-2" data-reveal="left">
+          <p class="font-mono text-[10px] tracking-[0.22em] text-zinc-500 uppercase">Integración</p>
+          <h3 class="mt-4 max-w-md font-display text-2xl font-semibold text-white">
+            Se conecta a lo que ya tienes, no al revés
+          </h3>
+          <p class="mt-3 max-w-md text-sm leading-relaxed text-zinc-400">
+            OneDrive, Google Drive, Dropbox, SharePoint, Postgres o ese Excel del que depende media
+            empresa. Escribimos el conector que falte.
+          </p>
+          <div class="mt-7 overflow-hidden rounded-xl border border-white/10 bg-[#0B0B0D] p-4 font-mono text-[11px] leading-relaxed">
+            <p class="text-zinc-500"># indexar carpetas de varias nubes</p>
+            <p class="mt-1.5 text-zinc-400"><span class="text-white">from</span> asm2 <span class="text-white">import</span> Source, Index</p>
+            <p class="mt-2 text-zinc-400">calidad = Source.onedrive(<span class="text-white">"/Calidad/Procedimientos"</span>)</p>
+            <p class="text-zinc-400">rrhh = Source.gdrive(<span class="text-white">"/RRHH/Convenios"</span>)</p>
+            <p class="mt-2 text-zinc-400">Index.build([calidad, rrhh], permisos=<span class="text-white">"heredados"</span>)</p>
+            <p class="mt-2.5 flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-zinc-300">
+              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" /></svg>
+              9.616 documentos indexados · en tu servidor
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-8" data-reveal="right">
+          <div>
+            <p class="font-mono text-[10px] tracking-[0.22em] text-zinc-500 uppercase">Inferencia local</p>
+            <p class="mt-4 font-display text-5xl font-bold tracking-tight text-white">
+              <span data-count="22">0</span><span class="text-2xl text-zinc-500">ms</span>
+            </p>
+            <p class="mt-3 text-sm leading-relaxed text-zinc-400">
+              Por fotograma, en el propio puesto de trabajo. El vídeo no sale de la planta.
+            </p>
+          </div>
+          <svg viewBox="0 0 200 60" class="mt-8 w-full" style="height:56px">
+            <path
+              d="M0,48 L20,42 L40,45 L60,32 L80,36 L100,24 L120,28 L140,16 L160,20 L180,10 L200,14"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              data-draw
+              style="--len:320"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s, i) => (
+          <div
+            class="shine group rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors duration-300 hover:border-white/20"
+            data-reveal
+            style={`--d:${i * 80}ms`}
+          >
+            <span class="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.04]">
+              <svg class="h-4.5 w-4.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d={s.icon} />
+              </svg>
+            </span>
+            <h3 class="mt-5 font-display text-lg leading-snug font-semibold text-white">{s.name}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-zinc-400">{s.text}</p>
+          </div>
+        ))}
+
+        <a
+          href="#contacto"
+          class="group flex flex-col justify-between rounded-2xl border border-white/20 bg-white/[0.06] p-6 transition-colors duration-300 hover:bg-white/[0.1]"
+          data-reveal
+          style="--d:400ms"
+        >
+          <h3 class="font-display text-lg font-semibold text-white">¿No sabes por dónde empezar?</h3>
+          <p class="mt-2 text-sm leading-relaxed text-zinc-400">
+            Media hora de llamada y te decimos si la IA aporta valor en tu caso. Si no, también.
+          </p>
+          <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white">
+            Escríbenos
+            <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── privacidad ──────────────────────── -->
+    <section id="privacidad" class="border-y border-white/5 bg-white/[0.015]">
+      <div class="mx-auto max-w-6xl px-6 py-28">
+        <div class="grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+          <div data-reveal="left">
+            <p class="font-mono text-[11px] tracking-[0.22em] text-zinc-500 uppercase">Privacidad</p>
+            <h2 class="mt-5 font-display text-4xl font-bold tracking-[-0.02em] text-white">
+              Tus datos no salen de casa
+            </h2>
+            <p class="mt-5 leading-relaxed text-zinc-400">
+              Es la razón por la que la mayoría de nuestros clientes nos llama. Trabajan con
+              información que no puede subirse a un servicio de terceros: expedientes, contratos,
+              historiales, planos.
+            </p>
+
+            <div class="mt-9 rounded-2xl border border-white/10 p-6" data-reveal="fade" style="--d:200ms">
+              <p class="font-mono text-[9px] tracking-[0.2em] text-zinc-500 uppercase">Tu red · tu servidor</p>
+              <div class="mt-4 grid grid-cols-2 gap-2">
+                {['Documentos', 'Índice vectorial', 'Modelo', 'Chat'].map((b) => (
+                  <span class="rounded-lg border border-white/12 bg-white/[0.04] px-3 py-2.5 text-center font-mono text-[10px] tracking-wider text-zinc-200 uppercase">
+                    {b}
+                  </span>
+                ))}
+              </div>
+              <div class="mt-5 flex items-center gap-3 border-t border-white/10 pt-4">
+                <span class="relative font-mono text-[10px] tracking-[0.18em] text-zinc-600 uppercase">
+                  <span class="absolute top-1/2 -left-1 h-px w-[calc(100%+0.5rem)] bg-zinc-600"></span>
+                  Salida a internet
+                </span>
+                <span class="font-mono text-[9px] tracking-[0.18em] text-zinc-500 uppercase">no necesaria</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid gap-4 self-center sm:grid-cols-2">
+            {privacy.map((p, i) => (
+              <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-6" data-reveal="right" style={`--d:${i * 100}ms`}>
+                <h3 class="font-display text-lg font-semibold text-white">{p.t}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-zinc-400">{p.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── proceso ─────────────────────────── -->
+    <section class="mx-auto max-w-6xl px-6 py-28">
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between" data-reveal>
+        <div>
+          <p class="font-mono text-[11px] tracking-[0.22em] text-zinc-500 uppercase">Proceso</p>
+          <h2 class="mt-5 max-w-lg font-display text-4xl font-bold tracking-[-0.02em] text-white">
+            Cuatro fases, sin sorpresas
+          </h2>
+        </div>
+        <p class="max-w-sm text-sm leading-relaxed text-zinc-500">
+          Cada fase termina con algo que puedes usar. Si en el piloto los números no salen,
+          paramos ahí y te lo decimos.
+        </p>
+      </div>
+
+      <div class="relative mt-16">
+        <div class="absolute top-3 right-0 left-0 hidden h-px bg-white/10 md:block" data-grow></div>
+        <div class="grid gap-10 md:grid-cols-4">
+          {steps.map((s, i) => (
+            <div class="relative" data-reveal style={`--d:${i * 120}ms`}>
+              <span class="relative z-10 grid h-6 w-6 place-items-center rounded-full border border-white/15 bg-[#0B0B0D] font-mono text-[9px] text-white">
+                {s.n}
+              </span>
+              <div class="mt-5 flex items-baseline justify-between">
+                <h3 class="font-display text-lg font-semibold text-white">{s.t}</h3>
+                <span class="font-mono text-[10px] text-zinc-600">{s.dur}</span>
+              </div>
+              <p class="mt-2 text-sm leading-relaxed text-zinc-400">{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── stats ───────────────────────────── -->
+    <section class="mx-auto max-w-6xl px-6 pb-24">
+      <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] md:grid-cols-4">
+        {stats.map((s, i) => (
+          <div class="bg-[#08080A] px-6 py-9 text-center" data-reveal="fade" style={`--d:${i * 100}ms`}>
+            <dt class="font-display text-4xl font-bold tracking-tight text-white">
+              <span data-count={s.v} data-suffix={s.s}>0</span>
+            </dt>
+            <dd class="mt-2 text-[11px] tracking-wide text-zinc-500 uppercase">{s.l}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <!-- ───────────────────────────── casos ───────────────────────────── -->
+    <section id="casos" class="mx-auto max-w-6xl px-6 pb-28">
+      <div data-reveal>
+        <p class="font-mono text-[11px] tracking-[0.22em] text-zinc-500 uppercase">Casos</p>
+        <h2 class="mt-5 font-display text-4xl font-bold tracking-[-0.02em] text-white md:text-5xl">
+          Lo que ya está en producción
+        </h2>
+      </div>
+
+      <div class="mt-14 grid gap-5 lg:grid-cols-3">
+        {cases.map((c, i) => (
+          <article
+            class="spotlight group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-white/20"
+            data-reveal
+            style={`--d:${i * 110}ms`}
+          >
+            <span class="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 font-mono text-[10px] tracking-wider text-zinc-400 uppercase">
+              {c.sector}
+            </span>
+            <h3 class="mt-6 font-display text-xl leading-snug font-semibold text-white">{c.t}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-zinc-400">{c.d}</p>
+            <div class="mt-8 border-t border-white/10 pt-5">
+              <p class="font-display text-3xl font-bold text-white">{c.m}</p>
+              <p class="mt-1 text-[11px] tracking-wide text-zinc-500 uppercase">{c.ml}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <figure class="mt-20 rounded-3xl border border-white/10 bg-white/[0.02] p-10 md:p-14" data-reveal="scale">
+        <blockquote class="mx-auto max-w-3xl text-center font-display text-2xl leading-snug font-medium text-white md:text-3xl">
+          «Teníamos veinte años de procedimientos repartidos en tres nubes. Ahora un operario
+          pregunta por el chat y le responde con el documento y la página. Y sin que nada salga
+          de nuestro rack.»
+        </blockquote>
+        <figcaption class="mt-9 flex items-center justify-center gap-4">
+          <span class="grid h-11 w-11 place-items-center rounded-full bg-white text-sm font-bold text-black">AT</span>
+          <div class="text-left">
+            <p class="text-sm font-semibold text-white">Ana Torres</p>
+            <p class="text-sm text-zinc-500">Directora de Calidad, cliente industrial</p>
+          </div>
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- ───────────────────────────── cta ───────────────────────────── -->
+    <section id="contacto" class="mx-auto max-w-6xl px-6 pb-28">
+      <div class="spotlight relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] px-8 py-16 text-center md:px-16" style="--spot:rgb(255 255 255 / .09)">
+        <div class="absolute -top-32 left-1/2 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-white/10 blur-3xl"></div>
+        <div class="relative" data-reveal>
+          <h2 class="mx-auto max-w-2xl font-display text-4xl font-bold tracking-[-0.02em] text-white md:text-5xl">
+            Cuéntanos qué quieres resolver
+          </h2>
+          <p class="mx-auto mt-5 max-w-lg text-zinc-400">
+            Media hora de llamada, sin compromiso. Salimos con una idea clara de si la IA
+            aporta valor a tu caso — y si no, te lo decimos.
+          </p>
+          <form class="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row">
+            <input
+              type="email"
+              required
+              placeholder="tu@empresa.com"
+              class="w-full rounded-full border border-white/12 bg-white/[0.04] px-5 py-3.5 text-sm text-white transition-colors placeholder:text-zinc-600 focus:border-white/40 focus:bg-white/[0.07] focus:outline-none"
+            />
+            <button
+              type="submit"
+              class="rounded-full bg-white px-6 py-3.5 text-sm font-semibold whitespace-nowrap text-black transition-transform duration-300 hover:scale-[1.03]"
+            >
+              Enviar
+            </button>
+          </form>
+          <p class="mt-5 font-mono text-xs text-zinc-600">hola@in2ai.com · Madrid</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── footer ─────────────────────────── -->
+    <footer class="border-t border-white/5">
+      <div class="mx-auto max-w-6xl px-6 py-14">
+        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-white font-display text-xs font-bold text-black">i2</span>
+              <span class="font-display font-bold text-white">IN2AI</span>
+            </div>
+            <p class="mt-4 max-w-xs text-sm leading-relaxed text-zinc-500">
+              Productos de software con inteligencia artificial integrada.
+            </p>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-white">Productos</p>
+            <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+              <li>
+                <a href={products.asm2.url} target="_blank" rel="noopener" class="transition-colors hover:text-white">
+                  ASM2 · RAG on-premise
+                </a>
+              </li>
+              <li>
+                <a href={products.mecopia.url} target="_blank" rel="noopener" class="transition-colors hover:text-white">
+                  Mecopia · gemelo digital
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-white">Servicios</p>
+            <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+              <li><a href="#servicios" class="transition-colors hover:text-white">Visión artificial</a></li>
+              <li><a href="#servicios" class="transition-colors hover:text-white">Deep learning</a></li>
+              <li><a href="#servicios" class="transition-colors hover:text-white">IA generativa</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-white">Legal</p>
+            <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+              <li><a href="#" class="transition-colors hover:text-white">Aviso legal</a></li>
+              <li><a href="#privacidad" class="transition-colors hover:text-white">Privacidad</a></li>
+              <li><a href="#" class="transition-colors hover:text-white">Cookies</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 md:flex-row">
+          <p class="text-xs text-zinc-600">© 2026 IN2AI S.L. Todos los derechos reservados.</p>
+          <div class="flex gap-6 text-xs text-zinc-600">
+            <a href="#" class="transition-colors hover:text-white">LinkedIn</a>
+            <a href="#" class="transition-colors hover:text-white">GitHub</a>
+            <a href="#" class="transition-colors hover:text-white">X</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Base>

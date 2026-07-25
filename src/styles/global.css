@@ -1,1 +1,311 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ─────────────────────────────  reveal on scroll  ───────────────────────── */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(4px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    filter 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms);
+}
+[data-reveal="left"] {
+  transform: translateX(-30px);
+}
+[data-reveal="right"] {
+  transform: translateX(30px);
+}
+[data-reveal="scale"] {
+  transform: scale(0.965);
+  filter: blur(6px);
+}
+[data-reveal="fade"] {
+  transform: none;
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* progress bars that fill when they enter the viewport */
+[data-bar] {
+  width: 0;
+  transition: width 1.6s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 200ms);
+}
+[data-bar].is-in {
+  width: var(--w, 50%);
+}
+
+/* svg line that draws itself */
+[data-draw] {
+  stroke-dasharray: var(--len, 1400);
+  stroke-dashoffset: var(--len, 1400);
+  transition: stroke-dashoffset 2.4s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 120ms);
+}
+[data-draw].is-in {
+  stroke-dashoffset: 0;
+}
+
+[data-fade] {
+  opacity: 0;
+  transition: opacity 1.4s ease var(--d, 700ms);
+}
+[data-fade].is-in {
+  opacity: 1;
+}
+
+/* vertical/horizontal rule that grows */
+[data-grow] {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 100ms);
+}
+[data-grow].is-in {
+  transform: scaleX(1);
+}
+
+/* ─────────────────────────────  ambient motion  ─────────────────────────── */
+
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--speed, 46s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.float {
+  animation: float 7.5s ease-in-out infinite;
+}
+.float-slow {
+  animation: float 11s ease-in-out infinite;
+  animation-delay: -3s;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-11px);
+  }
+}
+
+.dot-1,
+.dot-2,
+.dot-3 {
+  animation: dot 1.5s ease-in-out infinite;
+}
+.dot-2 {
+  animation-delay: 0.18s;
+}
+.dot-3 {
+  animation-delay: 0.36s;
+}
+@keyframes dot {
+  0%,
+  65%,
+  100% {
+    opacity: 0.28;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.caret::after {
+  content: "";
+  display: inline-block;
+  width: 0.5ch;
+  height: 1em;
+  margin-left: 2px;
+  background: currentColor;
+  vertical-align: -0.12em;
+  animation: blink 1.15s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.breathe {
+  animation: breathe 5s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* línea de escaneo para el mockup de visión artificial */
+.scan {
+  animation: scan 3.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes scan {
+  0%,
+  100% {
+    transform: translateY(4%);
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(96%);
+  }
+}
+
+/* a light sweep across a surface on hover */
+.shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgb(255 255 255 / 0.14) 50%,
+    transparent 58%
+  );
+  transform: translateX(-110%);
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.shine:hover::after {
+  transform: translateX(110%);
+}
+
+/* animated underline for inline links */
+.link-sweep {
+  position: relative;
+}
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-sweep:hover::after {
+  transform: scaleX(1);
+}
+
+/* pointer-following highlight; JS sets --mx / --my */
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  background: radial-gradient(
+    28rem circle at var(--mx, 50%) var(--my, 0%),
+    var(--spot, rgb(255 255 255 / 0.07)),
+    transparent 65%
+  );
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* tab panel entrance */
+[data-panel] {
+  animation: panel-in 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* reading progress bar */
+#progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  height: 2px;
+  width: 0;
+  transition: width 0.12s linear;
+}
+
+/* ─────────────────────────────  accessibility  ──────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  [data-bar] {
+    width: var(--w, 50%);
+  }
+  [data-draw] {
+    stroke-dashoffset: 0;
+  }
+  [data-fade] {
+    opacity: 1;
+  }
+  [data-grow] {
+    transform: none;
+  }
+}

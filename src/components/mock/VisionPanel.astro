@@ -1,0 +1,149 @@
+---
+import { tone, type Tone } from '../../lib/tone';
+
+interface Props {
+  variant?: Tone;
+  class?: string;
+}
+
+const { variant = 'dark', class: cls = '' } = Astro.props;
+const c = tone(variant);
+
+// cajas de detección sobre el fotograma (porcentajes)
+const boxes = [
+  { x: 8, y: 16, w: 32, h: 34, label: 'pieza', conf: '0.98', ok: true, d: 300 },
+  { x: 52, y: 22, w: 30, h: 30, label: 'pieza', conf: '0.96', ok: true, d: 520 },
+  { x: 33, y: 58, w: 24, h: 26, label: 'rebaba', conf: '0.91', ok: false, d: 740 },
+];
+
+const metrics = [
+  { k: 'Piezas inspeccionadas', v: '1284', dec: '0', s: '' },
+  { k: 'Defectos detectados', v: '12', dec: '0', s: '' },
+  { k: 'Precisión validada', v: '98.7', dec: '1', s: '%' },
+];
+---
+
+<div class={`overflow-hidden rounded-2xl border ${c.shell} ${c.shadow} ${cls}`}>
+  <div class={`flex items-center justify-between border-b px-4 py-3 ${c.chrome}`}>
+    <div class="flex items-center gap-2">
+      <svg class={`h-4 w-4 ${c.muted}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="12" cy="12" r="2.5" />
+      </svg>
+      <p class={`font-mono text-[11px] ${c.body}`}>inspección de línea · cam-03</p>
+    </div>
+    <span class={`font-mono text-[10px] ${c.muted}`}>30 fps · en el borde</span>
+  </div>
+
+  <div class={`grid ${c.panel} md:grid-cols-[1.25fr_1fr]`}>
+    <!-- fotograma simulado -->
+    <div class={`relative border-b md:border-r md:border-b-0 ${c.rule}`}>
+      <div
+        class={`relative m-4 aspect-4/3 overflow-hidden rounded-lg ${variant === 'dark' ? 'bg-white/[0.04]' : 'bg-neutral-100'}`}
+      >
+        <!-- textura de fondo -->
+        <div
+          class="absolute inset-0 opacity-70"
+          style={`background-image:linear-gradient(115deg,${c.grid} 0 12%,transparent 12% 26%,${c.grid} 26% 38%,transparent 38%),radial-gradient(60% 50% at 30% 20%,${c.areaTop},transparent 70%)`}
+        >
+        </div>
+
+        <!-- piezas -->
+        <div class={`absolute top-[18%] left-[10%] h-[30%] w-[28%] rotate-[8deg] rounded-md ${c.skeleton}`}></div>
+        <div class={`absolute top-[24%] left-[54%] h-[26%] w-[26%] -rotate-6 rounded-md ${c.skeleton}`}></div>
+        <div class={`absolute top-[60%] left-[35%] h-[22%] w-[20%] rotate-[14deg] rounded-md ${c.skeleton}`}></div>
+
+        <!-- retícula -->
+        <div
+          class="absolute inset-0 opacity-40"
+          style={`background-image:linear-gradient(to right,${c.grid} 1px,transparent 1px),linear-gradient(to bottom,${c.grid} 1px,transparent 1px);background-size:14% 18%`}
+        >
+        </div>
+
+        <!-- línea de escaneo -->
+        <div class="absolute inset-x-0 top-0 h-full">
+          <div class={`scan h-[2px] w-full ${c.fillSoft} opacity-60`}></div>
+        </div>
+
+        <!-- cajas de detección -->
+        {boxes.map((b) => (
+          <div
+            class="absolute"
+            style={`left:${b.x}%;top:${b.y}%;width:${b.w}%;height:${b.h}%;--d:${b.d}ms`}
+            data-reveal="fade"
+          >
+            <div
+              class={`h-full w-full rounded-sm border-2 ${
+                b.ok
+                  ? variant === 'dark'
+                    ? 'border-white/85'
+                    : 'border-neutral-900'
+                  : variant === 'dark'
+                    ? 'border-dashed border-white/60'
+                    : 'border-dashed border-neutral-500'
+              }`}
+            >
+            </div>
+            <span
+              class={`absolute -top-[1.15rem] left-0 rounded-sm px-1 py-px font-mono text-[8px] whitespace-nowrap ${
+                variant === 'dark' ? 'bg-white text-black' : 'bg-neutral-900 text-white'
+              }`}
+            >
+              {b.label} {b.conf}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <div class={`mx-4 mb-4 flex items-center gap-2 rounded-lg border px-3 py-2 ${c.rule} ${c.sub}`}>
+        <span class="flex gap-1">
+          <span class={`dot-1 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
+          <span class={`dot-2 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
+          <span class={`dot-3 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
+        </span>
+        <p class={`font-mono text-[10px] ${c.muted}`}>inferencia local · 22 ms / fotograma</p>
+      </div>
+    </div>
+
+    <!-- panel de resultados -->
+    <div class="p-5">
+      <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>Turno actual</p>
+      <div class="mt-4 space-y-4">
+        {metrics.map((m, i) => (
+          <div data-reveal="fade" style={`--d:${200 + i * 130}ms`}>
+            <p class={`text-[10px] ${c.muted}`}>{m.k}</p>
+            <p class={`mt-0.5 font-display text-xl font-semibold ${c.head}`}>
+              <span data-count={m.v} data-decimals={m.dec} data-suffix={m.s}>0</span>
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div class={`mt-6 border-t pt-4 ${c.rule}`}>
+        <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>Últimas detecciones</p>
+        <div class="mt-3 space-y-2.5">
+          {boxes.map((b, i) => (
+            <div class="flex items-center gap-2.5" data-reveal="fade" style={`--d:${300 + i * 120}ms`}>
+              <span class={`h-1.5 w-1.5 shrink-0 rounded-full ${b.ok ? c.fill : c.fillSoft}`}></span>
+              <span class={`flex-1 truncate font-mono text-[10px] ${c.body}`}>{b.label}</span>
+              <div class={`h-[3px] w-16 overflow-hidden rounded-full ${c.track}`}>
+                <div
+                  class={`h-full rounded-full ${c.fill}`}
+                  data-bar
+                  style={`--w:${Number(b.conf) * 100}%;--d:${400 + i * 120}ms`}
+                >
+                </div>
+              </div>
+              <span class={`w-8 text-right font-mono text-[10px] ${c.muted}`}>{b.conf}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class={`mt-5 flex items-center justify-between rounded-lg border px-3 py-2.5 ${c.rule} ${c.sub}`}>
+        <p class={`text-[10px] ${c.body}`}>1 pieza desviada del umbral</p>
+        <span class={`rounded border px-2 py-0.5 font-mono text-[9px] ${c.chip}`}>avisar</span>
+      </div>
+    </div>
+  </div>
+</div>

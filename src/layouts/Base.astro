@@ -1,0 +1,195 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  bodyClass?: string;
+  /** Tailwind classes for the reading-progress bar. Empty string hides it. */
+  progressClass?: string;
+  themeColor?: string;
+}
+
+const {
+  title,
+  description = 'IN2AI — Startup de inteligencia artificial. Diseñamos y construimos productos de software con IA integrada.',
+  bodyClass = '',
+  progressClass = 'bg-black',
+  themeColor = '#ffffff',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content={themeColor} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+  </head>
+  <body class={bodyClass}>
+    {progressClass && <div id="progress" class={progressClass}></div>}
+    <slot />
+
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // ── animated counters ───────────────────────────────────────────────
+      function runCounter(el: HTMLElement) {
+        if (el.dataset.counted) return;
+        el.dataset.counted = '1';
+
+        const raw = el.dataset.count ?? '0';
+        const target = parseFloat(raw);
+        const decimals = Number(el.dataset.decimals ?? (raw.includes('.') ? 1 : 0));
+        const prefix = el.dataset.prefix ?? '';
+        const suffix = el.dataset.suffix ?? '';
+        const fmt = new Intl.NumberFormat('es-ES', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+          // es-ES omite el punto en números de 4 cifras; lo forzamos para que
+          // 1.284 y 9.480 casen con los valores de las tablas de los mockups.
+          useGrouping: 'always',
+        });
+        const paint = (v: number) => (el.textContent = prefix + fmt.format(v) + suffix);
+
+        if (reduce) return paint(target);
+
+        const duration = 1500;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min(1, (now - start) / duration);
+          paint(target * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+
+      // ── reveal on scroll ────────────────────────────────────────────────
+      const animated = [
+        ...document.querySelectorAll<HTMLElement>(
+          '[data-reveal],[data-bar],[data-draw],[data-fade],[data-grow],[data-count]',
+        ),
+      ];
+
+      const activate = (el: HTMLElement) => {
+        el.classList.add('is-in');
+        if (el.dataset.count) runCounter(el);
+      };
+
+      if (reduce || !('IntersectionObserver' in window)) {
+        animated.forEach(activate);
+      } else {
+        // Las barras y trazos arrancan con tamaño cero (width:0, scaleX(0)), así que
+        // el observer nunca los detecta: observamos su contenedor y activamos el grupo.
+        const groups = new Map<Element, Set<HTMLElement>>();
+
+        for (const el of animated) {
+          const zeroSized =
+            el.hasAttribute('data-bar') || el.hasAttribute('data-draw') || el.hasAttribute('data-grow');
+          const target = (zeroSized && el.parentElement) || el;
+          if (!groups.has(target)) groups.set(target, new Set());
+          groups.get(target)!.add(el);
+        }
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              groups.get(entry.target)?.forEach(activate);
+              io.unobserve(entry.target);
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.06 },
+        );
+        groups.forEach((_, target) => io.observe(target));
+      }
+
+      // ── reading progress ────────────────────────────────────────────────
+      const progress = document.getElementById('progress');
+      if (progress) {
+        const paintProgress = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+        };
+        document.addEventListener('scroll', paintProgress, { passive: true });
+        paintProgress();
+      }
+
+      // ── header state on scroll ──────────────────────────────────────────
+      const header = document.querySelector('[data-header]');
+      if (header) {
+        const paintHeader = () => header.classList.toggle('is-scrolled', window.scrollY > 16);
+        document.addEventListener('scroll', paintHeader, { passive: true });
+        paintHeader();
+      }
+
+      // ── mobile menu ─────────────────────────────────────────────────────
+      document.querySelectorAll<HTMLElement>('[data-menu-toggle]').forEach((btn) => {
+        const panel = document.getElementById(btn.dataset.menuToggle ?? '');
+        if (!panel) return;
+
+        const setOpen = (open: boolean) => {
+          panel.classList.toggle('hidden', !open);
+          btn.setAttribute('aria-expanded', String(open));
+          document.documentElement.style.overflow = open ? 'hidden' : '';
+        };
+
+        btn.addEventListener('click', () => setOpen(panel.classList.contains('hidden')));
+        panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !panel.classList.contains('hidden')) setOpen(false);
+        });
+      });
+
+      // ── product tabs ────────────────────────────────────────────────────
+      document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((group) => {
+        const tabs = group.querySelectorAll<HTMLElement>('[data-tab]');
+        const panels = group.querySelectorAll<HTMLElement>('[data-panel]');
+
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+            panels.forEach((p) => {
+              const show = p.dataset.panel === tab.dataset.tab;
+              p.classList.toggle('hidden', !show);
+              if (show) {
+                // replay the entrance animation
+                p.style.animation = 'none';
+                void p.offsetWidth;
+                p.style.animation = '';
+              }
+            });
+          });
+        });
+      });
+
+      // ── pointer spotlight ───────────────────────────────────────────────
+      if (!reduce) {
+        document.querySelectorAll<HTMLElement>('.spotlight').forEach((el) => {
+          el.addEventListener(
+            'pointermove',
+            (event) => {
+              const r = el.getBoundingClientRect();
+              el.style.setProperty('--mx', ((event.clientX - r.left) / r.width) * 100 + '%');
+              el.style.setProperty('--my', ((event.clientY - r.top) / r.height) * 100 + '%');
+            },
+            { passive: true },
+          );
+        });
+      }
+    </script>
+  </body>
+</html>
