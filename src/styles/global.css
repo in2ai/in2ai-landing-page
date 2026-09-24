@@ -5,6 +5,19 @@
   --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* paleta de in2ai.com: una letra del logo por color, y el cielo del hero */
+  --color-brand-cyan: #00a9e9;
+  --color-brand-blue: #3b9abc;
+  --color-brand-slate: #6c8c96;
+  --color-brand-clay: #aa7b69;
+  --color-brand-sky: #9dbfda;
+  /* derivados: los mismos tonos oscurecidos para texto pequeño sobre blanco (≥ 4,5:1) */
+  --color-brand-blue-deep: #1f6f8c;
+  --color-brand-slate-deep: #4e6b75;
+  --color-brand-clay-deep: #835645;
+  --color-brand-mist: #eef4f8;
+  --color-brand-ink: #0f1e25;
 }
 
 html {

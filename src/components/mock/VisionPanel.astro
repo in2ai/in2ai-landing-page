@@ -39,7 +39,7 @@ const metrics = [
     <!-- fotograma simulado -->
     <div class={`relative border-b md:border-r md:border-b-0 ${c.rule}`}>
       <div
-        class={`relative m-4 aspect-4/3 overflow-hidden rounded-lg ${variant === 'dark' ? 'bg-white/[0.04]' : 'bg-neutral-100'}`}
+        class={`relative m-4 aspect-4/3 overflow-hidden rounded-lg ${c.frame}`}
       >
         <!-- textura de fondo -->
         <div
@@ -72,21 +72,10 @@ const metrics = [
             style={`left:${b.x}%;top:${b.y}%;width:${b.w}%;height:${b.h}%;--d:${b.d}ms`}
             data-reveal="fade"
           >
-            <div
-              class={`h-full w-full rounded-sm border-2 ${
-                b.ok
-                  ? variant === 'dark'
-                    ? 'border-white/85'
-                    : 'border-neutral-900'
-                  : variant === 'dark'
-                    ? 'border-dashed border-white/60'
-                    : 'border-dashed border-neutral-500'
-              }`}
-            >
-            </div>
+            <div class={`h-full w-full rounded-sm border-2 ${b.ok ? c.boxOk : c.boxWarn}`}></div>
             <span
               class={`absolute -top-[1.15rem] left-0 rounded-sm px-1 py-px font-mono text-[8px] whitespace-nowrap ${
-                variant === 'dark' ? 'bg-white text-black' : 'bg-neutral-900 text-white'
+                b.ok ? c.tag : c.tagWarn
               }`}
             >
               {b.label} {b.conf}
@@ -124,7 +113,7 @@ const metrics = [
         <div class="mt-3 space-y-2.5">
           {boxes.map((b, i) => (
             <div class="flex items-center gap-2.5" data-reveal="fade" style={`--d:${300 + i * 120}ms`}>
-              <span class={`h-1.5 w-1.5 shrink-0 rounded-full ${b.ok ? c.fill : c.fillSoft}`}></span>
+              <span class={`h-1.5 w-1.5 shrink-0 rounded-full ${b.ok ? c.fill : c.warn}`}></span>
               <span class={`flex-1 truncate font-mono text-[10px] ${c.body}`}>{b.label}</span>
               <div class={`h-[3px] w-16 overflow-hidden rounded-full ${c.track}`}>
                 <div

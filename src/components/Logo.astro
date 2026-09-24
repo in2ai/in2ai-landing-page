@@ -1,0 +1,39 @@
+---
+interface Props {
+  class?: string;
+  /** Traza las letras una a una al entrar en pantalla. */
+  draw?: boolean;
+  /** Grosor del trazo en unidades del viewBox (el logo original ronda 12). */
+  weight?: number;
+}
+
+const { class: cls = '', draw = false, weight = 12 } = Astro.props;
+
+// Logo de in2ai.com redibujado como trazos de 300×92, una letra por color.
+const strokes = [
+  { d: 'M6,6 V85.5', color: 'stroke-brand-cyan' }, // I
+  { d: 'M46,85.5 V55.75 A23.75,23.75 0 0 1 93.5,55.75 V85.5', color: 'stroke-brand-cyan' }, // n
+  { d: 'M128.08,28.29 A20.5,20.5 0 1 1 164.52,39.29 L128,85.5 H171', color: 'stroke-brand-blue' }, // 2
+  { d: 'M196,85.5 L229,6 L262,85.5', color: 'stroke-brand-slate' }, // Λ
+  { d: 'M293.5,6 V85.5', color: 'stroke-brand-clay' }, // I
+];
+---
+
+<svg
+  viewBox="0 0 300 92"
+  class={cls}
+  role="img"
+  aria-label="In2AI"
+  fill="none"
+  stroke-width={weight}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  {strokes.map((s, i) =>
+    draw ? (
+      <path d={s.d} class={s.color} pathLength="1" data-draw style={`--len:1;--d:${120 + i * 140}ms`} />
+    ) : (
+      <path d={s.d} class={s.color} />
+    ),
+  )}
+</svg>

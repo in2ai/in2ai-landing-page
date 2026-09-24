@@ -1,6 +1,6 @@
 /**
- * Contenido real de IN2AI, compartido por las tres propuestas de landing.
- * Cambiando esto se actualizan las tres páginas a la vez.
+ * Contenido real de IN2AI, compartido por todas las propuestas de landing.
+ * Cambiando esto se actualizan todas las páginas a la vez.
  */
 
 export const services = [
@@ -89,4 +89,12 @@ export const privacy = [
     t: 'GDPR y AI Act por diseño',
     d: 'Contemplados en la arquitectura desde el primer sprint, no parcheados antes de salir a producción.',
   },
+];
+
+/** Metodología de in2ai.com: del proceso concreto a toda la organización. */
+export const method = [
+  { t: 'Identificamos', d: 'Los procesos que se pueden optimizar y automatizar con la IA.' },
+  { t: 'Analizamos', d: 'Los datos y algoritmos que ayudarán a la toma de decisiones.' },
+  { t: 'Organizamos', d: 'Los equipos para desarrollar e impulsar los proyectos.' },
+  { t: 'Promovemos', d: 'La expansión de los proyectos a toda la organización.' },
 ];

@@ -1,0 +1,630 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import Console from '../components/mock/Console.astro';
+import ChatPanel from '../components/mock/ChatPanel.astro';
+import VisionPanel from '../components/mock/VisionPanel.astro';
+import DocPanel from '../components/mock/DocPanel.astro';
+import PhoneMock from '../components/mock/PhoneMock.astro';
+import { services, products, privacy, method } from '../lib/content';
+
+const nav = [
+  { href: '#metodologia', label: 'Metodología' },
+  { href: '#productos', label: 'Productos' },
+  { href: '#servicios', label: 'Servicios' },
+  { href: '#privacidad', label: 'Privacidad' },
+];
+
+// Lo que va de cuatro en cuatro toma los colores del logo en su orden: In · 2 · Λ · I.
+const four = [
+  { bg: 'bg-brand-cyan', border: 'border-l-brand-cyan' },
+  { bg: 'bg-brand-blue', border: 'border-l-brand-blue' },
+  { bg: 'bg-brand-slate', border: 'border-l-brand-slate' },
+  { bg: 'bg-brand-clay', border: 'border-l-brand-clay' },
+];
+
+// La quinta área, IA generativa, combina las otras cuatro: lleva el degradado entero.
+const serviceAccents = [...four.map((f) => f.bg), 'spectrum'];
+
+const numbers = [
+  { v: '48312', s: '', l: 'documentos indexados con ASM2' },
+  { v: '6', s: '', l: 'semanas hasta el piloto' },
+  { v: '12', s: '', l: 'personas en el equipo' },
+  { v: '100', s: '%', l: 'del dato en tu infraestructura' },
+];
+
+const words = ['DEEP LEARNING', 'VISIÓN ARTIFICIAL', 'RAG', 'NLP', 'IA GENERATIVA', 'DATA DRIVEN', 'PRIVACIDAD'];
+
+const arrow = 'M5 12h14m-6-6 6 6-6 6';
+const external = 'M7 17 17 7M9 7h8v8';
+const check = 'm5 13 4 4L19 7';
+const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
+---
+
+<Base
+  title="In2AI — Inteligencia artificial sobre tus datos"
+  description="In2AI construye productos con IA integrada: deep learning, visión artificial y RAG sobre la documentación de tu empresa. Creadores de ASM2 y Mecopia."
+  bodyClass="bg-white font-sans text-brand-ink antialiased selection:bg-brand-cyan selection:text-brand-ink"
+  progressClass="bg-linear-to-r from-brand-cyan via-brand-slate to-brand-clay"
+  themeColor="#ffffff"
+>
+  <div class="overflow-x-hidden">
+    <!-- ───────────────────────────── header ───────────────────────────── -->
+    <header
+      data-header
+      class="sticky top-0 z-50 border-b border-transparent bg-white/85 backdrop-blur-xl transition-all duration-300 [&.is-scrolled]:border-brand-blue/15"
+    >
+      <div class="mx-auto flex h-[4.5rem] max-w-[86rem] items-center justify-between px-6 md:px-10">
+        <a href="/v4" class="-m-1 p-1">
+          <Logo class="h-7 w-auto" draw />
+        </a>
+
+        <nav class="hidden items-center gap-9 md:flex">
+          {nav.map((i) => (
+            <a href={i.href} class="text-[13px] font-medium text-brand-ink/65 transition-colors duration-300 hover:text-brand-ink">
+              {i.label}
+            </a>
+          ))}
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="#contacto"
+            class="hidden rounded-full bg-brand-ink px-5 py-2.5 text-[13px] font-semibold text-white transition-colors duration-300 hover:bg-brand-blue-deep md:inline-flex"
+          >
+            Escríbenos
+          </a>
+          <button
+            data-menu-toggle="nav-mobile"
+            aria-expanded="false"
+            aria-label="Abrir menú"
+            class="grid h-10 w-10 place-items-center rounded-full border border-brand-blue/20 text-brand-ink md:hidden"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M4 8h16M4 16h16" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="nav-mobile" class="hidden border-t border-brand-blue/15 bg-white md:hidden">
+        <nav class="mx-auto flex max-w-[86rem] flex-col px-6 py-4">
+          {[...nav, { href: '#contacto', label: 'Contacto' }].map((i) => (
+            <a href={i.href} class="border-b border-brand-blue/10 py-3.5 text-[15px] font-medium text-brand-ink last:border-0">
+              {i.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <!-- ───────────────────────────── hero ───────────────────────────── -->
+    <section class="relative overflow-hidden">
+      <!-- el panel cielo del hero de in2ai.com; el titular lo pisa igual que allí,
+           y el ΛI del logo se dibuja en línea fina como el chip de su imagen -->
+      <div class="absolute inset-y-0 right-0 left-[40%] hidden bg-brand-sky lg:block xl:left-[36%]" aria-hidden="true">
+        <svg
+          viewBox="184 0 122 92"
+          class="absolute bottom-[7%] left-[6%] w-[26%]"
+          fill="none"
+          stroke="white"
+          stroke-opacity="0.7"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M196,85.5 L229,6 L262,85.5" pathLength="1" data-draw style="--len:1;--d:600ms" />
+          <path d="M293.5,6 V85.5" pathLength="1" data-draw style="--len:1;--d:900ms" />
+        </svg>
+      </div>
+
+      <div
+        class="relative mx-auto grid max-w-[86rem] gap-14 px-6 pt-14 md:px-10 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[1.08fr_1fr] lg:items-center lg:gap-10 lg:py-16"
+      >
+        <div class="relative z-10">
+          <p class="flex items-center gap-3 text-[11px] font-semibold tracking-[0.2em] text-brand-slate-deep uppercase" data-reveal="fade">
+            <span class="flex gap-1" aria-hidden="true">
+              {four.map((f) => <span class={`h-1.5 w-1.5 rounded-full ${f.bg}`}></span>)}
+            </span>
+            Empresa de inteligencia artificial
+          </p>
+
+          <h1
+            class="mt-8 font-display text-[clamp(3rem,6.8vw,6.6rem)] leading-[0.95] font-bold tracking-[-0.045em] text-brand-ink"
+            data-reveal
+          >
+            Inteligencia<br />artificial<br />
+            <span class="outline-text">sobre tus<br />datos</span>
+          </h1>
+
+          <p class="mt-9 max-w-[23rem] text-lg leading-relaxed text-brand-ink/75" data-reveal style="--d:120ms">
+            Construimos productos de software con IA integrada: deep learning, visión artificial y
+            chats que responden con la documentación de tu empresa. Desplegados en tus propios servidores.
+          </p>
+
+          <div class="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4" data-reveal style="--d:220ms">
+            <a
+              href="#contacto"
+              class="group inline-flex items-center gap-2.5 rounded-full bg-brand-blue-deep px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-brand-ink"
+            >
+              Cuéntanos tu caso
+              <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d={arrow} stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+            <a href="#productos" class="link-sweep text-sm font-semibold text-brand-ink">Ver productos</a>
+          </div>
+          <p class="mt-5 text-xs text-brand-slate-deep" data-reveal style="--d:280ms">Respuesta en 48 h · sin compromiso</p>
+        </div>
+
+        <!-- en móvil el panel cielo pasa a ser el fondo del mockup -->
+        <div class="relative -mx-6 bg-brand-sky px-6 pt-14 pb-20 md:-mx-10 md:px-10 lg:mx-0 lg:bg-transparent lg:p-0">
+          <div class="relative mx-auto max-w-[31rem] lg:mr-0" data-reveal="scale" style="--d:200ms">
+            <ChatPanel variant="brand" class="float" />
+
+            <div
+              class="float-slow absolute -bottom-14 -left-2 flex items-center gap-3 rounded-xl border border-brand-blue/15 bg-white px-4 py-3 shadow-xl shadow-brand-ink/10 sm:-left-12"
+            >
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-brand-clay/15 text-brand-clay-deep">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+                  <path d={lock} />
+                </svg>
+              </span>
+              <div>
+                <p class="text-[12px] font-semibold text-brand-ink">On-premise</p>
+                <p class="text-[11px] text-brand-slate-deep">Tus documentos no salen de tu red</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- el logo, como filete de cuatro colores -->
+    <div class="grid h-1.5 grid-cols-4" aria-hidden="true">
+      {four.map((f, i) => <span class={f.bg} data-grow style={`--d:${i * 140}ms`}></span>)}
+    </div>
+
+    <!-- ───────────────────────────── metodología ─────────────────────── -->
+    <section id="metodologia" class="scroll-mt-16 bg-white">
+      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+        <div class="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          <div data-reveal="left">
+            <p class="text-[11px] font-semibold tracking-[0.2em] text-brand-slate-deep uppercase">Nuestra metodología</p>
+            <h2 class="mt-6 font-display text-[clamp(2.4rem,5vw,4.2rem)] leading-[0.98] font-bold tracking-[-0.04em] text-brand-ink">
+              Nos centramos<br />en el <span class="outline-text" style="--outline-w:1.5px">negocio</span>
+            </h2>
+            <p class="mt-7 max-w-md text-lg leading-relaxed text-brand-ink/75">
+              Si el proyecto no garantiza un beneficio para el cliente, no lo abordamos. Por eso
+              empezamos por el proceso y no por el modelo: primero qué se gana, después con qué
+              datos y con qué algoritmo.
+            </p>
+          </div>
+
+          <ol class="grid gap-x-10 gap-y-12 self-center sm:grid-cols-2">
+            {method.map((m, i) => (
+              <li data-reveal style={`--d:${i * 110}ms`}>
+                <div class="h-1 w-full rounded-full bg-brand-blue/10">
+                  <div class={`h-full rounded-full ${four[i].bg}`} data-grow style={`--d:${300 + i * 150}ms`}></div>
+                </div>
+                <p class="mt-6 font-mono text-[11px] text-brand-slate-deep">{String(i + 1).padStart(2, '0')}</p>
+                <h3 class="mt-2 font-display text-2xl font-bold tracking-[-0.02em] text-brand-ink">{m.t}</h3>
+                <p class="mt-3 leading-relaxed text-brand-ink/70">{m.d}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <dl class="mt-24 grid grid-cols-2 gap-y-12 border-t border-brand-blue/15 pt-14 md:grid-cols-4">
+          {numbers.map((n, i) => (
+            <div class="pr-6 md:border-l md:border-brand-blue/15 md:pl-8 md:first:border-0 md:first:pl-0" data-reveal="fade" style={`--d:${i * 110}ms`}>
+              <dt class="font-display text-[clamp(2.6rem,5vw,4.4rem)] leading-none font-bold tracking-[-0.04em] text-brand-ink">
+                <span data-count={n.v} data-suffix={n.s}>0</span>
+              </dt>
+              <dd class="mt-4 max-w-[14rem] text-sm text-brand-slate-deep">{n.l}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── productos (niebla) ──────────────── -->
+    <section id="productos" class="scroll-mt-16 bg-brand-mist">
+      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+        <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between" data-reveal>
+          <h2 class="font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-brand-ink">
+            Productos <span class="outline-text" style="--outline-w:1.5px">propios</span>
+          </h2>
+          <p class="max-w-sm leading-relaxed text-brand-ink/70">
+            Dos productos en desarrollo activo. La misma base que usamos en los proyectos a medida.
+          </p>
+        </div>
+
+        <!-- 01 · ASM2 -->
+        <div class="mt-16 grid gap-10 md:grid-cols-2 md:gap-16">
+          <div data-reveal="left">
+            <span class="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-white px-3 py-1 text-[11px] font-semibold text-brand-blue-deep">
+              <span class="h-1.5 w-1.5 rounded-full bg-brand-blue"></span>
+              01 · {products.asm2.kicker}
+            </span>
+            <h3 class="mt-6 font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-none font-bold tracking-[-0.04em] text-brand-ink">
+              {products.asm2.name}
+            </h3>
+            <p class="mt-4 font-display text-xl font-medium tracking-[-0.01em] text-brand-blue-deep">{products.asm2.claim}</p>
+            <p class="mt-6 max-w-lg leading-relaxed text-brand-ink/75">{products.asm2.text}</p>
+          </div>
+
+          <div class="md:pt-14" data-reveal="right" style="--d:120ms">
+            <ul>
+              {products.asm2.points.map((p) => (
+                <li class="flex gap-3.5 border-b border-brand-blue/15 py-4 text-brand-ink/85 first:pt-0">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                    <path d={check} stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <a
+              href={products.asm2.url}
+              target="_blank"
+              rel="noopener"
+              class="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-brand-blue-deep"
+            >
+              <span class="link-sweep">asm2.in2ai.com</span>
+              <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d={external} stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-14" data-reveal="scale" style="--d:160ms">
+          <Console variant="brand" />
+        </div>
+
+        <!-- 02 · Mecopia -->
+        <div class="mt-28 grid items-center gap-12 md:grid-cols-2 md:gap-16">
+          <div class="relative order-2 grid place-items-center overflow-hidden rounded-3xl bg-brand-clay/15 px-6 py-16 md:order-1" data-reveal="left">
+            <div class="pointer-events-none absolute -top-20 -right-16 h-72 w-72 rounded-full bg-brand-sky/60 blur-3xl" aria-hidden="true"></div>
+            <div class="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-brand-clay/35 blur-3xl" aria-hidden="true"></div>
+            <PhoneMock variant="brand" class="float relative" />
+          </div>
+
+          <div class="order-1 md:order-2" data-reveal="right">
+            <span class="inline-flex items-center gap-2 rounded-full border border-brand-clay/30 bg-white px-3 py-1 text-[11px] font-semibold text-brand-clay-deep">
+              <span class="h-1.5 w-1.5 rounded-full bg-brand-clay"></span>
+              02 · {products.mecopia.kicker}
+            </span>
+            <h3 class="mt-6 font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-none font-bold tracking-[-0.04em] text-brand-ink">
+              {products.mecopia.name}
+            </h3>
+            <p class="mt-4 font-display text-xl font-medium tracking-[-0.01em] text-brand-clay-deep">{products.mecopia.claim}</p>
+            <p class="mt-6 max-w-lg leading-relaxed text-brand-ink/75">{products.mecopia.text}</p>
+
+            <ul class="mt-8">
+              {products.mecopia.points.map((p) => (
+                <li class="flex gap-3.5 border-b border-brand-blue/15 py-3.5 text-brand-ink/85 last:border-0">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-clay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                    <path d={check} stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  {p}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={products.mecopia.url}
+              target="_blank"
+              rel="noopener"
+              class="group mt-7 inline-flex items-center gap-2 text-sm font-semibold text-brand-clay-deep"
+            >
+              <span class="link-sweep">mecopia.ai</span>
+              <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d={external} stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── a medida (tinta) ────────────────── -->
+    <section class="bg-brand-ink">
+      <div class="marquee border-b border-white/10 py-4" style="--speed:60s" aria-hidden="true">
+        <div class="marquee-track">
+          {[0, 1].map(() => (
+            <div class="flex shrink-0">
+              {words.map((w, i) => (
+                <span class="flex items-center gap-6 px-6 font-mono text-[10px] tracking-[0.3em] text-brand-slate uppercase">
+                  {w}
+                  <span class={`h-1 w-1 rounded-full ${four[i % 4].bg}`}></span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+        <div class="grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-end" data-reveal>
+          <div>
+            <span class="inline-flex items-center gap-2 rounded-full border border-brand-sky/20 px-3 py-1 text-[11px] font-semibold text-brand-sky">
+              <span class="h-1.5 w-1.5 rounded-full bg-brand-cyan"></span>
+              03 · A medida
+            </span>
+            <h2 class="mt-6 font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-white">
+              Modelos entrenados<br />con <span class="outline-text" style="--outline-c:var(--color-brand-cyan);--outline-w:1.5px">tus datos</span>
+            </h2>
+          </div>
+          <p class="max-w-md text-lg leading-relaxed text-brand-mist/70">
+            Inspección de línea, conteo, detección de defectos o extracción de campos en contratos.
+            La inferencia corre en el borde o en tu servidor, sin enviar el vídeo ni los documentos
+            a ninguna nube ajena.
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-8">
+          <figure data-reveal="left">
+            <VisionPanel variant="brand-dark" />
+            <figcaption class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span class="h-2 w-2 rounded-full bg-brand-cyan"></span>
+              <span class="font-display text-lg font-semibold text-white">Visión artificial</span>
+              <span class="text-sm text-brand-slate">Inferencia local · 22 ms por fotograma</span>
+            </figcaption>
+          </figure>
+          <figure data-reveal="right" style="--d:140ms">
+            <DocPanel variant="brand-dark" />
+            <figcaption class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span class="h-2 w-2 rounded-full bg-brand-clay"></span>
+              <span class="font-display text-lg font-semibold text-white">Lenguaje natural</span>
+              <span class="text-sm text-brand-slate">Campos extraídos de un contrato de 34 páginas</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── servicios ──────────────────────── -->
+    <section id="servicios" class="scroll-mt-16 bg-white">
+      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+        <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between" data-reveal>
+          <h2 class="font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-brand-ink">
+            Lo que <span class="outline-text" style="--outline-w:1.5px">hacemos</span>
+          </h2>
+          <p class="max-w-sm leading-relaxed text-brand-ink/70">
+            Cinco áreas. Casi siempre se combinan: un buen producto rara vez necesita solo una.
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {services.map((s, i) => (
+            <div class={`h-full ${i === 4 ? 'md:col-span-2' : ''}`} data-reveal style={`--d:${(i % 3) * 90}ms`}>
+              <article class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-brand-blue/15 bg-white p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/10 md:p-8">
+                <div class="flex items-start justify-between">
+                  <span class={`grid h-12 w-12 place-items-center rounded-xl text-white ${serviceAccents[i]}`}>
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d={s.icon} />
+                    </svg>
+                  </span>
+                  <span class="font-mono text-xs text-brand-slate-deep">{s.roman}</span>
+                </div>
+                <h3 class="mt-8 font-display text-2xl leading-tight font-bold tracking-[-0.02em] text-brand-ink">{s.name}</h3>
+                <p class="mt-3 max-w-xl leading-relaxed text-brand-ink/70">{s.text}</p>
+                <div class="mt-auto flex flex-wrap gap-1.5 pt-7">
+                  {s.tags.map((t) => (
+                    <span class="rounded-full border border-brand-blue/15 bg-brand-mist px-3 py-1 text-[11px] font-medium text-brand-slate-deep">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <span
+                  class={`absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100 ${serviceAccents[i]}`}
+                  aria-hidden="true"
+                ></span>
+              </article>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── privacidad (cielo) ─────────────── -->
+    <section id="privacidad" class="scroll-mt-16 bg-brand-sky">
+      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+        <div class="grid gap-16 lg:grid-cols-2 lg:gap-20">
+          <div data-reveal="left">
+            <p class="text-[11px] font-semibold tracking-[0.2em] text-brand-ink/75 uppercase">Privacidad</p>
+            <h2 class="mt-6 font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-brand-ink">
+              Tus datos no<br /><span class="outline-text" style="--outline-w:1.5px">salen de casa</span>
+            </h2>
+            <p class="mt-8 max-w-md text-lg leading-relaxed text-brand-ink/80">
+              Es la razón por la que la mayoría de nuestros clientes nos llama. Trabajan con
+              información que no puede subirse a un servicio de terceros: expedientes, contratos,
+              historiales, planos. Nuestra arquitectura por defecto deja todo dentro.
+            </p>
+
+            <!-- diagrama: el dato se queda dentro -->
+            <div class="mt-12 rounded-2xl bg-white p-6 shadow-xl shadow-brand-ink/10" data-reveal="fade" style="--d:200ms">
+              <div class="flex items-center justify-between">
+                <p class="text-[11px] font-semibold tracking-[0.16em] text-brand-slate-deep uppercase">Tu red · tu servidor</p>
+                <svg class="h-4 w-4 text-brand-slate-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">
+                  <path d={lock} />
+                </svg>
+              </div>
+              <ol class="relative mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                <span class="absolute top-1/2 right-6 left-6 hidden h-px bg-brand-blue/30 sm:block" aria-hidden="true"></span>
+                {['Documentos', 'Índice vectorial', 'Modelo', 'Chat'].map((b, i) => (
+                  <li class="relative flex items-center gap-2 rounded-lg border border-brand-blue/15 bg-brand-mist px-3 py-2.5 text-[12px] font-medium text-brand-ink">
+                    <span class={`h-2 w-2 shrink-0 rounded-full ${four[i].bg}`}></span>
+                    {b}
+                  </li>
+                ))}
+              </ol>
+              <div class="mt-5 flex items-center gap-3 border-t border-brand-blue/15 pt-4 text-[12px]">
+                <span class="text-brand-slate-deep line-through decoration-brand-clay decoration-2">Salida a internet</span>
+                <span class="rounded-full bg-brand-clay/15 px-2.5 py-0.5 text-[11px] font-semibold text-brand-clay-deep">no necesaria</span>
+              </div>
+            </div>
+          </div>
+
+          <ul class="space-y-4 self-center">
+            {privacy.map((p, i) => (
+              <li class={`rounded-xl border-l-4 bg-white/75 p-6 ${four[i].border}`} data-reveal="right" style={`--d:${i * 110}ms`}>
+                <div class="flex items-baseline gap-4">
+                  <span class="font-mono text-[11px] text-brand-slate-deep">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="font-display text-xl font-bold tracking-[-0.01em] text-brand-ink">{p.t}</h3>
+                </div>
+                <p class="mt-2 pl-9 leading-relaxed text-brand-ink/75">{p.d}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── cita ───────────────────────────── -->
+    <section class="bg-white">
+      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+        <figure class="mx-auto max-w-4xl text-center" data-reveal>
+          <span class="block font-display text-8xl leading-[0.6] text-brand-clay" aria-hidden="true">«</span>
+          <blockquote class="mt-6 font-display text-[clamp(1.7rem,3.8vw,2.9rem)] leading-[1.18] font-medium tracking-[-0.025em] text-brand-ink">
+            Teníamos veinte años de procedimientos repartidos en tres nubes. Ahora un operario
+            pregunta por el chat y le responde con el
+            <mark class="rounded bg-brand-clay/20 px-1 text-brand-ink">documento y la página</mark>. Y sin que nada
+            salga de nuestro rack.
+          </blockquote>
+          <figcaption class="mt-10 flex items-center justify-center gap-4">
+            <span class="grid h-11 w-11 place-items-center rounded-full bg-brand-blue-deep text-sm font-semibold text-white">AT</span>
+            <div class="text-left">
+              <p class="text-sm font-semibold text-brand-ink">Ana Torres</p>
+              <p class="text-xs text-brand-slate-deep">Dir. Calidad · cliente industrial</p>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── contacto (tinta) ───────────────── -->
+    <section id="contacto" class="scroll-mt-16 bg-brand-ink">
+      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+        <div class="grid gap-16 lg:grid-cols-[1.15fr_1fr] lg:gap-24">
+          <div data-reveal="left">
+            <h2 class="font-display text-[clamp(2.8rem,7vw,6rem)] leading-[0.95] font-bold tracking-[-0.045em] text-white">
+              Nos gustan<br />los retos.<br />
+              <span class="outline-text" style="--outline-c:var(--color-brand-sky)">Cuéntanos<br />el tuyo</span>
+            </h2>
+            <p class="mt-8 max-w-md text-lg leading-relaxed text-brand-mist/70">
+              Escríbenos en dos líneas qué problema tienes. Te contamos si se resuelve con IA,
+              cuánto costaría y cuánto tardaríamos. Si no somos el equipo adecuado, también lo diremos.
+            </p>
+            <a href="mailto:hola@in2ai.com" class="link-sweep mt-10 inline-block font-display text-xl font-semibold text-brand-cyan">
+              hola@in2ai.com
+            </a>
+          </div>
+
+          <form class="self-center rounded-3xl border border-white/10 bg-white/[0.03] p-7 md:p-10" data-reveal="right">
+            <label class="block">
+              <span class="text-[11px] font-semibold tracking-[0.16em] text-brand-slate uppercase">Nombre</span>
+              <input
+                type="text"
+                required
+                class="mt-2 w-full border-b border-white/15 bg-transparent pb-3 text-lg text-white transition-colors placeholder:text-white/30 focus:border-brand-cyan focus:outline-none"
+                placeholder="Tu nombre"
+              />
+            </label>
+            <label class="mt-9 block">
+              <span class="text-[11px] font-semibold tracking-[0.16em] text-brand-slate uppercase">Email</span>
+              <input
+                type="email"
+                required
+                class="mt-2 w-full border-b border-white/15 bg-transparent pb-3 text-lg text-white transition-colors placeholder:text-white/30 focus:border-brand-cyan focus:outline-none"
+                placeholder="tu@empresa.com"
+              />
+            </label>
+            <label class="mt-9 block">
+              <span class="text-[11px] font-semibold tracking-[0.16em] text-brand-slate uppercase">Tu problema, en dos líneas</span>
+              <textarea
+                rows="3"
+                class="mt-2 w-full resize-none border-b border-white/15 bg-transparent pb-3 text-lg text-white transition-colors placeholder:text-white/30 focus:border-brand-cyan focus:outline-none"
+                placeholder="Tenemos la documentación técnica repartida en OneDrive y Drive, y nadie encuentra nada…"
+              ></textarea>
+            </label>
+            <button
+              type="submit"
+              class="group mt-10 inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-cyan px-8 py-4 text-sm font-semibold text-brand-ink transition-colors duration-300 hover:bg-white sm:w-auto"
+            >
+              Enviar
+              <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d={arrow} stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────── footer ─────────────────────────── -->
+    <footer class="bg-brand-ink">
+      <div class="mx-auto max-w-[86rem] px-6 pb-10 md:px-10">
+        <div class="grid gap-10 border-t border-white/10 pt-16 pb-16 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <p class="text-[11px] font-semibold tracking-[0.16em] text-brand-slate uppercase">Productos</p>
+            <div class="mt-4 flex flex-col gap-1.5 text-sm text-brand-mist/70">
+              <a href={products.asm2.url} target="_blank" rel="noopener" class="transition-colors hover:text-white">ASM2 · RAG on-premise</a>
+              <a href={products.mecopia.url} target="_blank" rel="noopener" class="transition-colors hover:text-white">Mecopia · gemelo digital</a>
+            </div>
+          </div>
+          <div>
+            <p class="text-[11px] font-semibold tracking-[0.16em] text-brand-slate uppercase">Servicios</p>
+            <div class="mt-4 flex flex-col gap-1.5 text-sm text-brand-mist/70">
+              <a href="#servicios" class="transition-colors hover:text-white">Visión artificial</a>
+              <a href="#servicios" class="transition-colors hover:text-white">Deep learning</a>
+              <a href="#servicios" class="transition-colors hover:text-white">IA generativa</a>
+            </div>
+          </div>
+          <div>
+            <p class="text-[11px] font-semibold tracking-[0.16em] text-brand-slate uppercase">Oficina</p>
+            <p class="mt-4 text-sm leading-relaxed text-brand-mist/70">Madrid, España<br />hola@in2ai.com</p>
+          </div>
+          <div>
+            <p class="text-[11px] font-semibold tracking-[0.16em] text-brand-slate uppercase">Seguir</p>
+            <div class="mt-4 flex flex-col gap-1.5 text-sm text-brand-mist/70">
+              <a href="#" class="transition-colors hover:text-white">LinkedIn</a>
+              <a href="#" class="transition-colors hover:text-white">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <Logo class="h-auto w-full" draw weight={10} />
+
+        <div class="mt-12 flex flex-col justify-between gap-3 border-t border-white/10 pt-6 text-xs text-brand-slate sm:flex-row">
+          <p>© 2026 In2AI S.L.</p>
+          <div class="flex gap-6">
+            <a href="#" class="transition-colors hover:text-white">Aviso legal</a>
+            <a href="#privacidad" class="transition-colors hover:text-white">Privacidad</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Base>
+
+<style>
+  /* el titular hueco de in2ai.com: solo contorno, deja ver el fondo */
+  .outline-text {
+    color: transparent;
+    -webkit-text-stroke: var(--outline-w, 2px) var(--outline-c, var(--color-brand-ink));
+  }
+
+  /* los cuatro colores del logo en degradado */
+  .spectrum {
+    background-image: linear-gradient(
+      120deg,
+      var(--color-brand-cyan),
+      var(--color-brand-blue) 40%,
+      var(--color-brand-slate) 70%,
+      var(--color-brand-clay)
+    );
+  }
+</style>
