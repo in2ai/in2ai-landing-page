@@ -37,12 +37,23 @@ const options = [
     href: '/v4',
     n: '04',
     style: 'Espectro',
-    tag: 'Nueva · paleta de in2ai.com',
+    tag: 'Paleta de in2ai.com',
     desc: 'Los colores de la web actual: cian, azul, pizarra y terracota, una letra del logo cada uno, más el azul cielo del hero. El logo se redibuja solo, el titular hueco pisa el panel cielo como en in2ai.com y todo lo que va de cuatro en cuatro lleva los cuatro colores.',
     best: 'Estructura: metodología → ASM2 → Mecopia → a medida → cinco servicios → privacidad.',
     preview: 'bg-brand-sky',
     logo: true,
     swatches: ['#00A9E9', '#3B9ABC', '#6C8C96', '#AA7B69', '#9DBFDA'],
+  },
+  {
+    href: '/v5',
+    n: '05',
+    style: 'Contraste',
+    tag: 'Nueva · la 04 en combinaciones',
+    desc: 'La paleta de in2ai.com sin poner todos los colores juntos: cada sección usa una combinación cerrada. Las claras van en blanco o niebla con azul, las oscuras en tinta con cian, el cielo queda para el hero y la cita y la terracota solo para Mecopia. Las secciones alternan claro y oscuro, como el bloque de ASM2 y Mecopia seguido de «Modelos entrenados con tus datos».',
+    best: 'Estructura: metodología → ASM2 → Mecopia → a medida → cinco servicios → privacidad, alternando claro y oscuro.',
+    preview: 'bg-brand-ink',
+    logo: true,
+    swatches: ['#EEF4F8', '#3B9ABC', '#0F1E25', '#00A9E9', '#9DBFDA', '#AA7B69'],
   },
 ];
 
@@ -55,17 +66,17 @@ const shared = [
 ---
 
 <Base
-  title="IN2AI — Cuatro propuestas de landing page"
+  title="IN2AI — Cinco propuestas de landing page"
   bodyClass="bg-neutral-50 font-sans text-neutral-700 antialiased"
   progressClass=""
 >
   <main class="mx-auto max-w-5xl px-6 py-20">
     <p class="font-mono text-[11px] tracking-[0.22em] text-neutral-400 uppercase">IN2AI · Propuestas</p>
     <h1 class="mt-5 font-display text-4xl font-bold tracking-[-0.02em] text-neutral-900 md:text-5xl">
-      Cuatro direcciones para la landing
+      Cinco direcciones para la landing
     </h1>
     <p class="mt-5 max-w-2xl text-neutral-600">
-      Mismo mensaje y mismos mockups de producto: tres direcciones en blanco y negro y una
+      Mismo mensaje y mismos mockups de producto: tres direcciones en blanco y negro y dos
       con la paleta actual de in2ai.com. Abre cada una, baja despacio para ver las animaciones
       y quédate con la que mejor represente al estudio.
     </p>
@@ -112,7 +123,7 @@ const shared = [
     </div>
 
     <section class="mt-16 rounded-2xl border border-black/10 bg-white p-8">
-      <h2 class="font-display text-lg font-bold text-neutral-900">Lo que comparten las cuatro</h2>
+      <h2 class="font-display text-lg font-bold text-neutral-900">Lo que comparten las cinco</h2>
       <ul class="mt-5 space-y-3">
         {shared.map((s) => (
           <li class="flex gap-3 text-sm leading-relaxed text-neutral-600">
