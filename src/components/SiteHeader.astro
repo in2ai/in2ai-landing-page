@@ -1,0 +1,153 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Logo from './Logo.astro';
+import { getLocale, languageNames, locales, useTranslations } from '../i18n';
+import type { Link } from '../i18n/types';
+import { findPage, type AlternatePage } from '../lib/website';
+
+interface Props { alternatePages?: AlternatePage[] }
+const { alternatePages } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const a = t.anchors;
+const home = getRelativeLocaleUrl(locale, '');
+const section = (anchor: string) => Astro.url.pathname === home ? `#${anchor}` : `${home}#${anchor}`;
+const languages = locales.flatMap((code) => {
+  const alternate = alternatePages?.find((page) => page.locale === code);
+  if (alternatePages && !alternate) return [];
+  return [{ code, name: languageNames[code], href: alternate?.path ?? getRelativeLocaleUrl(code, ''), current: code === locale }];
+});
+const sectionLinks: Link[] = [
+  { href: section(a.services), label: t.header.solutions },
+  { href: section(a.sectors), label: t.header.sectors },
+  { href: section(a.products), label: t.header.products },
+];
+const currentPath = `${Astro.url.pathname.replace(/\/+$/, '')}/`;
+const currentPage = findPage(currentPath);
+const pageLinks = t.pages.map((page) => ({
+  ...page,
+  current: currentPath.startsWith(page.href) || (page.href === '/blog/' && currentPage?.kind === 'post'),
+}));
+const arrow = 'M5 12h14m-6-6 6 6-6 6';
+---
+    <header
+      data-header
+      class="sticky top-0 z-50 border-b border-transparent bg-white/85 backdrop-blur-xl transition-all duration-300 [&.is-scrolled]:border-brand-blue/15"
+    >
+      <div class="mx-auto flex h-[4.5rem] max-w-[86rem] items-center justify-between px-6 md:px-10">
+        <a href={getRelativeLocaleUrl(locale, '')} class="-m-1 p-1">
+          <Logo class="h-7 w-auto" draw />
+        </a>
+
+        <nav class="hidden items-center gap-5 lg:flex xl:gap-7">
+          <div class="flex items-center gap-5 xl:gap-7">
+            {sectionLinks.map((i) => (
+              <a href={i.href} class="text-[13px] font-medium text-brand-ink/65 transition-colors duration-300 hover:text-brand-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-blue-deep">
+                {i.label}
+              </a>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 border-l border-brand-blue/20 pl-5 xl:pl-7">
+            {pageLinks.map((i) => (
+              <a
+                href={i.href}
+                hreflang={i.hreflang}
+                data-page-link
+                aria-current={i.current ? 'page' : undefined}
+                class:list={[
+                  'group inline-flex items-center gap-2 rounded-full border px-3 py-2 text-[12px] font-semibold transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-blue-deep',
+                  i.current
+                    ? 'border-brand-blue-deep bg-brand-blue-deep text-white'
+                    : 'border-brand-blue/20 bg-brand-mist text-brand-blue-deep hover:border-brand-blue-deep hover:bg-brand-sky/25',
+                ]}
+              >
+                {i.label}
+                <svg class="h-3 w-3 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d={arrow} stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </nav>
+
+        <div class="flex items-center gap-5">
+          <div class="hidden items-center gap-1.5 font-mono text-[11px] lg:flex" role="group" aria-label={t.header.language}>
+            {languages.map((l, i) => (
+              <>
+                {i > 0 && <span class="text-brand-ink/25" aria-hidden="true">/</span>}
+                {l.current ? (
+                  <span class="font-medium text-brand-ink" aria-current="true" title={l.name}>
+                    {l.code.toUpperCase()}
+                  </span>
+                ) : (
+                  <a
+                    href={l.href}
+                    hreflang={l.code}
+                    lang={l.code}
+                    aria-label={l.name}
+                    class="text-brand-ink/50 transition-colors duration-300 hover:text-brand-ink"
+                  >
+                    {l.code.toUpperCase()}
+                  </a>
+                )}
+              </>
+            ))}
+          </div>
+          <a
+            href={section(a.contact)}
+            class="hidden rounded-full bg-brand-ink px-5 py-2.5 text-[13px] font-semibold text-white transition-colors duration-300 hover:bg-brand-blue-deep lg:inline-flex"
+          >
+            {t.header.contact}
+          </a>
+          <button
+            data-menu-toggle="nav-mobile"
+            aria-expanded="false"
+            aria-label={t.header.openMenu}
+            class="grid h-10 w-10 place-items-center rounded-full border border-brand-blue/20 text-brand-ink lg:hidden"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M4 8h16M4 16h16" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="nav-mobile" class="hidden border-t border-brand-blue/15 bg-white lg:hidden">
+        <nav class="mx-auto flex max-w-[86rem] flex-col px-6 py-4 md:px-10">
+          {sectionLinks.map((i) => (
+            <a href={i.href} class="border-b border-brand-blue/10 py-3.5 text-[15px] font-medium text-brand-ink">
+              {i.label}
+            </a>
+          ))}
+          <div class="my-4 grid gap-2">
+            {pageLinks.map((i) => (
+              <a
+                href={i.href}
+                hreflang={i.hreflang}
+                data-page-link
+                aria-current={i.current ? 'page' : undefined}
+                class:list={[
+                  'flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-[15px] font-semibold',
+                  i.current
+                    ? 'border-brand-blue-deep bg-brand-blue-deep text-white'
+                    : 'border-brand-blue/20 bg-brand-mist text-brand-blue-deep',
+                ]}
+              >
+                {i.label}
+                <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d={arrow} stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            ))}
+          </div>
+          <a href={section(a.contact)} class="border-t border-brand-blue/10 py-3.5 text-[15px] font-medium text-brand-ink">{t.header.contact}</a>
+          {languages
+            .filter((l) => !l.current)
+            .map((l) => (
+              <a href={l.href} hreflang={l.code} lang={l.code} class="py-3.5 text-[15px] font-medium text-brand-ink/60">
+                {l.name}
+              </a>
+            ))}
+        </nav>
+      </div>
+    </header>

@@ -1,0 +1,39 @@
+---
+/**
+ * Pinta un titular de src/i18n: "\n" es un salto de línea y lo que va entre
+ * *asteriscos* sale hueco, con la clase .outline-text de global.css.
+ */
+interface Props {
+  text: string;
+  /** Estilo en línea de la parte hueca, p. ej. "--outline-c:var(--color-brand-cyan)". */
+  outline?: string;
+}
+
+const { text, outline } = Astro.props;
+
+const parts = text
+  .split(/(\*[^*]+\*)/)
+  .filter(Boolean)
+  .map((part) => {
+    const hollow = part.length > 2 && part.startsWith('*') && part.endsWith('*');
+    return { hollow, lines: (hollow ? part.slice(1, -1) : part).split('\n') };
+  });
+---
+
+{
+  parts.map((part) => {
+    const content = part.lines.map((line, i) => (
+      <>
+        {i > 0 && <br />}
+        {line}
+      </>
+    ));
+    return part.hollow ? (
+      <span class="outline-text" style={outline}>
+        {content}
+      </span>
+    ) : (
+      content
+    );
+  })
+}

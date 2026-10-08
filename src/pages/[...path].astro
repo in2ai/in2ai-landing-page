@@ -1,0 +1,15 @@
+---
+import ImportedPage from '../components/ImportedPage.astro';
+import { importedPages } from '../lib/website';
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+
+export const getStaticPaths = (() => importedPages.map((page) => ({
+  params: { path: page.path.replace(/^\/|\/$/g, '') },
+  props: { page },
+}))) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { page } = Astro.props;
+---
+
+<ImportedPage page={page} />

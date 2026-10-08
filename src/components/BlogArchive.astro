@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from './SiteHeader.astro';
+import SiteFooter from './SiteFooter.astro';
+import BlogCard from './BlogCard.astro';
+import { blogPosts } from '../lib/website';
+interface Props { currentPage?: number }
+const { currentPage = 1 } = Astro.props;
+const pageSize = 12;
+const pageCount = Math.ceil(blogPosts.length / pageSize);
+const posts = blogPosts.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+const pageUrl = (number: number) => number === 1 ? '/blog/' : `/blog/page/${number}/`;
+const alternates = [{ locale: 'es', path: pageUrl(currentPage) }];
+---
+
+<Base title={`${currentPage > 1 ? `Página ${currentPage} | ` : ''}Blog | In2AI`} description="Noticias, proyectos y artículos de In2AI sobre inteligencia artificial, datos y transformación digital." alternatePages={alternates} bodyClass="bg-white font-sans text-brand-ink antialiased" progressClass="bg-brand-cyan">
+  <SiteHeader alternatePages={alternates} />
+  <main>
+    <section class="bg-brand-mist">
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-24">
+        <p class="text-[11px] font-semibold tracking-[0.2em] text-brand-blue-deep uppercase">In2AI · Blog</p>
+        <h1 class="mt-6 max-w-3xl font-display text-[clamp(2.4rem,5.5vw,5rem)] leading-[1.05] font-bold tracking-[-0.04em]">Ideas, proyectos<br />y noticias.</h1>
+        <p class="mt-8 max-w-xl text-lg leading-relaxed text-brand-ink/70">Inteligencia artificial, datos y transformación digital. Todas las publicaciones de In2AI.</p>
+      </div>
+    </section>
+    <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-24">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{posts.map((post) => <BlogCard post={post} />)}</div>
+      <nav aria-label="Páginas del blog" class="mt-14 flex flex-wrap justify-center gap-3">
+        {Array.from({ length: pageCount }, (_, i) => i + 1).map((number) => <a href={pageUrl(number)} aria-label={`Página ${number}`} aria-current={number === currentPage ? 'page' : undefined} class:list={['grid h-11 w-11 place-items-center rounded-full border text-sm font-semibold', number === currentPage ? 'border-brand-ink bg-brand-ink text-white' : 'border-brand-blue/25 text-brand-blue-deep hover:bg-brand-mist']}>{number}</a>)}
+      </nav>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>

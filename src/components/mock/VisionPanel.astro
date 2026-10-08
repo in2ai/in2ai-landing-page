@@ -1,5 +1,6 @@
 ---
 import { tone, type Tone } from '../../lib/tone';
+import { useTranslations } from '../../i18n';
 
 interface Props {
   variant?: Tone;
@@ -8,19 +9,21 @@ interface Props {
 
 const { variant = 'dark', class: cls = '' } = Astro.props;
 const c = tone(variant);
+const m = useTranslations(Astro.currentLocale).mocks.vision;
 
 // cajas de detección sobre el fotograma (porcentajes)
 const boxes = [
-  { x: 8, y: 16, w: 32, h: 34, label: 'pieza', conf: '0.98', ok: true, d: 300 },
-  { x: 52, y: 22, w: 30, h: 30, label: 'pieza', conf: '0.96', ok: true, d: 520 },
-  { x: 33, y: 58, w: 24, h: 26, label: 'rebaba', conf: '0.91', ok: false, d: 740 },
+  { x: 8, y: 16, w: 32, h: 34, label: m.labels.part, conf: '0.98', ok: true, d: 300 },
+  { x: 52, y: 22, w: 30, h: 30, label: m.labels.part, conf: '0.96', ok: true, d: 520 },
+  { x: 33, y: 58, w: 24, h: 26, label: m.labels.defect, conf: '0.91', ok: false, d: 740 },
 ];
 
+// el nombre de cada métrica va por posición en m.metrics
 const metrics = [
-  { k: 'Piezas inspeccionadas', v: '1284', dec: '0', s: '' },
-  { k: 'Defectos detectados', v: '12', dec: '0', s: '' },
-  { k: 'Precisión validada', v: '98.7', dec: '1', s: '%' },
-];
+  { v: '1284', dec: '0', s: '' },
+  { v: '12', dec: '0', s: '' },
+  { v: '98.7', dec: '1', s: '%' },
+].map((x, i) => ({ ...x, k: m.metrics[i] }));
 ---
 
 <div class={`overflow-hidden rounded-2xl border ${c.shell} ${c.shadow} ${cls}`}>
@@ -30,9 +33,9 @@ const metrics = [
         <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" stroke-linecap="round" stroke-linejoin="round" />
         <circle cx="12" cy="12" r="2.5" />
       </svg>
-      <p class={`font-mono text-[11px] ${c.body}`}>inspección de línea · cam-03</p>
+      <p class={`font-mono text-[11px] ${c.body}`}>{m.title}</p>
     </div>
-    <span class={`font-mono text-[10px] ${c.muted}`}>30 fps · en el borde</span>
+    <span class={`font-mono text-[10px] ${c.muted}`}>{m.fps}</span>
   </div>
 
   <div class={`grid ${c.panel} md:grid-cols-[1.25fr_1fr]`}>
@@ -90,26 +93,26 @@ const metrics = [
           <span class={`dot-2 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
           <span class={`dot-3 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
         </span>
-        <p class={`font-mono text-[10px] ${c.muted}`}>inferencia local · 22 ms / fotograma</p>
+        <p class={`font-mono text-[10px] ${c.muted}`}>{m.inference}</p>
       </div>
     </div>
 
     <!-- panel de resultados -->
     <div class="p-5">
-      <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>Turno actual</p>
+      <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>{m.shift}</p>
       <div class="mt-4 space-y-4">
-        {metrics.map((m, i) => (
+        {metrics.map((x, i) => (
           <div data-reveal="fade" style={`--d:${200 + i * 130}ms`}>
-            <p class={`text-[10px] ${c.muted}`}>{m.k}</p>
+            <p class={`text-[10px] ${c.muted}`}>{x.k}</p>
             <p class={`mt-0.5 font-display text-xl font-semibold ${c.head}`}>
-              <span data-count={m.v} data-decimals={m.dec} data-suffix={m.s}>0</span>
+              <span data-count={x.v} data-decimals={x.dec} data-suffix={x.s}>0</span>
             </p>
           </div>
         ))}
       </div>
 
       <div class={`mt-6 border-t pt-4 ${c.rule}`}>
-        <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>Últimas detecciones</p>
+        <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>{m.latest}</p>
         <div class="mt-3 space-y-2.5">
           {boxes.map((b, i) => (
             <div class="flex items-center gap-2.5" data-reveal="fade" style={`--d:${300 + i * 120}ms`}>
@@ -130,8 +133,8 @@ const metrics = [
       </div>
 
       <div class={`mt-5 flex items-center justify-between rounded-lg border px-3 py-2.5 ${c.rule} ${c.sub}`}>
-        <p class={`text-[10px] ${c.body}`}>1 pieza desviada del umbral</p>
-        <span class={`rounded border px-2 py-0.5 font-mono text-[9px] ${c.chip}`}>avisar</span>
+        <p class={`text-[10px] ${c.body}`}>{m.flagged}</p>
+        <span class={`rounded border px-2 py-0.5 font-mono text-[9px] ${c.chip}`}>{m.alert}</span>
       </div>
     </div>
   </div>

@@ -1,5 +1,8 @@
 ---
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import '../styles/global.css';
+import { defaultLocale, getLocale, htmlLang, locales, useTranslations } from '../i18n';
+import type { AlternatePage } from '../lib/website';
 
 interface Props {
   title: string;
@@ -8,19 +11,36 @@ interface Props {
   /** Tailwind classes for the reading-progress bar. Empty string hides it. */
   progressClass?: string;
   themeColor?: string;
+  alternatePages?: AlternatePage[];
+  image?: string;
 }
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
 
 const {
   title,
-  description = 'IN2AI — Startup de inteligencia artificial. Diseñamos y construimos productos de software con IA integrada.',
+  description = t.meta.description,
   bodyClass = '',
   progressClass = 'bg-black',
   themeColor = '#ffffff',
+  alternatePages,
+  image,
 } = Astro.props;
+
+// la misma página en cada idioma: se quita el prefijo del idioma actual (/en) y se
+// vuelve a montar la ruta para cada uno, para las etiquetas hreflang
+const prefix = locale === defaultLocale ? '' : `/${locale}`;
+const path = Astro.url.pathname.slice(prefix.length).replace(/^\//, '');
+const canonical = getAbsoluteLocaleUrl(locale, path);
+const alternates = alternatePages
+  ? alternatePages.map((page) => ({ hreflang: page.locale, href: new URL(page.path, Astro.site).href }))
+  : locales.map((l) => ({ hreflang: l, href: getAbsoluteLocaleUrl(l, path) }));
+const defaultAlternate = alternates.find((alt) => alt.hreflang === defaultLocale) ?? alternates[0];
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={htmlLang[locale]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,9 +49,20 @@ const {
     <meta name="theme-color" content={themeColor} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
+    {defaultAlternate && <link rel="alternate" hreflang="x-default" href={defaultAlternate.href} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={t.meta.ogLocale} />
+    {image && <meta property="og:image" content={new URL(image, Astro.site).href} />}
+    {
+      locales
+        .filter((l) => l !== locale && alternates.some((alt) => alt.hreflang === l))
+        .map((l) => <meta property="og:locale:alternate" content={useTranslations(l).meta.ogLocale} />)
+    }
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -56,7 +87,8 @@ const {
         const decimals = Number(el.dataset.decimals ?? (raw.includes('.') ? 1 : 0));
         const prefix = el.dataset.prefix ?? '';
         const suffix = el.dataset.suffix ?? '';
-        const fmt = new Intl.NumberFormat('es-ES', {
+        // el idioma de la página decide el formato: 2,9 y 9.480 en español, 2.9 y 9,480 en inglés
+        const fmt = new Intl.NumberFormat(document.documentElement.lang || 'es-ES', {
           minimumFractionDigits: decimals,
           maximumFractionDigits: decimals,
           // es-ES omite el punto en números de 4 cifras; lo forzamos para que
@@ -153,43 +185,6 @@ const {
           if (e.key === 'Escape' && !panel.classList.contains('hidden')) setOpen(false);
         });
       });
-
-      // ── product tabs ────────────────────────────────────────────────────
-      document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((group) => {
-        const tabs = group.querySelectorAll<HTMLElement>('[data-tab]');
-        const panels = group.querySelectorAll<HTMLElement>('[data-panel]');
-
-        tabs.forEach((tab) => {
-          tab.addEventListener('click', () => {
-            tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
-            panels.forEach((p) => {
-              const show = p.dataset.panel === tab.dataset.tab;
-              p.classList.toggle('hidden', !show);
-              if (show) {
-                // replay the entrance animation
-                p.style.animation = 'none';
-                void p.offsetWidth;
-                p.style.animation = '';
-              }
-            });
-          });
-        });
-      });
-
-      // ── pointer spotlight ───────────────────────────────────────────────
-      if (!reduce) {
-        document.querySelectorAll<HTMLElement>('.spotlight').forEach((el) => {
-          el.addEventListener(
-            'pointermove',
-            (event) => {
-              const r = el.getBoundingClientRect();
-              el.style.setProperty('--mx', ((event.clientX - r.left) / r.width) * 100 + '%');
-              el.style.setProperty('--my', ((event.clientY - r.top) / r.height) * 100 + '%');
-            },
-            { passive: true },
-          );
-        });
-      }
     </script>
   </body>
 </html>

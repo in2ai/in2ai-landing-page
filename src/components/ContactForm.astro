@@ -1,0 +1,69 @@
+---
+import { company } from '../lib/content';
+import { useTranslations } from '../i18n';
+const t = useTranslations(Astro.currentLocale);
+const arrow = 'M5 12h14m-6-6 6 6-6 6';
+---
+          <form data-contact-form action={`mailto:${company.email}`} method="post" enctype="text/plain" class="self-center rounded-3xl border border-white/10 bg-white/[0.03] p-7 md:p-10" >
+            <label class="block">
+              <span class="text-[11px] font-semibold tracking-[0.16em] text-brand-sky uppercase">{t.contact.form.name}</span>
+              <input
+                type="text"
+                name="name"
+                autocomplete="name"
+                required
+                class="mt-2 w-full border-b border-white/15 bg-transparent pb-3 text-lg text-white transition-colors placeholder:text-white/30 focus:border-brand-cyan focus:outline-none"
+                placeholder={t.contact.form.namePlaceholder}
+              />
+            </label>
+            <label class="mt-9 block">
+              <span class="text-[11px] font-semibold tracking-[0.16em] text-brand-sky uppercase">{t.contact.form.email}</span>
+              <input
+                type="email"
+                name="email"
+                autocomplete="email"
+                required
+                class="mt-2 w-full border-b border-white/15 bg-transparent pb-3 text-lg text-white transition-colors placeholder:text-white/30 focus:border-brand-cyan focus:outline-none"
+                placeholder={t.contact.form.emailPlaceholder}
+              />
+            </label>
+            <label class="mt-9 block">
+              <span class="text-[11px] font-semibold tracking-[0.16em] text-brand-sky uppercase">{t.contact.form.message}</span>
+              <textarea
+                name="message"
+                rows="3"
+                class="mt-2 w-full resize-none border-b border-white/15 bg-transparent pb-3 text-lg text-white transition-colors placeholder:text-white/30 focus:border-brand-cyan focus:outline-none"
+                placeholder={t.contact.form.messagePlaceholder}
+              ></textarea>
+            </label>
+            <label class="mt-8 flex items-start gap-3 text-sm leading-relaxed text-brand-mist/70">
+              <input type="checkbox" name="privacy" required class="mt-1 h-4 w-4 shrink-0 accent-brand-cyan" />
+              <!-- en una sola línea: Astro se come el espacio entre el texto y el enlace si hay un salto -->
+              <span>{t.contact.form.consent.before}<a href={t.legal.privacy.href} hreflang={t.legal.privacy.hreflang} class="text-brand-cyan underline decoration-brand-cyan/40 underline-offset-2 hover:decoration-brand-cyan">{t.contact.form.consent.mark}</a>{t.contact.form.consent.after}</span>
+            </label>
+            <button
+              type="submit"
+              class="group mt-10 inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-cyan px-8 py-4 text-sm font-semibold text-brand-ink transition-colors duration-300 hover:bg-white sm:w-auto"
+            >
+              {t.contact.form.submit}
+              <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d={arrow} stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <p class="mt-5 max-w-sm text-xs leading-relaxed text-brand-mist/70">{t.contact.form.deliveryNote}</p>
+          </form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const fields = new FormData(form);
+      const name = String(fields.get('name') ?? '');
+      const email = String(fields.get('email') ?? '');
+      const message = String(fields.get('message') ?? '');
+      const subject = `In2AI · ${name}`;
+      const body = `${name} <${email}>\n\n${message}`;
+      window.location.href = `${form.action}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  });
+</script>

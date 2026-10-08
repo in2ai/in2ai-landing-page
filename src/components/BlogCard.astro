@@ -1,0 +1,21 @@
+---
+import { getLocale, htmlLang, useTranslations } from '../i18n';
+import type { ImportedPage } from '../lib/website';
+interface Props { post: ImportedPage }
+const { post } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const date = new Intl.DateTimeFormat(htmlLang[locale], { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(post.date));
+---
+
+<article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-blue/15 bg-white transition-all duration-300 hover:border-brand-blue/40 hover:shadow-lg hover:shadow-brand-blue/10">
+  <a href={post.path} hreflang={post.locale} class="flex h-full flex-col">
+    {post.image && <img src={post.image} alt="" loading="lazy" width="640" height="360" class="aspect-video w-full object-cover" />}
+    <div class="flex flex-1 flex-col p-6 md:p-7">
+      <time datetime={post.date} class="font-mono text-[11px] text-brand-slate-deep">{date}</time>
+      <h3 class="mt-4 font-display text-xl leading-snug font-bold tracking-tight text-brand-ink">{post.title}</h3>
+      <p class="mt-4 line-clamp-3 text-sm leading-relaxed text-brand-ink/70">{post.description}</p>
+      <span class="mt-6 block pt-2 text-sm font-semibold text-brand-blue-deep">{t.news.read} <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+</article>

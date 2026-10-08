@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# source-site extraction cache
+.firecrawl/
+__pycache__/

@@ -1,0 +1,46 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Base from '../layouts/Base.astro';
+import SiteHeader from './SiteHeader.astro';
+import SiteFooter from './SiteFooter.astro';
+import ContactForm from './ContactForm.astro';
+import { getLocale, htmlLang, useTranslations } from '../i18n';
+import type { ImportedPage } from '../lib/website';
+import '../styles/imported.css';
+
+interface Props { page: ImportedPage }
+const { page } = Astro.props;
+const locale = getLocale(page.locale);
+const t = useTranslations(locale);
+const home = getRelativeLocaleUrl(locale, '');
+const isContact = page.path === '/contacto/' || page.path === '/en/contact/';
+const isTeam = page.team.length > 0;
+const date = new Intl.DateTimeFormat(htmlLang[locale], { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(page.date));
+---
+
+<Base title={`${page.title} | In2AI`} description={page.description} alternatePages={page.alternates} image={page.image} bodyClass="bg-white font-sans text-brand-ink antialiased" progressClass="bg-brand-cyan">
+  <SiteHeader alternatePages={page.alternates} />
+  <main>
+    <section class="bg-brand-mist">
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-24">
+        <a href={page.kind === 'post' ? '/blog/' : home} class="text-sm font-medium text-brand-blue-deep underline underline-offset-4">
+          ← {page.kind === 'post' ? 'Blog' : 'In2AI'}
+        </a>
+        <h1 class="mt-8 max-w-5xl font-display text-[clamp(2.4rem,5.5vw,5rem)] leading-[1.05] font-bold tracking-[-0.04em]">{page.title}</h1>
+        {page.kind === 'post' && <p class="mt-6 text-sm text-brand-slate-deep"><time datetime={page.date}>{date}</time> · {page.author}</p>}
+      </div>
+    </section>
+    <article class:list={['mx-auto px-6 py-16 md:px-10 md:py-24', isTeam ? 'max-w-6xl' : 'max-w-4xl']}>
+      {page.image && <img src={page.image} alt="" class="mb-12 max-h-[32rem] w-full rounded-2xl object-contain" fetchpriority="high" />}
+      <div class="import-content" set:html={page.html} />
+      {isContact && <div class="mt-12 rounded-3xl bg-brand-ink p-2 sm:p-4"><ContactForm /></div>}
+    </article>
+    {!isContact && <section class="bg-brand-sky px-6 py-16 md:px-10">
+      <div class="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+        <div><h2 class="font-display text-3xl font-bold tracking-tight">{t.header.contact}</h2><p class="mt-3 max-w-xl leading-relaxed">{t.contact.text}</p></div>
+        <a href={`${home}#${t.anchors.contact}`} class="inline-flex shrink-0 items-center justify-center rounded-full bg-brand-ink px-7 py-4 text-sm font-semibold text-white">{t.hero.cta} →</a>
+      </div>
+    </section>}
+  </main>
+  <SiteFooter />
+</Base>

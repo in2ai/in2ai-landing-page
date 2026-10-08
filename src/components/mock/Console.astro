@@ -1,6 +1,7 @@
 ---
 import { tone, type Tone } from '../../lib/tone';
 import WindowFrame from './WindowFrame.astro';
+import { formatNumber, useTranslations } from '../../i18n';
 
 interface Props {
   variant?: Tone;
@@ -9,28 +10,30 @@ interface Props {
 
 const { variant = 'dark', class: cls = '' } = Astro.props;
 const c = tone(variant);
+const m = useTranslations(Astro.currentLocale).mocks.console;
 
+// los textos van por posición: m.nav[i], m.kpis[i] y m.folders[i]
 const nav = [
-  { label: 'Resumen', icon: 'M4 13h6V4H4v9Zm10 7h6v-9h-6v9ZM4 20h6v-5H4v5Zm10-11h6V4h-6v5Z', active: true },
-  { label: 'Fuentes', icon: 'M3 7h6l2 2h10v9a2 2 0 0 1-2 2H3V7Z' },
-  { label: 'Índice', icon: 'M4 6c0-1.1 3.6-2 8-2s8 .9 8 2-3.6 2-8 2-8-.9-8-2Zm0 6c0 1.1 3.6 2 8 2s8-.9 8-2M4 6v12c0 1.1 3.6 2 8 2s8-.9 8-2V6' },
-  { label: 'Conversaciones', icon: 'M4 5h16v10H9l-5 4V5Z' },
-  { label: 'Permisos', icon: 'M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3Z' },
-];
+  { icon: 'M4 13h6V4H4v9Zm10 7h6v-9h-6v9ZM4 20h6v-5H4v5Zm10-11h6V4h-6v5Z', active: true },
+  { icon: 'M3 7h6l2 2h10v9a2 2 0 0 1-2 2H3V7Z' },
+  { icon: 'M4 6c0-1.1 3.6-2 8-2s8 .9 8 2-3.6 2-8 2-8-.9-8-2Zm0 6c0 1.1 3.6 2 8 2s8-.9 8-2M4 6v12c0 1.1 3.6 2 8 2s8-.9 8-2V6' },
+  { icon: 'M4 5h16v10H9l-5 4V5Z' },
+  { icon: 'M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3Z' },
+].map((n, i) => ({ ...n, label: m.nav[i] }));
 
 const kpis = [
-  { label: 'Documentos indexados', value: '48312', decimals: '0', suffix: '', delta: '4 carpetas' },
-  { label: 'Preguntas / mes', value: '9480', decimals: '0', suffix: '', delta: '+34%' },
-  { label: 'Respuesta media', value: '1.4', decimals: '1', suffix: ' s', delta: 'con citas' },
-];
+  { value: '48312', decimals: '0', suffix: '' },
+  { value: '9480', decimals: '0', suffix: '' },
+  { value: '1.4', decimals: '1', suffix: ' s' },
+].map((k, i) => ({ ...k, ...m.kpis[i] }));
 
 // carpetas indexadas: 8.412 + 1.204 + 23.180 + 15.516 = 48.312
 const folders = [
-  { src: 'OneDrive', path: '/Calidad/Procedimientos', docs: '8.412', state: 'OK', bar: 100 },
-  { src: 'Google Drive', path: '/RRHH/Convenios', docs: '1.204', state: 'OK', bar: 100 },
-  { src: 'Dropbox', path: '/Proyectos/2026', docs: '23.180', state: 'SYNC', bar: 68 },
-  { src: 'SharePoint', path: '/Legal/Contratos', docs: '15.516', state: 'OK', bar: 100 },
-];
+  { src: 'OneDrive', docs: 8412, state: 'OK', bar: 100 },
+  { src: 'Google Drive', docs: 1204, state: 'OK', bar: 100 },
+  { src: 'Dropbox', docs: 23180, state: 'SYNC', bar: 68 },
+  { src: 'SharePoint', docs: 15516, state: 'OK', bar: 100 },
+].map((f, i) => ({ ...f, path: m.folders[i], docs: formatNumber(Astro.currentLocale, f.docs) }));
 
 // serie de preguntas de los empleados
 const series = [18, 26, 24, 38, 35, 49, 57, 52, 68, 76, 72, 90];
@@ -42,7 +45,7 @@ const area = `${line} L${W},${H} L0,${H} Z`;
 const gradId = `area-${variant}`;
 ---
 
-<WindowFrame variant={variant} label="asm2.tu-empresa.local" class={cls}>
+<WindowFrame variant={variant} label={m.url} class={cls}>
   <div class={`grid ${c.panel} lg:grid-cols-[13rem_1fr]`}>
     <!-- sidebar -->
     <aside class={`hidden border-r p-4 lg:flex lg:flex-col ${c.rule} ${c.sub}`}>
@@ -74,10 +77,10 @@ const gradId = `area-${variant}`;
             <rect x="4" y="10" width="16" height="10" rx="2" />
             <path d="M8 10V7a4 4 0 0 1 8 0v3" />
           </svg>
-          Servidor propio
+          {m.ownServer}
         </p>
         <p class={`mt-1.5 font-mono text-[9px] leading-relaxed ${c.muted}`}>
-          Nada sale de tu red.<br />v2.4 · rack interno
+          {m.ownServerNote[0]}<br />{m.ownServerNote[1]}
         </p>
       </div>
     </aside>
@@ -86,8 +89,8 @@ const gradId = `area-${variant}`;
     <div>
       <div class={`flex items-center justify-between gap-4 border-b px-5 py-3.5 ${c.rule}`}>
         <div>
-          <p class={`text-[13px] font-semibold ${c.head}`}>Índice documental</p>
-          <p class={`text-[10px] ${c.muted}`}>Última sincronización hace 4 min</p>
+          <p class={`text-[13px] font-semibold ${c.head}`}>{m.indexTitle}</p>
+          <p class={`text-[10px] ${c.muted}`}>{m.lastSync}</p>
         </div>
         <div class="flex items-center gap-2">
           <div class={`hidden rounded-md border p-0.5 sm:flex ${c.rule}`}>
@@ -120,13 +123,13 @@ const gradId = `area-${variant}`;
       <!-- gráfico -->
       <div class="px-5 pt-5">
         <div class="flex items-center justify-between">
-          <p class={`text-[11px] font-medium ${c.head}`}>Preguntas de los empleados</p>
+          <p class={`text-[11px] font-medium ${c.head}`}>{m.chartTitle}</p>
           <div class="flex items-center gap-3">
             <span class={`flex items-center gap-1.5 text-[10px] ${c.muted}`}>
-              <span class={`h-1.5 w-1.5 rounded-full ${c.fill}`}></span>consultas
+              <span class={`h-1.5 w-1.5 rounded-full ${c.fill}`}></span>{m.legend[0]}
             </span>
             <span class={`flex items-center gap-1.5 text-[10px] ${c.muted}`}>
-              <span class={`h-1.5 w-1.5 rounded-full ${c.fillSoft}`}></span>caché
+              <span class={`h-1.5 w-1.5 rounded-full ${c.fillSoft}`}></span>{m.legend[1]}
             </span>
           </div>
         </div>
@@ -159,10 +162,10 @@ const gradId = `area-${variant}`;
       <!-- carpetas -->
       <div class="px-5 pt-4 pb-5">
         <div class={`grid grid-cols-[1fr_auto] items-center gap-3 border-b pb-2 text-[10px] tracking-wide uppercase sm:grid-cols-[.7fr_1.3fr_.5fr_.5fr] ${c.rule} ${c.muted}`}>
-          <span>Origen</span>
-          <span class="hidden sm:block">Carpeta indexada</span>
-          <span class="hidden sm:block">Estado</span>
-          <span class="text-right">Docs</span>
+          <span>{m.columns[0]}</span>
+          <span class="hidden sm:block">{m.columns[1]}</span>
+          <span class="hidden sm:block">{m.columns[2]}</span>
+          <span class="text-right">{m.columns[3]}</span>
         </div>
         {folders.map((f) => (
           <div

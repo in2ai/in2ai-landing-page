@@ -1,5 +1,6 @@
 ---
 import { tone, type Tone } from '../../lib/tone';
+import { useTranslations } from '../../i18n';
 
 interface Props {
   variant?: Tone;
@@ -8,12 +9,7 @@ interface Props {
 
 const { variant = 'light', class: cls = '' } = Astro.props;
 const c = tone(variant);
-
-const tasks = [
-  { t: 'Data Engineer · Remoto', s: 'encaje 92% · nueva hoy', v: '48 k€' },
-  { t: 'Factura de la luz', s: 'potencia sobredimensionada', v: '−24,80 €' },
-  { t: 'Seguro de hogar', s: '3 alternativas más baratas', v: '−118 €' },
-];
+const m = useTranslations(Astro.currentLocale).mocks.phone;
 ---
 
 <div
@@ -28,26 +24,26 @@ const tasks = [
     <div class={`flex items-center justify-between border-b px-4 pb-2.5 ${c.rule}`}>
       <div>
         <p class={`font-display text-[12px] font-bold ${c.head}`}>Mecopia</p>
-        <p class={`text-[9px] ${c.muted}`}>Tu gemelo digital</p>
+        <p class={`text-[9px] ${c.muted}`}>{m.subtitle}</p>
       </div>
       <span class={`grid h-6 w-6 place-items-center rounded-full text-[8px] font-semibold ${c.raised} ${c.body}`}>MM</span>
     </div>
 
     <div class="p-3.5">
       <div class={`rounded-xl border p-3 ${c.rule} ${c.sub}`}>
-        <p class={`text-[9px] tracking-wide uppercase ${c.muted}`}>Ahorro detectado / mes</p>
+        <p class={`text-[9px] tracking-wide uppercase ${c.muted}`}>{m.savings}</p>
         <p class={`mt-1 font-display text-2xl font-semibold ${c.head}`}>
-          <span data-count="42.8" data-decimals="2" data-suffix=" €">0</span>
+          <span data-count="42.8" data-decimals="2" data-prefix={m.currency.prefix} data-suffix={m.currency.suffix}>0</span>
         </p>
         <div class={`mt-2 h-1 overflow-hidden rounded-full ${c.track}`}>
           <div class={`h-full rounded-full ${c.fill}`} data-bar style="--w:71%"></div>
         </div>
-        <p class={`mt-1.5 text-[9px] ${c.muted}`}>en 3 de tus 7 gastos fijos</p>
+        <p class={`mt-1.5 text-[9px] ${c.muted}`}>{m.savingsNote}</p>
       </div>
 
-      <p class={`mt-4 text-[9px] tracking-widest uppercase ${c.muted}`}>Tu gemelo ha encontrado</p>
+      <p class={`mt-4 text-[9px] tracking-widest uppercase ${c.muted}`}>{m.found}</p>
       <div class="mt-2 space-y-1.5">
-        {tasks.map((a, i) => (
+        {m.tasks.map((a, i) => (
           <div
             class={`flex items-center justify-between rounded-lg border px-2.5 py-2 ${c.rule}`}
             data-reveal="fade"
@@ -64,11 +60,11 @@ const tasks = [
 
       <div class={`mt-3 flex items-center justify-center gap-1.5 rounded-lg py-2 ${c.cta}`}>
         <span class={`text-[10px] font-semibold ${c.onFill}`}>
-          Ver los 3 siguientes pasos
+          {m.cta}
         </span>
       </div>
 
-      <p class={`mt-2.5 text-center text-[8px] ${c.muted}`}>Tus datos son tuyos · bórralos cuando quieras</p>
+      <p class={`mt-2.5 text-center text-[8px] ${c.muted}`}>{m.footer}</p>
     </div>
 
     <!-- barra inferior -->

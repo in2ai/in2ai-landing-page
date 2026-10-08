@@ -31,6 +31,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* el titular hueco de in2ai.com: solo contorno, deja ver el fondo (lo usa Rich.astro) */
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: var(--outline-w, 2px) var(--outline-c, var(--color-brand-ink));
+}
+
 /* ─────────────────────────────  reveal on scroll  ───────────────────────── */
 
 [data-reveal] {
@@ -175,19 +181,6 @@ body {
   }
 }
 
-.breathe {
-  animation: breathe 5s ease-in-out infinite;
-}
-@keyframes breathe {
-  0%,
-  100% {
-    opacity: 0.45;
-  }
-  50% {
-    opacity: 0.85;
-  }
-}
-
 /* línea de escaneo para el mockup de visión artificial */
 .scan {
   animation: scan 3.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
@@ -205,30 +198,6 @@ body {
   50% {
     transform: translateY(96%);
   }
-}
-
-/* a light sweep across a surface on hover */
-.shine {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-.shine::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    transparent 42%,
-    rgb(255 255 255 / 0.14) 50%,
-    transparent 58%
-  );
-  transform: translateX(-110%);
-  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.shine:hover::after {
-  transform: translateX(110%);
 }
 
 /* animated underline for inline links */
@@ -249,35 +218,6 @@ body {
 }
 .link-sweep:hover::after {
   transform: scaleX(1);
-}
-
-/* pointer-following highlight; JS sets --mx / --my */
-.spotlight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  background: radial-gradient(
-    28rem circle at var(--mx, 50%) var(--my, 0%),
-    var(--spot, rgb(255 255 255 / 0.07)),
-    transparent 65%
-  );
-}
-.spotlight:hover::before {
-  opacity: 1;
-}
-
-/* tab panel entrance */
-[data-panel] {
-  animation: panel-in 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
 }
 
 /* reading progress bar */

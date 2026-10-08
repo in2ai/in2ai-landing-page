@@ -1,0 +1,81 @@
+.import-content {
+  color: var(--color-brand-ink);
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.import-content .import-section + .import-section {
+  margin-top: 3.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-brand-blue) 20%, transparent);
+}
+.import-content h2, .import-content h3, .import-content h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin: 2.5rem 0 1.25rem;
+}
+.import-content h2 { font-size: clamp(1.8rem, 4vw, 2.75rem); }
+.import-content h3 { font-size: 1.5rem; }
+.import-content h4 { font-size: 1.25rem; }
+.import-content p { margin: 1.25rem 0; }
+.import-content a {
+  color: var(--color-brand-blue-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.import-content ul, .import-content ol { padding-left: 1.5rem; margin: 1.5rem 0; }
+.import-content ul { list-style: disc; }
+.import-content ol { list-style: decimal; }
+.import-content li + li { margin-top: 0.65rem; }
+.import-content img {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 38rem;
+  object-fit: contain;
+  margin: 2rem auto;
+  border-radius: 0.75rem;
+}
+.import-content blockquote {
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 3px solid var(--color-brand-cyan);
+  background: var(--color-brand-mist);
+}
+.import-content table { display: block; overflow-x: auto; max-width: 100%; border-collapse: collapse; }
+.import-content th, .import-content td { padding: 0.75rem; border: 1px solid var(--color-brand-sky); }
+.import-content .import-section:has(> .team-card) {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.import-content .import-section:has(> .team-card) > :not(.team-card) { grid-column: 1 / -1; }
+.import-content .team-card {
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--color-brand-blue) 20%, transparent);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background: var(--color-brand-mist);
+}
+.import-content .team-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: top;
+  margin: 0 0 1.5rem;
+}
+.import-content .team-card h3 { margin: 0.5rem 0 1rem; }
+.import-content .team-card p { font-size: 0.9375rem; line-height: 1.75; }
+.import-content .team-role {
+  color: var(--color-brand-blue-deep);
+  font: 500 0.75rem / 1.5 var(--font-mono);
+}
+.import-content details { margin: 1.5rem 0; }
+.import-content summary { cursor: pointer; font-size: 0.875rem; font-weight: 600; color: var(--color-brand-blue-deep); }
+@media (max-width: 639px) {
+  .import-content .import-section:has(> .team-card) { grid-template-columns: 1fr; }
+}
