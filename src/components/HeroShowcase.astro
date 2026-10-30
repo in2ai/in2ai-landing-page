@@ -1,0 +1,150 @@
+---
+/**
+ * Escaparate del hero: el logo de In2AI y, debajo, una escena por producto o proyecto
+ * (placas solares, RAG, chatbot móvil, previsión de demanda) que cambia sola. Cada
+ * segmento de la barra se va llenando y, al terminar, pasa a la siguiente escena; con el
+ * ratón o el foco encima se pausa, y al elegir una a mano deja de rotar.
+ * Las escenas y sus pies comparten celda de la rejilla para que la altura no salte.
+ */
+import Logo from './Logo.astro';
+import ChatPanel from './mock/ChatPanel.astro';
+import SolarPanel from './mock/SolarPanel.astro';
+import BotPhone from './mock/BotPhone.astro';
+import Forecast from './mock/Forecast.astro';
+import { getLocale, useTranslations } from '../i18n';
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+const scenes = t.hero.scenes;
+---
+
+<div data-showcase>
+  <div class="flex items-center justify-between gap-6">
+    <Logo class="h-7 w-auto" draw />
+    <div class="flex items-center gap-2" role="tablist" aria-label={t.hero.showcase}>
+      {scenes.map((scene, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`stage-tab-${i}`}
+          aria-controls={`stage-scene-${i}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          title={scene.name}
+          data-showcase-tab
+          class="group relative h-6 w-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue-deep"
+        >
+          <span class="sr-only">{scene.name}</span>
+          <span class="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 overflow-hidden rounded-full bg-brand-ink/15 transition-colors group-hover:bg-brand-ink/25" aria-hidden="true">
+            <span data-fill class="block h-full w-0 rounded-full bg-brand-ink"></span>
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- pie de la escena: qué es y para qué sirve -->
+  <div class="mt-6 grid min-h-[3.6rem] [&>*]:col-start-1 [&>*]:row-start-1">
+    {scenes.map((scene, i) => (
+      <p data-showcase-caption data-on={i === 0 ? '' : undefined} class="text-sm leading-relaxed text-brand-ink/80 transition-opacity duration-500">
+        <span class="mb-1 block text-[11px] font-semibold tracking-[0.18em] text-brand-blue-deep uppercase">{scene.name}</span>
+        {scene.text}
+      </p>
+    ))}
+  </div>
+
+  <div class="mt-4 grid [&>*]:col-start-1 [&>*]:row-start-1">
+    <div id="stage-scene-0" role="tabpanel" aria-labelledby="stage-tab-0" data-showcase-panel data-on class="self-start transition-opacity duration-500">
+      <SolarPanel variant="brand" />
+    </div>
+    <div id="stage-scene-1" role="tabpanel" aria-labelledby="stage-tab-1" data-showcase-panel class="self-start transition-opacity duration-500">
+      <ChatPanel variant="brand" />
+    </div>
+    <div id="stage-scene-2" role="tabpanel" aria-labelledby="stage-tab-2" data-showcase-panel class="self-start transition-opacity duration-500">
+      <BotPhone variant="brand" />
+    </div>
+    <div id="stage-scene-3" role="tabpanel" aria-labelledby="stage-tab-3" data-showcase-panel class="self-start transition-opacity duration-500">
+      <Forecast variant="brand" />
+    </div>
+  </div>
+</div>
+
+<style>
+  /* escenas y pies ocultos siguen ocupando sitio; visibility los saca del árbol de accesibilidad */
+  [data-showcase-panel]:not([data-on]),
+  [data-showcase-caption]:not([data-on]) {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  /* la escena elegida tiene su segmento lleno; si rota sola, se llena poco a poco y al acabar pasa a la siguiente */
+  [data-showcase-tab][aria-selected='true'] [data-fill] {
+    width: 100%;
+  }
+  [data-showcase][data-running] [data-showcase-tab][aria-selected='true'] [data-fill] {
+    width: 0;
+    animation: stage-fill 7s linear forwards;
+  }
+  [data-showcase][data-paused] [data-fill] {
+    animation-play-state: paused;
+  }
+  @keyframes stage-fill {
+    to {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-showcase]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-showcase-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-showcase-panel]')];
+    const captions = [...root.querySelectorAll<HTMLElement>('[data-showcase-caption]')];
+    let current = 0;
+
+    const show = (index: number, focus = false) => {
+      current = (index + tabs.length) % tabs.length;
+      tabs.forEach((tab, i) => {
+        const on = i === current;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        if (on && focus) tab.focus();
+      });
+      panels.forEach((panel, i) => panel.toggleAttribute('data-on', i === current));
+      captions.forEach((caption, i) => caption.toggleAttribute('data-on', i === current));
+    };
+
+    // quien elige a mano no quiere que se le cambie después
+    const stop = () => root.removeAttribute('data-running');
+
+    // el relleno del segmento marca el ritmo: al terminar, siguiente escena
+    root.addEventListener('animationend', (e) => {
+      if ((e.target as HTMLElement).hasAttribute('data-fill')) show(current + 1);
+    });
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => {
+        stop();
+        show(i);
+      });
+      tab.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        stop();
+        show(current + step, true);
+      });
+    });
+
+    const pause = () => root.setAttribute('data-paused', '');
+    const resume = () => root.removeAttribute('data-paused');
+    root.addEventListener('mouseenter', pause);
+    root.addEventListener('mouseleave', resume);
+    root.addEventListener('focusin', pause);
+    root.addEventListener('focusout', resume);
+
+    show(0);
+    if (!reduce) root.setAttribute('data-running', '');
+  });
+</script>

@@ -1,0 +1,98 @@
+---
+/**
+ * Red neuronal animada: cuatro capas, pulsos que viajan por las conexiones y nodos que
+ * se encienden capa a capa. No lleva texto traducible a propósito (solo cifras de la época).
+ */
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+
+const layers = [4, 6, 6, 3];
+const W = 520;
+const H = 330;
+const xs = [60, 195, 330, 460];
+const nodes = layers.map((n, l) =>
+  Array.from({ length: n }, (_, i) => ({ x: xs[l], y: 44 + (i * (H - 88)) / (n - 1) })),
+);
+
+// conexiones entre capas consecutivas; una de cada tres lleva un pulso viajando
+const links = nodes.slice(0, -1).flatMap((layer, l) =>
+  layer.flatMap((a, i) =>
+    nodes[l + 1].map((b, j) => ({
+      d: `M${a.x},${a.y} L${b.x},${b.y}`,
+      pulse: (i + j + l) % 3 === 0,
+      delay: ((i * 5 + j * 3 + l * 2) % 11) * 0.28,
+    })),
+  ),
+);
+---
+
+<div class={`overflow-hidden rounded-2xl border border-brand-blue/20 bg-white shadow-2xl shadow-brand-blue/20 ${cls}`}>
+  <div class="flex items-center justify-between border-b border-brand-blue/15 bg-brand-mist px-4 py-3">
+    <div class="flex items-center gap-2">
+      <svg class="h-4 w-4 text-brand-slate-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="6" cy="6" r="2.5" /><circle cx="6" cy="18" r="2.5" /><circle cx="18" cy="12" r="2.5" /><path d="M8.2 7.2 15.8 11M8.2 16.8 15.8 13" />
+      </svg>
+      <p class="font-mono text-[0.6875rem] text-brand-ink/80">model.fit()</p>
+    </div>
+    <span class="font-mono text-[0.625rem] text-brand-slate-deep">epoch 128 / 200 · loss 0.042</span>
+  </div>
+
+  <div class="p-4">
+    <svg viewBox={`0 0 ${W} ${H}`} class="h-auto w-full" aria-hidden="true">
+      {links.map((k) => <path d={k.d} class="nn-link" fill="none" />)}
+      {links.filter((k) => k.pulse).map((k) => (
+        <path d={k.d} class="nn-pulse" pathLength="100" fill="none" style={`animation-delay:${k.delay}s`} />
+      ))}
+      {nodes.map((layer, l) =>
+        layer.map((p, i) => (
+          <circle cx={p.x} cy={p.y} r="9" class:list={['nn-node', l === layers.length - 1 && 'nn-out']} style={`animation-delay:${l * 0.55 + i * 0.08}s`} />
+        )),
+      )}
+    </svg>
+  </div>
+</div>
+
+<style>
+  .nn-link {
+    stroke: var(--color-brand-blue);
+    stroke-opacity: 0.16;
+    stroke-width: 1.2;
+  }
+  .nn-pulse {
+    stroke: var(--color-brand-cyan);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: 7 93;
+    stroke-dashoffset: 7;
+    animation: nn-travel 2.8s linear infinite;
+  }
+  .nn-node {
+    fill: white;
+    stroke: var(--color-brand-blue);
+    stroke-width: 2.2;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: nn-glow 2.8s ease-in-out infinite;
+  }
+  .nn-out {
+    stroke: var(--color-brand-clay);
+  }
+  @keyframes nn-travel {
+    to {
+      stroke-dashoffset: -93;
+    }
+  }
+  @keyframes nn-glow {
+    0%,
+    100% {
+      fill: white;
+      transform: scale(1);
+    }
+    40% {
+      fill: var(--color-brand-sky);
+      transform: scale(1.22);
+    }
+  }
+</style>

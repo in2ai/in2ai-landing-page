@@ -1,0 +1,98 @@
+---
+import { tone, type Tone } from '../../lib/tone';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+  variant?: Tone;
+  class?: string;
+}
+
+const { variant = 'brand', class: cls = '' } = Astro.props;
+const c = tone(variant);
+const m = useTranslations(Astro.currentLocale).mocks.solar;
+
+// campo solar de 10 × 6 módulos; la temperatura de cada módulo es un reparto fijo, sin azar
+const cols = 10;
+const rows = 6;
+const cw = 36;
+const ch = 34;
+const gap = 4;
+const cells = Array.from({ length: cols * rows }, (_, i) => {
+  const x = i % cols;
+  const y = Math.floor(i / cols);
+  return { x: x * (cw + gap), y: y * (ch + gap), warm: (x * 7 + y * 13) % 5 === 0 };
+});
+
+// anomalías sobre la cuadrícula: columna, fila, ancho en módulos
+const boxes = [
+  { col: 2, row: 1, w: 1, label: m.labels.hot, conf: '0.97', d: 300 },
+  { col: 6, row: 3, w: 2, label: m.labels.hot, conf: '0.95', d: 520 },
+  { col: 4, row: 4, w: 1, label: m.labels.crack, conf: '0.93', d: 740 },
+];
+const W = cols * (cw + gap) - gap;
+const H = rows * (ch + gap) - gap;
+---
+
+<div class={`overflow-hidden rounded-2xl border ${c.shell} ${c.shadow} ${cls}`}>
+  <div class={`flex items-center justify-between border-b px-4 py-3 ${c.chrome}`}>
+    <div class="flex items-center gap-2">
+      <svg class={`h-4 w-4 ${c.muted}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+      </svg>
+      <p class={`font-mono text-[0.6875rem] ${c.body}`}>{m.title}</p>
+    </div>
+    <span class={`font-mono text-[0.625rem] ${c.muted}`}>{m.status}</span>
+  </div>
+
+  <div class={`${c.panel} p-4`}>
+    <!-- campo solar con las detecciones encima (en porcentajes) -->
+    <div class={`relative overflow-hidden rounded-lg ${c.frame}`} style={`aspect-ratio:${W}/${H}`}>
+      <svg viewBox={`0 0 ${W} ${H}`} class="absolute inset-0 h-full w-full" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <pattern id="pv-cells" width={cw / 3} height={ch / 4} patternUnits="userSpaceOnUse">
+            <path d={`M0 0H${cw / 3}M0 0V${ch / 4}`} stroke="white" stroke-opacity="0.7" stroke-width="0.8" fill="none" />
+          </pattern>
+        </defs>
+        {cells.map((p) => (
+          <>
+            <rect x={p.x} y={p.y} width={cw} height={ch} rx="2" class={p.warm ? 'fill-brand-clay/45' : 'fill-brand-blue/30'} />
+            <rect x={p.x} y={p.y} width={cw} height={ch} rx="2" fill="url(#pv-cells)" />
+          </>
+        ))}
+      </svg>
+
+      <!-- línea de barrido de la cámara térmica -->
+      <div class="absolute inset-x-0 top-0 h-full">
+        <div class={`scan h-[2px] w-full ${c.fillSoft} opacity-70`}></div>
+      </div>
+
+      {boxes.map((b) => (
+        <div
+          class="absolute"
+          style={`left:${(b.col / cols) * 100}%;top:${(b.row / rows) * 100}%;width:${(b.w / cols) * 100}%;height:${100 / rows}%;--d:${b.d}ms`}
+          data-reveal="fade"
+        >
+          <div class={`h-full w-full rounded-sm border-2 ${c.boxWarn}`}></div>
+          <span class={`absolute -top-[1.15rem] left-0 rounded-sm px-1 py-px font-mono text-[0.5rem] whitespace-nowrap ${c.tagWarn}`}>
+            {b.label} {b.conf}
+          </span>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-4 grid grid-cols-3 gap-3">
+      {m.metrics.map((label, i) => (
+        <div data-reveal="fade" style={`--d:${200 + i * 120}ms`}>
+          <p class={`text-[0.625rem] ${c.muted}`}>{label}</p>
+          <p class={`mt-0.5 font-display text-xl font-semibold ${c.head}`}>{m.values[i]}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class={`mt-4 flex items-center justify-between rounded-lg border px-3 py-2.5 ${c.rule} ${c.sub}`}>
+      <p class={`text-[0.625rem] ${c.body}`}>{m.flagged}</p>
+      <span class={`rounded border px-2 py-0.5 font-mono text-[0.5625rem] ${c.chip}`}>{m.alert}</span>
+    </div>
+  </div>
+</div>

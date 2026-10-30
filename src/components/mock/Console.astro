@@ -51,7 +51,7 @@ const gradId = `area-${variant}`;
     <aside class={`hidden border-r p-4 lg:flex lg:flex-col ${c.rule} ${c.sub}`}>
       <div class="flex items-center gap-2">
         <span class={`grid h-6 w-6 place-items-center rounded-md ${c.fill}`}>
-          <span class={`font-display text-[10px] font-bold ${c.onFill}`}>A2</span>
+          <span class={`font-display text-[0.625rem] font-bold ${c.onFill}`}>A2</span>
         </span>
         <span class={`font-display text-xs font-semibold ${c.head}`}>ASM2</span>
       </div>
@@ -59,7 +59,7 @@ const gradId = `area-${variant}`;
       <nav class="mt-6 space-y-0.5">
         {nav.map((n) => (
           <div
-            class={`flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[11px] ${
+            class={`flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[0.6875rem] ${
               n.active ? `${c.raised} ${c.head} font-medium` : c.muted
             }`}
           >
@@ -72,14 +72,14 @@ const gradId = `area-${variant}`;
       </nav>
 
       <div class={`mt-auto rounded-lg border p-3 ${c.rule}`}>
-        <p class={`flex items-center gap-1.5 text-[10px] ${c.body}`}>
+        <p class={`flex items-center gap-1.5 text-[0.625rem] ${c.body}`}>
           <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="4" y="10" width="16" height="10" rx="2" />
             <path d="M8 10V7a4 4 0 0 1 8 0v3" />
           </svg>
           {m.ownServer}
         </p>
-        <p class={`mt-1.5 font-mono text-[9px] leading-relaxed ${c.muted}`}>
+        <p class={`mt-1.5 font-mono text-[0.5625rem] leading-relaxed ${c.muted}`}>
           {m.ownServerNote[0]}<br />{m.ownServerNote[1]}
         </p>
       </div>
@@ -89,16 +89,16 @@ const gradId = `area-${variant}`;
     <div>
       <div class={`flex items-center justify-between gap-4 border-b px-5 py-3.5 ${c.rule}`}>
         <div>
-          <p class={`text-[13px] font-semibold ${c.head}`}>{m.indexTitle}</p>
-          <p class={`text-[10px] ${c.muted}`}>{m.lastSync}</p>
+          <p class={`text-[0.8125rem] font-semibold ${c.head}`}>{m.indexTitle}</p>
+          <p class={`text-[0.625rem] ${c.muted}`}>{m.lastSync}</p>
         </div>
         <div class="flex items-center gap-2">
           <div class={`hidden rounded-md border p-0.5 sm:flex ${c.rule}`}>
             {['7d', '30d', '90d'].map((r, i) => (
-              <span class={`rounded px-2 py-1 text-[10px] ${i === 1 ? `${c.raised} ${c.head}` : c.muted}`}>{r}</span>
+              <span class={`rounded px-2 py-1 text-[0.625rem] ${i === 1 ? `${c.raised} ${c.head}` : c.muted}`}>{r}</span>
             ))}
           </div>
-          <span class={`grid h-7 w-7 place-items-center rounded-full text-[10px] font-semibold ${c.raised} ${c.body}`}>AT</span>
+          <span class={`grid h-7 w-7 place-items-center rounded-full text-[0.625rem] font-semibold ${c.raised} ${c.body}`}>AT</span>
         </div>
       </div>
 
@@ -106,7 +106,7 @@ const gradId = `area-${variant}`;
       <div class={`grid divide-y border-b sm:grid-cols-3 sm:divide-x sm:divide-y-0 ${c.divide} ${c.rule}`}>
         {kpis.map((k, i) => (
           <div class="px-5 py-4">
-            <p class={`text-[10px] tracking-wide uppercase ${c.muted}`}>{k.label}</p>
+            <p class={`text-[0.625rem] tracking-wide uppercase ${c.muted}`}>{k.label}</p>
             <div class="mt-1.5 flex items-baseline gap-2">
               <span
                 class={`font-display text-xl font-semibold ${c.head}`}
@@ -114,7 +114,7 @@ const gradId = `area-${variant}`;
                 data-decimals={k.decimals}
                 data-suffix={k.suffix}
                 style={`--d:${i * 120}ms`}>0</span>
-              <span class={`text-[10px] ${c.muted}`}>{k.delta}</span>
+              <span class={`text-[0.625rem] ${c.muted}`}>{k.delta}</span>
             </div>
           </div>
         ))}
@@ -123,12 +123,12 @@ const gradId = `area-${variant}`;
       <!-- gráfico -->
       <div class="px-5 pt-5">
         <div class="flex items-center justify-between">
-          <p class={`text-[11px] font-medium ${c.head}`}>{m.chartTitle}</p>
+          <p class={`text-[0.6875rem] font-medium ${c.head}`}>{m.chartTitle}</p>
           <div class="flex items-center gap-3">
-            <span class={`flex items-center gap-1.5 text-[10px] ${c.muted}`}>
+            <span class={`flex items-center gap-1.5 text-[0.625rem] ${c.muted}`}>
               <span class={`h-1.5 w-1.5 rounded-full ${c.fill}`}></span>{m.legend[0]}
             </span>
-            <span class={`flex items-center gap-1.5 text-[10px] ${c.muted}`}>
+            <span class={`flex items-center gap-1.5 text-[0.625rem] ${c.muted}`}>
               <span class={`h-1.5 w-1.5 rounded-full ${c.fillSoft}`}></span>{m.legend[1]}
             </span>
           </div>
@@ -161,7 +161,7 @@ const gradId = `area-${variant}`;
 
       <!-- carpetas -->
       <div class="px-5 pt-4 pb-5">
-        <div class={`grid grid-cols-[1fr_auto] items-center gap-3 border-b pb-2 text-[10px] tracking-wide uppercase sm:grid-cols-[.7fr_1.3fr_.5fr_.5fr] ${c.rule} ${c.muted}`}>
+        <div class={`grid grid-cols-[1fr_auto] items-center gap-3 border-b pb-2 text-[0.625rem] tracking-wide uppercase sm:grid-cols-[.7fr_1.3fr_.5fr_.5fr] ${c.rule} ${c.muted}`}>
           <span>{m.columns[0]}</span>
           <span class="hidden sm:block">{m.columns[1]}</span>
           <span class="hidden sm:block">{m.columns[2]}</span>
@@ -169,7 +169,7 @@ const gradId = `area-${variant}`;
         </div>
         {folders.map((f) => (
           <div
-            class={`grid grid-cols-[1fr_auto] items-center gap-3 border-b py-2.5 text-[11px] last:border-0 sm:grid-cols-[.7fr_1.3fr_.5fr_.5fr] ${c.rule}`}
+            class={`grid grid-cols-[1fr_auto] items-center gap-3 border-b py-2.5 text-[0.6875rem] last:border-0 sm:grid-cols-[.7fr_1.3fr_.5fr_.5fr] ${c.rule}`}
           >
             <span class={`flex items-center gap-2 ${c.body}`}>
               <span class={`h-1.5 w-1.5 shrink-0 rounded-full ${f.state === 'OK' ? c.fill : c.fillSoft}`}></span>
@@ -177,7 +177,7 @@ const gradId = `area-${variant}`;
             </span>
             <span class={`hidden truncate font-mono sm:block ${c.muted}`}>{f.path}</span>
             <span class="hidden sm:block">
-              <span class={`rounded border px-1.5 py-0.5 font-mono text-[9px] ${c.chip}`}>{f.state}</span>
+              <span class={`rounded border px-1.5 py-0.5 font-mono text-[0.5625rem] ${c.chip}`}>{f.state}</span>
             </span>
             <span class={`text-right font-mono ${c.body}`}>{f.docs}</span>
           </div>

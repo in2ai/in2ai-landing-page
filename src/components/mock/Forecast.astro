@@ -1,0 +1,84 @@
+---
+import { tone, type Tone } from '../../lib/tone';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+  variant?: Tone;
+  class?: string;
+}
+
+const { variant = 'brand', class: cls = '' } = Astro.props;
+const c = tone(variant);
+const m = useTranslations(Astro.currentLocale).mocks.forecast;
+
+// demanda semanal: doce semanas reales y ocho de previsión, con su banda de confianza
+const actual = [42, 46, 44, 51, 49, 55, 53, 58, 56, 61, 59, 64];
+const forecast = [64, 66, 69, 68, 72, 75, 74, 78, 81];
+const band = [0, 2, 3, 4, 5, 6, 7, 8, 9];
+const W = 560;
+const H = 190;
+const total = actual.length + forecast.length - 2;
+const x = (i: number) => (i * W) / total;
+const y = (v: number) => H - ((v - 30) / 60) * (H - 24);
+const toPath = (pts: number[], from: number) => pts.map((v, i) => `${i ? 'L' : 'M'}${x(from + i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+
+const actualPath = toPath(actual, 0);
+const forecastPath = toPath(forecast, actual.length - 1);
+const upper = forecast.map((v, i) => `${i ? 'L' : 'M'}${x(actual.length - 1 + i).toFixed(1)},${y(v + band[i]).toFixed(1)}`).join(' ');
+const lower = forecast
+  .map((v, i) => `L${x(actual.length - 1 + i).toFixed(1)},${y(v - band[i]).toFixed(1)}`)
+  .reverse()
+  .join(' ');
+const bandPath = `${upper} ${lower} Z`;
+const todayX = x(actual.length - 1);
+const last = forecast.length - 1;
+---
+
+<div class={`overflow-hidden rounded-2xl border ${c.shell} ${c.shadow} ${cls}`}>
+  <div class={`flex items-center justify-between border-b px-4 py-3 ${c.chrome}`}>
+    <div class="flex items-center gap-2">
+      <svg class={`h-4 w-4 ${c.muted}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 17l6-6 4 4 8-8M15 7h6v6" />
+      </svg>
+      <p class={`font-mono text-[0.6875rem] ${c.body}`}>{m.title}</p>
+    </div>
+    <span class={`font-mono text-[0.625rem] ${c.muted}`}>{m.range}</span>
+  </div>
+
+  <div class={`grid divide-y border-b sm:grid-cols-3 sm:divide-x sm:divide-y-0 ${c.panel} ${c.divide} ${c.rule}`}>
+    {m.kpis.map((k, i) => (
+      <div class="px-4 py-3.5" data-reveal="fade" style={`--d:${i * 120}ms`}>
+        <p class={`text-[0.625rem] tracking-wide uppercase ${c.muted}`}>{k.label}</p>
+        <p class={`mt-1 font-display text-2xl font-semibold ${c.head}`}>{k.value}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class={`${c.panel} px-4 pt-4`}>
+    <div class="flex items-center justify-end gap-4">
+      <span class={`flex items-center gap-1.5 text-[0.625rem] ${c.muted}`}>
+        <span class={`h-[2px] w-4 ${c.fill}`}></span>{m.legend[0]}
+      </span>
+      <span class={`flex items-center gap-1.5 text-[0.625rem] ${c.muted}`}>
+        <span class="h-0 w-4 border-t-2 border-dashed border-brand-clay"></span>{m.legend[1]}
+      </span>
+    </div>
+
+    <svg viewBox={`0 0 ${W} ${H + 18}`} class="mt-2 w-full" preserveAspectRatio="none" style="height:150px" aria-hidden="true">
+      {[0, 1, 2, 3].map((i) => (
+        <line x1="0" x2={W} y1={24 + i * ((H - 24) / 3)} y2={24 + i * ((H - 24) / 3)} stroke={c.grid} stroke-width="1" />
+      ))}
+      <path d={bandPath} class="fill-brand-clay/15" data-fade style="--d:1100ms" />
+      <line x1={todayX} x2={todayX} y1="8" y2={H} stroke={c.grid} stroke-width="1.5" stroke-dasharray="3 4" />
+      <path d={actualPath} fill="none" stroke={c.stroke} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" data-draw style="--len:900" />
+      <path d={forecastPath} fill="none" class="stroke-brand-clay" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" data-fade style="--d:900ms" />
+      <circle cx={x(actual.length - 1 + last)} cy={y(forecast[last])} r="4" class="fill-brand-clay" data-fade style="--d:1500ms" />
+    </svg>
+    <p class={`pb-3 pl-1 font-mono text-[0.5625rem] ${c.muted}`}>↑ {m.today}</p>
+  </div>
+
+  <div class={`flex items-center justify-between border-t px-4 py-3 ${c.rule} ${c.sub}`}>
+    <p class={`text-[0.625rem] ${c.body}`}>{m.flagged}</p>
+    <span class={`rounded border px-2 py-0.5 font-mono text-[0.5625rem] ${c.chip}`}>{m.alert}</span>
+  </div>
+</div>

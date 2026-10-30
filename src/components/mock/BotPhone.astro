@@ -1,0 +1,104 @@
+---
+import { tone, type Tone } from '../../lib/tone';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+  variant?: Tone;
+  class?: string;
+}
+
+const { variant = 'brand', class: cls = '' } = Astro.props;
+const c = tone(variant);
+const m = useTranslations(Astro.currentLocale).mocks.bot;
+---
+
+<div class={`grid items-center gap-6 sm:grid-cols-[15.5rem_1fr] ${cls}`}>
+  <!-- móvil con la conversación -->
+  <div class={`mx-auto w-[15.5rem] shrink-0 rounded-[2rem] border-[6px] p-1.5 ${c.bezel} ${c.shadow}`}>
+    <div class={`relative overflow-hidden rounded-[1.6rem] ${c.panel}`}>
+      <div class="flex justify-center pt-2 pb-1">
+        <span class={`h-1 w-12 rounded-full ${c.dot}`}></span>
+      </div>
+
+      <div class={`flex items-center gap-2.5 border-b px-3.5 pb-2.5 ${c.rule}`}>
+        <span class={`grid h-7 w-7 place-items-center rounded-full ${c.fill}`}>
+          <svg class={`h-3.5 w-3.5 ${c.onFill}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 5h16v10H9l-5 4V5Z" />
+          </svg>
+        </span>
+        <div>
+          <p class={`text-[0.6875rem] font-semibold ${c.head}`}>{m.title}</p>
+          <p class={`flex items-center gap-1 text-[0.5625rem] ${c.muted}`}>
+            <span class={`h-1.5 w-1.5 rounded-full ${c.fill}`}></span>{m.status}
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-2.5 p-3">
+        <div class="flex justify-end">
+          <p class={`max-w-[85%] rounded-2xl rounded-br-sm px-3 py-2 text-[0.625rem] leading-relaxed ${c.bubbleUser}`}>{m.question}</p>
+        </div>
+
+        <div class="flex justify-start">
+          <div class={`max-w-[92%] rounded-2xl rounded-bl-sm px-3 py-2 text-[0.625rem] leading-relaxed ${c.bubbleBot}`}>
+            <p>{m.answer}</p>
+            <!-- seguimiento del pedido -->
+            <div class={`mt-2.5 rounded-lg border p-2 ${c.rule} ${c.panel}`}>
+              <p class={`font-mono text-[0.5rem] ${c.muted}`}>{m.track}</p>
+              <div class="mt-1.5 flex items-center">
+                {m.steps.map((s, i) => (
+                  <>
+                    <span class={`h-2 w-2 shrink-0 rounded-full ${i < 2 ? c.fill : c.track}`}></span>
+                    {i < m.steps.length - 1 && <span class={`h-px flex-1 ${i < 1 ? c.fill : c.track}`}></span>}
+                  </>
+                ))}
+              </div>
+              <div class={`mt-1 flex justify-between text-[0.5rem] ${c.muted}`}>
+                {m.steps.map((s) => <span>{s}</span>)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5">
+          {m.quick.map((q) => (
+            <span class={`rounded-full border px-2.5 py-1 text-[0.5625rem] font-medium ${c.chip}`}>{q}</span>
+          ))}
+        </div>
+
+        <div class="flex items-center gap-1.5 pl-0.5">
+          <span class={`dot-1 h-1.5 w-1.5 rounded-full ${c.fillSoft}`}></span>
+          <span class={`dot-2 h-1.5 w-1.5 rounded-full ${c.fillSoft}`}></span>
+          <span class={`dot-3 h-1.5 w-1.5 rounded-full ${c.fillSoft}`}></span>
+        </div>
+      </div>
+
+      <div class={`flex items-center gap-2 border-t px-3 py-2.5 ${c.rule} ${c.sub}`}>
+        <span class={`flex-1 rounded-full border px-3 py-1.5 text-[0.5625rem] ${c.rule} ${c.panel} ${c.muted}`}>{m.input}</span>
+        <span class={`grid h-6 w-6 place-items-center rounded-full ${c.fill}`} aria-label={m.send}>
+          <svg class={`h-3 w-3 ${c.onFill}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 19V5m-7 7 7-7 7 7" />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- panel de métricas del chatbot -->
+  <div class="space-y-3">
+    {m.stats.map((s, i) => (
+      <div class={`rounded-2xl border px-4 py-3.5 ${c.shell} ${c.shadow}`} data-reveal="fade" style={`--d:${200 + i * 140}ms`}>
+        <p class={`text-[0.625rem] tracking-wide uppercase ${c.muted}`}>{s.label}</p>
+        <p class={`mt-1 font-display text-3xl font-semibold ${c.head}`}>{s.value}</p>
+      </div>
+    ))}
+    <div class={`rounded-2xl border px-4 py-3.5 ${c.shell}`} data-reveal="fade" style="--d:480ms">
+      <p class={`text-[0.625rem] tracking-wide uppercase ${c.muted}`}>{m.connects}</p>
+      <div class="mt-2 flex flex-wrap gap-1.5">
+        {m.systems.map((s) => (
+          <span class={`rounded border px-2 py-0.5 font-mono text-[0.625rem] ${c.chip}`}>{s}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

@@ -33,9 +33,9 @@ const metrics = [
         <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" stroke-linecap="round" stroke-linejoin="round" />
         <circle cx="12" cy="12" r="2.5" />
       </svg>
-      <p class={`font-mono text-[11px] ${c.body}`}>{m.title}</p>
+      <p class={`font-mono text-[0.6875rem] ${c.body}`}>{m.title}</p>
     </div>
-    <span class={`font-mono text-[10px] ${c.muted}`}>{m.fps}</span>
+    <span class={`font-mono text-[0.625rem] ${c.muted}`}>{m.fps}</span>
   </div>
 
   <div class={`grid ${c.panel} md:grid-cols-[1.25fr_1fr]`}>
@@ -77,7 +77,7 @@ const metrics = [
           >
             <div class={`h-full w-full rounded-sm border-2 ${b.ok ? c.boxOk : c.boxWarn}`}></div>
             <span
-              class={`absolute -top-[1.15rem] left-0 rounded-sm px-1 py-px font-mono text-[8px] whitespace-nowrap ${
+              class={`absolute -top-[1.15rem] left-0 rounded-sm px-1 py-px font-mono text-[0.5rem] whitespace-nowrap ${
                 b.ok ? c.tag : c.tagWarn
               }`}
             >
@@ -93,17 +93,17 @@ const metrics = [
           <span class={`dot-2 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
           <span class={`dot-3 h-1 w-1 rounded-full ${c.fillSoft}`}></span>
         </span>
-        <p class={`font-mono text-[10px] ${c.muted}`}>{m.inference}</p>
+        <p class={`font-mono text-[0.625rem] ${c.muted}`}>{m.inference}</p>
       </div>
     </div>
 
     <!-- panel de resultados -->
     <div class="p-5">
-      <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>{m.shift}</p>
+      <p class={`text-[0.625rem] tracking-widest uppercase ${c.muted}`}>{m.shift}</p>
       <div class="mt-4 space-y-4">
         {metrics.map((x, i) => (
           <div data-reveal="fade" style={`--d:${200 + i * 130}ms`}>
-            <p class={`text-[10px] ${c.muted}`}>{x.k}</p>
+            <p class={`text-[0.625rem] ${c.muted}`}>{x.k}</p>
             <p class={`mt-0.5 font-display text-xl font-semibold ${c.head}`}>
               <span data-count={x.v} data-decimals={x.dec} data-suffix={x.s}>0</span>
             </p>
@@ -112,12 +112,12 @@ const metrics = [
       </div>
 
       <div class={`mt-6 border-t pt-4 ${c.rule}`}>
-        <p class={`text-[10px] tracking-widest uppercase ${c.muted}`}>{m.latest}</p>
+        <p class={`text-[0.625rem] tracking-widest uppercase ${c.muted}`}>{m.latest}</p>
         <div class="mt-3 space-y-2.5">
           {boxes.map((b, i) => (
             <div class="flex items-center gap-2.5" data-reveal="fade" style={`--d:${300 + i * 120}ms`}>
               <span class={`h-1.5 w-1.5 shrink-0 rounded-full ${b.ok ? c.fill : c.warn}`}></span>
-              <span class={`flex-1 truncate font-mono text-[10px] ${c.body}`}>{b.label}</span>
+              <span class={`flex-1 truncate font-mono text-[0.625rem] ${c.body}`}>{b.label}</span>
               <div class={`h-[3px] w-16 overflow-hidden rounded-full ${c.track}`}>
                 <div
                   class={`h-full rounded-full ${c.fill}`}
@@ -126,15 +126,15 @@ const metrics = [
                 >
                 </div>
               </div>
-              <span class={`w-8 text-right font-mono text-[10px] ${c.muted}`}>{b.conf}</span>
+              <span class={`w-8 text-right font-mono text-[0.625rem] ${c.muted}`}>{b.conf}</span>
             </div>
           ))}
         </div>
       </div>
 
       <div class={`mt-5 flex items-center justify-between rounded-lg border px-3 py-2.5 ${c.rule} ${c.sub}`}>
-        <p class={`text-[10px] ${c.body}`}>{m.flagged}</p>
-        <span class={`rounded border px-2 py-0.5 font-mono text-[9px] ${c.chip}`}>{m.alert}</span>
+        <p class={`text-[0.625rem] ${c.body}`}>{m.flagged}</p>
+        <span class={`rounded border px-2 py-0.5 font-mono text-[0.5625rem] ${c.chip}`}>{m.alert}</span>
       </div>
     </div>
   </div>

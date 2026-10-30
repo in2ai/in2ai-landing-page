@@ -25,6 +25,12 @@ interface Item {
   d: string;
 }
 
+/** Una escena del escaparate del hero: nombre corto y una línea de explicación. */
+interface Scene {
+  name: string;
+  text: string;
+}
+
 /**
  * Todo el texto de la landing en un idioma. Los arrays con longitud fija van como
  * tuplas porque los mockups los cruzan, por posición, con iconos y cifras.
@@ -32,7 +38,7 @@ interface Item {
 export interface Dictionary {
   meta: { title: string; description: string; ogLocale: string };
   /** ids de las secciones: las anclas de la URL también van traducidas */
-  anchors: Record<'method' | 'services' | 'offer' | 'products' | 'sectors' | 'privacy' | 'contact', string>;
+  anchors: Record<'method' | 'services' | 'offer' | 'products' | 'sectors' | 'contact', string>;
   header: { solutions: string; sectors: string; products: string; contact: string; openMenu: string; language: string };
   /** páginas del menú y del pie, en orden */
   pages: Link[];
@@ -45,6 +51,10 @@ export interface Dictionary {
     cta: string;
     secondary: string;
     note: string;
+    /** nombre accesible de las pestañas del escaparate */
+    showcase: string;
+    /** escenas del escaparate, en el mismo orden que los mockups de HeroShowcase */
+    scenes: [Scene, Scene, Scene, Scene];
     badge: { title: string; text: string };
   };
   method: { eyebrow: string; title: Headline; text: string; steps: [Item, Item, Item, Item]; statsEyebrow: string };
@@ -74,16 +84,8 @@ export interface Dictionary {
   };
   keywords: string[];
   sectors: { title: Headline; text: string; items: Record<SectorId, { name: string; url: string }> };
-  privacy: {
-    eyebrow: string;
-    title: Headline;
-    text: string;
-    network: string;
-    flow: [string, string, string, string];
-    internet: string;
-    notNeeded: string;
-    items: Item[];
-  };
+  /** bloque de metodología de la mitad de la página (el de arriba es el resumen con cifras) */
+  approach: { title: Headline; lead: string; tagline: string; closing: string };
   statement: { eyebrow: string } & Marked;
   about: {
     eyebrow: string;
@@ -167,6 +169,38 @@ export interface Dictionary {
       metrics: [string, string, string];
       latest: string;
       labels: { part: string; defect: string };
+      flagged: string;
+      alert: string;
+    };
+    solar: {
+      title: string;
+      status: string;
+      labels: { hot: string; crack: string };
+      metrics: [string, string, string];
+      values: [string, string, string];
+      flagged: string;
+      alert: string;
+    };
+    bot: {
+      title: string;
+      status: string;
+      question: string;
+      answer: string;
+      track: string;
+      steps: [string, string, string];
+      quick: [string, string];
+      input: string;
+      send: string;
+      stats: [{ label: string; value: string }, { label: string; value: string }];
+      connects: string;
+      systems: [string, string, string];
+    };
+    forecast: {
+      title: string;
+      range: string;
+      kpis: [{ label: string; value: string }, { label: string; value: string }, { label: string; value: string }];
+      legend: [string, string];
+      today: string;
       flagged: string;
       alert: string;
     };

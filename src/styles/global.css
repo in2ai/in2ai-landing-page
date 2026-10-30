@@ -23,6 +23,8 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* de 1920 px en adelante todo (rem) crece con la pantalla, hasta 28 px; por debajo no cambia nada */
+  font-size: clamp(16px, 0.8333vw, 28px);
 }
 
 body {
