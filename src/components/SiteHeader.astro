@@ -112,7 +112,7 @@ const arrow = 'M5 12h14m-6-6 6 6-6 6';
         </div>
       </div>
 
-      <div id="nav-mobile" class="hidden border-t border-brand-blue/15 bg-white lg:hidden">
+      <div id="nav-mobile" class="hidden max-h-[calc(100svh-4.5rem)] overflow-y-auto overscroll-contain border-t border-brand-blue/15 bg-white lg:hidden">
         <nav class="mx-auto flex max-w-[86rem] flex-col px-6 py-4 md:px-10">
           {sectionLinks.map((i) => (
             <a href={i.href} class="border-b border-brand-blue/10 py-3.5 text-[0.9375rem] font-medium text-brand-ink">
@@ -140,11 +140,11 @@ const arrow = 'M5 12h14m-6-6 6 6-6 6';
               </a>
             ))}
           </div>
-          <a href={section(a.contact)} class="border-t border-brand-blue/10 py-3.5 text-[0.9375rem] font-medium text-brand-ink">{t.header.contact}</a>
+          <a href={section(a.contact)} class="mt-1 mb-2 rounded-full bg-brand-ink px-5 py-3.5 text-center text-[0.9375rem] font-semibold text-white">{t.header.contact}</a>
           {languages
             .filter((l) => !l.current)
             .map((l) => (
-              <a href={l.href} hreflang={l.code} lang={l.code} class="py-3.5 text-[0.9375rem] font-medium text-brand-ink/60">
+              <a href={l.href} hreflang={l.code} lang={l.code} class="py-3 text-[0.9375rem] font-medium text-brand-ink/60">
                 {l.name}
               </a>
             ))}

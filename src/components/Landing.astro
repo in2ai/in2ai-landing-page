@@ -79,7 +79,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
       </div>
 
       <div
-        class="relative mx-auto grid max-w-[86rem] gap-14 px-6 pt-14 md:px-10 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[1.08fr_1fr] lg:items-center lg:gap-10 lg:py-16"
+        class="relative mx-auto grid max-w-[86rem] grid-cols-1 gap-12 px-6 pt-10 md:gap-14 md:px-10 md:pt-14 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[1.08fr_1fr] lg:items-center lg:gap-10 lg:py-16"
       >
         <div class="relative z-10">
           <p class="flex items-center gap-3 text-[0.6875rem] font-semibold tracking-[0.2em] text-brand-blue-deep uppercase" data-reveal="fade">
@@ -88,7 +88,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
           </p>
 
           <h1
-            class="mt-8 font-display text-[clamp(3rem,6.8vw,6.6rem)] leading-[0.95] font-bold tracking-[-0.045em] text-brand-ink"
+            class="mt-6 font-display text-[clamp(2.75rem,6.8vw,6.6rem)] md:mt-8 leading-[0.95] font-bold tracking-[-0.045em] text-brand-ink"
             data-reveal
           >
             <Rich text={t.hero.title} />
@@ -114,12 +114,12 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
         </div>
 
         <!-- en móvil el panel cielo pasa a ser el fondo del mockup -->
-        <div class="relative -mx-6 bg-brand-sky px-6 pt-14 pb-20 md:-mx-10 md:px-10 lg:mx-0 lg:bg-transparent lg:p-0">
+        <div class="relative -mx-6 bg-brand-sky px-6 pt-10 pb-12 sm:pt-14 sm:pb-20 md:-mx-10 md:px-10 lg:mx-0 lg:bg-transparent lg:p-0">
           <div class="relative mx-auto max-w-[31rem] lg:mr-0" data-reveal="scale" style="--d:200ms">
             <HeroShowcase />
 
             <div
-              class="float-slow absolute -bottom-14 -left-2 flex items-center gap-3 rounded-xl bg-brand-ink px-4 py-3 shadow-xl shadow-brand-ink/25 sm:-left-12"
+              class="float-slow mt-5 flex w-fit items-center gap-3 rounded-xl bg-brand-ink px-4 py-3 shadow-xl shadow-brand-ink/25 sm:absolute sm:-bottom-14 sm:-left-12 sm:mt-0"
             >
               <span class="grid h-8 w-8 place-items-center rounded-lg bg-brand-cyan/15 text-brand-cyan">
                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
@@ -138,8 +138,8 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
 
     <!-- ───────────────────────────── metodología (tinta) ─────────────── -->
     <section id={a.method} class="scroll-mt-16 bg-brand-ink">
-      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
-        <div class="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
+        <div class="grid grid-cols-1 gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div data-reveal="left">
             <p class="text-[0.6875rem] font-semibold tracking-[0.2em] text-brand-sky uppercase">{t.method.eyebrow}</p>
             <h2 class="mt-6 font-display text-[clamp(2.4rem,5vw,4.2rem)] leading-[0.98] font-bold tracking-[-0.04em] text-white">
@@ -148,7 +148,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
             <p class="mt-7 max-w-md text-lg leading-relaxed text-brand-mist/70">{t.method.text}</p>
           </div>
 
-          <ol class="grid gap-x-10 gap-y-12 self-center sm:grid-cols-2">
+          <ol class="grid grid-cols-1 gap-x-10 gap-y-12 self-center sm:grid-cols-2">
             {t.method.steps.map((m, i) => (
               <li data-reveal style={`--d:${i * 110}ms`}>
                 <div class="h-1 w-full rounded-full bg-white/10">
@@ -162,7 +162,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
         </div>
 
         <!-- las cifras de in2ai.com: arriba la IA, abajo la digitalización -->
-        <div class="mt-24 border-t border-white/10 pt-14">
+        <div class="mt-16 border-t border-white/10 pt-10 md:mt-24 md:pt-14">
           <p class="text-[0.6875rem] font-semibold tracking-[0.2em] text-brand-sky uppercase" data-reveal="fade">{t.method.statsEyebrow}</p>
           <dl class="mt-12 grid grid-cols-2 gap-y-12 md:grid-cols-3 md:gap-y-16">
             {statItems.map((n, i) => (
@@ -185,7 +185,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
 
     <!-- ───────────────────────────── servicios (blanco) ─────────────── -->
     <section id={a.services} class="scroll-mt-16 bg-white">
-      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
         <div class="flex flex-col gap-5 md:flex-row md:items-end md:gap-16 lg:gap-24" data-reveal>
           <h2 class="font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-brand-ink">
             <Rich text={t.services.title} outline={thin} />
@@ -194,13 +194,13 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
         </div>
 
         <!-- cuatro fichas claras en azul; la quinta, IA generativa, se invierte a tinta y cian -->
-        <div class="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-10 grid grid-cols-1 gap-5 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
           {serviceItems.map((s, i) => {
             const dark = i === 4;
             return (
               <div class={`h-full ${dark ? 'md:col-span-2' : ''}`} data-reveal style={`--d:${(i % 3) * 90}ms`}>
                 <article
-                  class={`group relative flex h-full flex-col overflow-hidden rounded-2xl border p-7 transition-all duration-500 hover:-translate-y-1 md:p-8 ${
+                  class={`group relative flex h-full flex-col overflow-hidden rounded-2xl border p-6 transition-all duration-500 hover:-translate-y-1 md:p-8 ${
                     dark
                       ? 'border-brand-ink bg-brand-ink hover:shadow-xl hover:shadow-brand-ink/25'
                       : 'border-brand-blue/15 bg-white hover:border-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/10'
@@ -218,7 +218,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
                     </span>
                     <span class={`font-mono text-xs ${dark ? 'text-brand-sky' : 'text-brand-slate-deep'}`}>{s.roman}</span>
                   </div>
-                  <h3 class={`mt-8 font-display text-2xl leading-tight font-bold tracking-[-0.02em] ${dark ? 'text-white' : 'text-brand-ink'}`}>
+                  <h3 class={`mt-6 font-display text-2xl leading-tight font-bold md:mt-8 tracking-[-0.02em] ${dark ? 'text-white' : 'text-brand-ink'}`}>
                     {s.name}
                   </h3>
                   <p class={`mt-3 max-w-xl leading-relaxed ${dark ? 'text-brand-mist/70' : 'text-brand-ink/70'}`}>{s.text}</p>
@@ -277,8 +277,8 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
         </div>
       </div>
 
-      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
-        <div class="grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-end" data-reveal>
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_1fr] md:items-end" data-reveal>
           <div>
             <span class="inline-flex items-center gap-2 rounded-full border border-brand-sky/20 px-3 py-1 text-[0.6875rem] font-semibold text-brand-sky">
               <span class="h-1.5 w-1.5 rounded-full bg-brand-cyan"></span>
@@ -291,7 +291,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
           <p class="max-w-md text-lg leading-relaxed text-brand-mist/70">{t.custom.text}</p>
         </div>
 
-        <div class="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-8">
+        <div class="mt-10 grid grid-cols-1 gap-10 md:mt-16 md:gap-12 lg:grid-cols-2 lg:gap-8">
           <figure data-reveal="left">
             <VisionPanel variant="brand-dark" />
             <figcaption class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -314,7 +314,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
 
     <!-- ───────────────────────────── sectores (blanco) ──────────────── -->
     <section id={a.sectors} class="scroll-mt-16 bg-white">
-      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
         <div class="flex flex-col gap-5 md:flex-row md:items-end md:gap-16 lg:gap-24" data-reveal>
           <h2 class="font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-brand-ink">
             <Rich text={t.sectors.title} outline={thin} />
@@ -322,7 +322,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
           <p class="max-w-md leading-relaxed text-brand-ink/70">{t.sectors.text}</p>
         </div>
 
-        <ul class="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul class="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:mt-16 lg:grid-cols-3">
           {sectorItems.map((s, i) => (
             <li data-reveal style={`--d:${(i % 3) * 90}ms`}>
               <a
@@ -347,8 +347,8 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
 
     <!-- ───────────────────────────── metodología (tinta) ─────────────── -->
     <section class="bg-brand-ink">
-      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
-        <div class="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
+        <div class="grid grid-cols-1 items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div data-reveal="left">
             <h2 class="font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-white">
               <Rich text={t.approach.title} outline={cyan} />
@@ -361,7 +361,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
           </div>
 
           <!-- cuatro pasos unidos por una línea: el verbo en grande y, debajo, qué hacemos -->
-          <ol class="relative grid gap-5">
+          <ol class="relative grid grid-cols-1 gap-5">
             <span class="absolute top-6 bottom-6 left-6 w-px bg-brand-cyan/25" aria-hidden="true"></span>
             {t.method.steps.map((m, i) => (
               <li class="relative flex gap-5 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors duration-500 hover:border-brand-cyan/40" data-reveal="right" style={`--d:${i * 110}ms`}>
@@ -379,7 +379,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
           </ol>
         </div>
 
-        <p class="mx-auto mt-16 max-w-4xl border-t border-white/10 pt-10 text-center font-display text-[clamp(1.3rem,2.6vw,2rem)] leading-snug font-medium tracking-[-0.02em] text-white" data-reveal>
+        <p class="mx-auto mt-12 max-w-4xl border-t md:mt-16 border-white/10 pt-10 text-center font-display text-[clamp(1.3rem,2.6vw,2rem)] leading-snug font-medium tracking-[-0.02em] text-white" data-reveal>
           {t.approach.closing}
         </p>
       </div>
@@ -387,8 +387,8 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
 
     <!-- ───────────────────────────── qué ofrecemos + equipo (blanco) ─── -->
     <section id={a.offer} class="scroll-mt-16 bg-white">
-      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
-        <div class="grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-end" data-reveal>
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_1fr] md:items-end" data-reveal>
           <div>
             <p class="text-[0.6875rem] font-semibold tracking-[0.2em] text-brand-blue-deep uppercase">{t.offer.eyebrow}</p>
             <h2 class="mt-6 font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-brand-ink">
@@ -398,10 +398,10 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
           <p class="max-w-md text-lg leading-relaxed text-brand-ink/70">{t.offer.text}</p>
         </div>
 
-        <ul class="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <ul class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:mt-16 lg:grid-cols-4">
           {offerItems.map((o, i) => (
             <li
-              class="flex flex-col rounded-2xl border border-brand-blue/15 bg-white p-7 transition-all duration-500 hover:border-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/10"
+              class="flex flex-col rounded-2xl border border-brand-blue/15 bg-white p-6 transition-all md:p-7 duration-500 hover:border-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/10"
               data-reveal
               style={`--d:${i * 110}ms`}
             >
@@ -410,14 +410,14 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
                   <path d={o.icon} />
                 </svg>
               </span>
-              <h3 class="mt-8 font-display text-2xl font-bold tracking-[-0.02em] text-brand-ink">{o.t}</h3>
+              <h3 class="mt-6 font-display text-2xl font-bold tracking-[-0.02em] text-brand-ink md:mt-8">{o.t}</h3>
               <p class="mt-3 leading-relaxed text-brand-ink/70">{o.d}</p>
             </li>
           ))}
         </ul>
 
         <!-- el equipo: foto pequeña, nombre y cargo, para que quepa todo el mundo -->
-        <div class="mt-24 grid gap-10 border-t border-brand-blue/15 pt-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div class="mt-16 grid grid-cols-1 gap-10 border-t border-brand-blue/15 pt-10 md:mt-24 md:pt-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div data-reveal="left">
             <p class="text-[0.6875rem] font-semibold tracking-[0.2em] text-brand-blue-deep uppercase">{t.about.eyebrow}</p>
             <h3 class="mt-6 font-display text-[clamp(2rem,4vw,3.2rem)] leading-[1] font-bold tracking-[-0.04em] text-brand-ink">
@@ -426,7 +426,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
             <p class="mt-6 max-w-md leading-relaxed text-brand-ink/70">{t.about.text}</p>
             <a href={teamPath} class="link-sweep mt-7 inline-block text-sm font-semibold text-brand-blue-deep">{t.about.team} →</a>
           </div>
-          <ul class="grid gap-x-8 sm:grid-cols-2" data-reveal="right">
+          <ul class="grid grid-cols-1 gap-x-8 sm:grid-cols-2" data-reveal="right">
             {members.map((m) => (
               <li class="flex items-center gap-4 border-b border-brand-blue/15 py-3.5">
                 <img src={m.image} alt="" width="48" height="48" loading="lazy" class="h-12 w-12 shrink-0 rounded-full bg-brand-mist object-cover object-top" />
@@ -443,7 +443,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
 
     <!-- ───────────────────────────── productos (niebla) ──────────────── -->
     <section id={a.products} class="scroll-mt-16 bg-brand-mist">
-      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
         <div class="flex flex-col gap-5 md:flex-row md:items-end md:gap-16 lg:gap-24" data-reveal>
           <h2 class="font-display text-[clamp(2.4rem,5.5vw,4.4rem)] leading-[0.98] font-bold tracking-[-0.04em] text-brand-ink">
             <Rich text={t.products.title} outline={thin} />
@@ -452,7 +452,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
         </div>
 
         <!-- 01 · ASM2: azul -->
-        <div class="mt-16 grid gap-10 md:grid-cols-2 md:gap-16">
+        <div class="mt-10 grid grid-cols-1 gap-10 md:mt-16 md:grid-cols-2 md:gap-16">
           <div data-reveal="left">
             <span class="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-white px-3 py-1 text-[0.6875rem] font-semibold text-brand-blue-deep">
               <span class="h-1.5 w-1.5 rounded-full bg-brand-blue"></span>
@@ -495,7 +495,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
         </div>
 
         <!-- 02 · Mecopia: terracota -->
-        <div class="mt-28 grid items-center gap-12 md:grid-cols-2 md:gap-16">
+        <div class="mt-20 grid grid-cols-1 items-center gap-10 md:mt-28 md:grid-cols-2 md:gap-16">
           <div class="relative order-2 grid place-items-center overflow-hidden rounded-3xl bg-brand-clay/15 px-6 py-16 md:order-1" data-reveal="left">
             <div class="pointer-events-none absolute -top-20 -right-16 h-72 w-72 rounded-full bg-brand-sky/60 blur-3xl" aria-hidden="true"></div>
             <div class="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-brand-clay/35 blur-3xl" aria-hidden="true"></div>
@@ -539,7 +539,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
         </div>
 
         <!-- I+D -->
-        <div class="mt-28 grid gap-6 rounded-3xl border border-brand-blue/20 bg-white p-7 sm:p-10 lg:grid-cols-[0.8fr_1.2fr]" data-reveal>
+        <div class="mt-20 grid grid-cols-1 gap-6 rounded-3xl md:mt-28 border border-brand-blue/20 bg-white p-7 sm:p-10 lg:grid-cols-[0.8fr_1.2fr]" data-reveal>
           <h3 class="font-display text-2xl font-bold tracking-tight text-brand-blue-deep">{t.about.research}</h3>
           <div>
             <p class="max-w-2xl leading-relaxed text-brand-ink/70">{t.about.researchText}</p>
@@ -570,7 +570,7 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
         <path d="M293.5,6 V85.5" pathLength="1" data-draw style="--len:1;--d:600ms" />
       </svg>
 
-      <div class="relative mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+      <div class="relative mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
         <div class="mx-auto max-w-4xl text-center" data-reveal>
           <p class="flex items-center justify-center gap-3 text-[0.6875rem] font-semibold tracking-[0.2em] text-brand-ink/75 uppercase">
             <span class="h-px w-8 bg-white" aria-hidden="true"></span>
@@ -586,8 +586,8 @@ const lock = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10';
 
     <!-- ───────────────────────────── contacto (tinta) ───────────────── -->
     <section id={a.contact} class="scroll-mt-16 bg-brand-ink">
-      <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
-        <div class="grid gap-16 lg:grid-cols-[1.15fr_1fr] lg:gap-24">
+      <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
+        <div class="grid grid-cols-1 gap-16 lg:grid-cols-[1.15fr_1fr] lg:gap-24">
           <div data-reveal="left">
             <h2 class="font-display text-[clamp(2.8rem,7vw,6rem)] leading-[0.95] font-bold tracking-[-0.045em] text-white">
               <Rich text={t.contact.title} outline="--outline-c:var(--color-brand-cyan)" />

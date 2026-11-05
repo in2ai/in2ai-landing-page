@@ -39,7 +39,7 @@ const sources = ['OneDrive', 'Google Drive', 'Dropbox', 'SharePoint'];
     </div>
 
     <!-- conectores -->
-    <div class={`flex items-center gap-1.5 overflow-hidden border-t px-4 py-2 ${c.rule}`}>
+    <div class={`flex flex-wrap items-center gap-1.5 border-t px-4 py-2 ${c.rule}`}>
       <span class={`font-mono text-[0.5625rem] tracking-wider uppercase ${c.muted}`}>{m.sources}</span>
       {sources.map((s) => (
         <span class={`rounded border px-1.5 py-0.5 font-mono text-[0.5625rem] whitespace-nowrap ${c.chip}`}>{s}</span>
@@ -56,7 +56,7 @@ const sources = ['OneDrive', 'Google Drive', 'Dropbox', 'SharePoint'];
     </div>
 
     <!-- recuperación -->
-    <div class={`rounded-xl border px-3 py-2.5 font-mono text-[0.625rem] leading-relaxed ${c.rule} ${c.sub}`}>
+    <div class={`rounded-xl border px-3 py-2.5 font-mono text-[0.625rem] leading-relaxed [overflow-wrap:anywhere] ${c.rule} ${c.sub}`}>
       {m.calls.map((call) => <p class={c.muted}>{call}</p>)}
       <p class={`mt-1 flex items-center gap-1.5 ${c.body}`}>
         <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" /></svg>

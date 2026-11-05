@@ -31,7 +31,7 @@ const scenes = t.hero.scenes;
           tabindex={i === 0 ? 0 : -1}
           title={scene.name}
           data-showcase-tab
-          class="group relative h-6 w-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue-deep"
+          class="group relative h-9 w-10 sm:h-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue-deep"
         >
           <span class="sr-only">{scene.name}</span>
           <span class="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 overflow-hidden rounded-full bg-brand-ink/15 transition-colors group-hover:bg-brand-ink/25" aria-hidden="true">
@@ -43,7 +43,7 @@ const scenes = t.hero.scenes;
   </div>
 
   <!-- pie de la escena: qué es y para qué sirve -->
-  <div class="mt-6 grid min-h-[3.6rem] [&>*]:col-start-1 [&>*]:row-start-1">
+  <div class="mt-6 grid min-h-[3.6rem] grid-cols-1 [&>*]:col-start-1 [&>*]:row-start-1">
     {scenes.map((scene, i) => (
       <p data-showcase-caption data-on={i === 0 ? '' : undefined} class="text-sm leading-relaxed text-brand-ink/80 transition-opacity duration-500">
         <span class="mb-1 block text-[11px] font-semibold tracking-[0.18em] text-brand-blue-deep uppercase">{scene.name}</span>
@@ -52,7 +52,7 @@ const scenes = t.hero.scenes;
     ))}
   </div>
 
-  <div class="mt-4 grid [&>*]:col-start-1 [&>*]:row-start-1">
+  <div class="mt-4 grid grid-cols-1 [&>*]:col-start-1 [&>*]:row-start-1">
     <div id="stage-scene-0" role="tabpanel" aria-labelledby="stage-tab-0" data-showcase-panel data-on class="self-start transition-opacity duration-500">
       <SolarPanel variant="brand" />
     </div>

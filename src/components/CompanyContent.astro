@@ -8,7 +8,7 @@ const t = useTranslations(locale);
 ---
 
 <section class="bg-white">
-  <div class="mx-auto max-w-[86rem] px-6 py-24 md:px-10 md:py-32">
+  <div class="mx-auto max-w-[86rem] px-6 py-16 md:px-10 md:py-32">
     <div class="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between" data-reveal>
       <div>
         <p class="text-[0.6875rem] font-semibold tracking-[0.2em] text-brand-blue-deep uppercase">{t.news.eyebrow}</p>
@@ -16,7 +16,7 @@ const t = useTranslations(locale);
       </div>
       <a href="/blog/" hreflang="es" class="link-sweep self-start text-sm font-semibold text-brand-blue-deep sm:self-auto">{t.news.all} →</a>
     </div>
-    <div class="mt-12 grid gap-6 md:grid-cols-3">
+    <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
       {blogPosts.slice(0, 3).map((post, i) => <div data-reveal style={`--d:${i * 100}ms`}><BlogCard post={post} /></div>)}
     </div>
   </div>
